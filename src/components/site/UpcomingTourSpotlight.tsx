@@ -63,7 +63,7 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
     <aside
       aria-label="Upcoming tour"
       data-state={open ? "open" : "closed"}
-      className="fixed inset-x-3 z-50 max-h-[58svh] overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-soft transition-[opacity,transform] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] data-[state=closed]:translate-y-[110%] data-[state=closed]:opacity-0 motion-reduce:!translate-y-0 motion-reduce:!scale-100 sm:inset-x-4 md:inset-x-auto md:left-8 md:max-h-none md:w-[640px] md:overflow-hidden md:data-[state=closed]:translate-y-[18px] md:data-[state=closed]:scale-[0.98]"
+      className="fixed inset-x-3 z-50 max-h-[58svh] overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-soft transition-[opacity,transform] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] data-[state=closed]:translate-y-[110%] data-[state=closed]:opacity-0 motion-reduce:!translate-y-0 motion-reduce:!scale-100 sm:inset-x-4 md:inset-x-auto md:right-8 md:!bottom-24 md:max-h-none md:w-[560px] md:overflow-hidden md:data-[state=closed]:translate-y-[18px] md:data-[state=closed]:scale-[0.98]"
       style={{ bottom: "calc(env(safe-area-inset-bottom) + 0.875rem)" }}
     >
       <div className="flex flex-col md:flex-row">
