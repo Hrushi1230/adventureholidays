@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { business, demoTestimonials, destinations, showTrustMetrics, testimonials, trustMetrics, type Testimonial } from "@/lib/site";
 import { getAlbumTestimonials, getAlbumsNewestFirst } from "@/lib/gallery";
 
@@ -20,6 +21,10 @@ function allTestimonials(): Testimonial[] {
 }
 
 export function Testimonials() {
+  const [queryDemo, setQueryDemo] = useState(false);
+  useEffect(() => {
+    setQueryDemo(new URLSearchParams(window.location.search).get("trustDemo") === "1");
+  }, []);
   const real = allTestimonials();
   const list = real.length ? real : import.meta.env.DEV ? demoTestimonials : [];
   const bg = getAlbumsNewestFirst()[0]?.coverImage;
@@ -30,7 +35,7 @@ export function Testimonials() {
     { value: "Real", label: "Group tour archive" },
     { value: "BBSR", label: "Bhubaneswar based" },
   ];
-  const demo = showTrustMetrics
+  const demo = showTrustMetrics || queryDemo
     ? [
         { value: trustMetrics.yearsExperience, label: "Years experience" },
         { value: trustMetrics.reviews, label: "Reviews" },

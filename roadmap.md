@@ -1,6 +1,6 @@
-- [ ] Make the hero brand-first with the approved copy and actions
-- [ ] Update all community-group links and upcoming-departure group CTA
-- [ ] Confirm the hanging banner final behavior and stack demo
-- [ ] Confirm Recent Journeys, Gallery hero, Testimonials, and reveal behavior
-- [ ] Combine Rural Camps and Picnic Point previews on the homepage
+- [x] Make the hero brand-first with the approved copy and actions
+- [x] Update all community-group links and upcoming-departure group CTA
+- [x] Confirm the hanging banner final behavior and stack demo
+- [x] Confirm Recent Journeys, Gallery hero, Testimonials, and reveal behavior
+- [x] Combine Rural Camps and Picnic Point previews on the homepage
 - [ ] Run requested desktop and mobile visual checks

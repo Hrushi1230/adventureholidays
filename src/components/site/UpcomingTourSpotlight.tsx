@@ -260,7 +260,7 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
           <div className="ahb-cloth-wrap">
             <ClothSvg closing={phase === "closing"} reduced={reduced} />
           </div>
-          <div key={animKey} className={`ahb-content ${out ? "is-out" : animKey ? "is-in" : ""}`} aria-live={multi ? "polite" : undefined}>
+          <div key={animKey} className={`ahb-content ${out ? "is-out" : animKey ? "is-in" : ""} ${dir < 0 ? "is-prev" : ""}`} aria-live={multi ? "polite" : undefined}>
             {current.coverImage && (
               <div className="ahb-postcard" aria-hidden="true">
                 <img src={current.coverImage} alt="" loading="lazy" />
