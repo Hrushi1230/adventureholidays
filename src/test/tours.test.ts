@@ -21,7 +21,7 @@ describe("tour helpers", () => {
   });
   it("finds by slug and builds enquiry text", () => {
     expect(getTourBySlug("nope", fixture)).toBeUndefined();
-    expect(tourEnquiryText(fixture[1])).toContain("Travel Date: 2 Nov 2026");
-    expect(tourEnquiryText(fixture[0])).toContain("sold out");
+    expect(tourEnquiryText(fixture[1]!)).toContain("Travel Date: 2 Nov 2026");
+    expect(tourEnquiryText(fixture[0]!)).toContain("sold out");
   });
 });
