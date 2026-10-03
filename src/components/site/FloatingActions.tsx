@@ -3,7 +3,7 @@ import { business } from "@/lib/site";
 
 export function FloatingActions() {
   return (
-    <div className="fixed right-4 z-40 flex items-center gap-2 md:right-6" style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}>
+    <div className="floating-actions fixed right-4 z-40 flex items-center gap-2 md:right-6" style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}>
       {business.whatsappGroupInvite && (
         <a href={business.whatsappGroupInvite} target="_blank" rel="noopener noreferrer" className="flex h-12 items-center gap-2 rounded-full bg-background px-4 text-xs font-bold uppercase tracking-wider text-primary shadow-soft">
           <Users className="h-4 w-4" /> Join Group
