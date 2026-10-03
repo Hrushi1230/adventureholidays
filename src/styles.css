@@ -46,6 +46,12 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-sky: var(--sky);
+  --color-sand: var(--sand);
+  --color-overlay: var(--overlay);
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --shadow-soft: var(--shadow-soft);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -62,26 +68,30 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 0.25rem;
+  --background: oklch(0.975 0.012 85);
+  --foreground: oklch(0.24 0.035 155);
+  --card: oklch(0.995 0.004 85);
+  --card-foreground: oklch(0.24 0.035 155);
+  --popover: oklch(0.995 0.004 85);
+  --popover-foreground: oklch(0.24 0.035 155);
+  --primary: oklch(0.36 0.07 155);
+  --primary-foreground: oklch(0.98 0.01 85);
+  --secondary: oklch(0.92 0.035 80);
+  --secondary-foreground: oklch(0.28 0.04 155);
+  --muted: oklch(0.94 0.018 85);
+  --muted-foreground: oklch(0.48 0.03 150);
+  --accent: oklch(0.7 0.17 55);
+  --accent-foreground: oklch(0.99 0.01 85);
+  --sky: oklch(0.72 0.08 230);
+  --sand: oklch(0.88 0.045 78);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.86 0.025 85);
+  --input: oklch(0.84 0.025 85);
+  --ring: oklch(0.7 0.17 55);
+  --overlay: oklch(0.18 0.03 155);
+  --shadow-soft: 0 24px 60px -30px oklch(0.24 0.035 155 / 0.45);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -141,4 +151,38 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+@utility eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 700;
+}
+@utility display {
+  font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; line-height: 1.02;
+}
+@utility hero-scrim {
+  background: linear-gradient(180deg, oklch(0.18 0.03 155 / 0.35) 0%, oklch(0.18 0.03 155 / 0.05) 35%, oklch(0.18 0.03 155 / 0.65) 100%);
+}
+@utility card-scrim {
+  background: linear-gradient(180deg, transparent 40%, oklch(0.18 0.03 155 / 0.8) 100%);
+}
+@utility reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(.2,.7,.2,1), transform 0.9s cubic-bezier(.2,.7,.2,1);
+  &.is-visible { opacity: 1; transform: none; }
+}
+@keyframes hero-zoom { from { transform: scale(1.15); } to { transform: scale(1.02); } }
+@keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+@keyframes float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@utility animate-hero-zoom { animation: hero-zoom 2.4s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-rise { animation: rise 1s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-float { animation: float-y 4s ease-in-out infinite; }
+@utility animate-fade { animation: fade-in .35s ease both; }
+@utility no-scrollbar { scrollbar-width: none; &::-webkit-scrollbar { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

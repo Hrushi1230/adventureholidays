@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+# Agent rules
+- Site content (contact placeholders, tours, destinations, gallery) lives in src/lib/site.ts so it is editable in one place.
+- Landing sections are components in src/components/site/; scroll reveal via `.reveal` + useReveal hook.
