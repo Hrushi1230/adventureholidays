@@ -8,7 +8,11 @@
   --eyelet-y: 22px;
   --green:#0f4f39; --orange:#ff7a00; --ink:#154d39;
   --rope:#9a6428; --rope-dark:#5d3818; --brass:#a96f24; --brass-hi:#e2b66a; --shadow:rgba(18,31,25,.24);
-  position:fixed; inset:0; width:100%; height:100dvh;
+  --rope-start: 76px;
+  /* Hangs at the top of the page and scrolls away with the hero — never floats over other sections. */
+  position:absolute; top:0; left:0; right:0; width:100%;
+  height:calc(var(--banner-top) + var(--banner-h) + 70px);
+  overflow-x:clip;
   z-index:40;
   pointer-events:none;
 }
@@ -21,11 +25,18 @@
   perspective:1300px;
 }
 
-/* Ropes: start at the very top of the screen, end at the eyelets. */
+/* Ropes emerge softly just below the menu bar so they never cross the logo or links. */
 .ahb-viewport-ropes {
   position:absolute; top:0; left:50%; z-index:1; width:var(--banner-w);
-  height:calc(var(--banner-top) + var(--eyelet-y)); transform:translateX(-50%); pointer-events:none;
+  height:calc(var(--banner-top) + var(--eyelet-y) + 14px); transform:translateX(-50%); pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, transparent var(--rope-start), #000 calc(var(--rope-start) + 22px));
+          mask-image:linear-gradient(to bottom, transparent 0, transparent var(--rope-start), #000 calc(var(--rope-start) + 22px));
 }
+
+/* Hero clearance while the banner is showing (read by the hero via --ahb-clearance). */
+html.has-ahb { --ahb-clearance: calc(102px + 300px + 44px); }
+@media (max-width:1023px) { html.has-ahb { --ahb-clearance: calc(96px + 270px + 40px); } }
+@media (max-width:620px)  { html.has-ahb { --ahb-clearance: calc(88px + 262px + 30px); } }
 .ahb-rope {
   position:absolute;
   top:0;
@@ -166,7 +177,7 @@
 
 /* ───────── TABLET (621–1023) ───────── */
 @media (max-width:1023px) {
-  .ahb-anchor{--banner-top:96px;--banner-w:calc(100vw - 48px);--banner-h:270px;}
+  .ahb-anchor{--banner-top:96px;--banner-w:calc(100vw - 48px);--banner-h:270px;--rope-start:70px;}
   .ahb-r2,.ahb-r3{display:none;}
   .ahb-r1{left:14%;} .ahb-r4{left:84%;}
   .ahb-content{inset:42px 64px 40px 28px;grid-template-columns:110px minmax(0,1fr) 230px;gap:22px;}
@@ -182,7 +193,7 @@
 
 /* ───────── MOBILE (≤ 620) ───────── */
 @media (max-width:620px) {
-  .ahb-anchor{--banner-top:90px;--banner-w:calc(100vw - 20px);--banner-h:245px;--eyelet-y:20px;}
+  .ahb-anchor{--banner-top:90px;--banner-w:calc(100vw - 20px);--banner-h:262px;--eyelet-y:20px;--rope-start:64px;}
   .ahb-r1{left:21%;} .ahb-r4{left:77%;}
   .ahb-content {
     inset:30px 16px 22px 16px;
@@ -223,7 +234,7 @@
 
 /* ───────── SMALL MOBILE (≤ 420) ───────── */
 @media (max-width:420px) {
-  .ahb-anchor{--banner-top:88px;--banner-h:245px;}
+  .ahb-anchor{--banner-top:88px;--banner-h:262px;}
   .ahb-content{grid-template-columns:76px minmax(0,1fr);gap:9px 11px;inset:29px 14px 20px 14px;}
   .ahb-postcard{width:76px;height:66px;}
   .ahb-title{font-size:21px;}
