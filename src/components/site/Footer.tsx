@@ -1,5 +1,6 @@
 import { Facebook, Instagram, MapPin, Phone, Youtube } from "lucide-react";
 import { business } from "@/lib/site";
+import logo from "@/assets/adventure-holiday-logo.png.asset.json";
 
 const links = [
   { label: "Upcoming Tours", href: "/#upcoming" },
@@ -17,7 +18,7 @@ export function Footer() {
     <footer className="bg-primary pb-28 pt-16 text-primary-foreground md:pb-12">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-12 md:px-8">
         <div className="md:col-span-5">
-          <p className="display text-3xl">Adventure <span className="text-accent">Holiday</span></p>
+          <div className="flex items-center gap-4"><img src={logo.url} alt="Adventure Holiday logo" width={72} height={72} loading="lazy" className="h-[72px] w-[72px]" /><p className="display text-3xl">Adventure <span className="text-accent">Holiday</span></p></div>
           <p className="mt-4 max-w-sm text-primary-foreground/75">{business.services.join(" · ")}</p>
           <p className="mt-2 text-sm text-primary-foreground/60">Owner: {business.owner}</p>
           <div className="mt-6 flex gap-3">

@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Check, Images, MessageCircle, X } from "lucide-react";
+import { ArrowRight, BedDouble, Check, Images, MessageCircle, Phone, X } from "lucide-react";
 import { images } from "@/lib/site";
 import { getAlbumForTour } from "@/lib/gallery";
-import { categoryLabel, formatPrice, formatTourDateRange, isBookable, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import { categoryLabel, formatPrice, formatTourDateRange, inr, isBookable, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
 import { useReveal } from "@/hooks/use-reveal";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
@@ -24,7 +24,11 @@ function TourCta({ t, light }: { t: Tour; light?: boolean }) {
       <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
         <MessageCircle className="h-4 w-4" /> {t.status === "sold-out" ? "Ask About Next Departure" : "Enquire on WhatsApp"}
       </a>
-      <Link to="/" hash="plan" className={light ? btnGhostLight : btnOutline}>Plan Your Tour</Link>
+      {t.bookingContact?.phoneHref ? (
+        <a href={t.bookingContact.phoneHref} className={light ? btnGhostLight : btnOutline}><Phone className="h-4 w-4" /> Call {t.bookingContact.name}</a>
+      ) : (
+        <Link to="/" hash="plan" className={light ? btnGhostLight : btnOutline}>Plan Your Tour</Link>
+      )}
     </div>
   );
 }
@@ -32,7 +36,8 @@ function TourCta({ t, light }: { t: Tour; light?: boolean }) {
 export function TourDetail({ t }: { t: Tour }) {
   useReveal();
   const dates = formatTourDateRange(t);
-  const price = formatPrice(t.price);
+  const p = t.pricing;
+  const price = p?.offerPrice ? `${inr(p.offerPrice)} / person` : formatPrice(t.price);
   const overview = t.description ?? t.shortDescription;
   const facts = [
     ["Date", dates],
@@ -58,6 +63,7 @@ export function TourDetail({ t }: { t: Tour }) {
             <p className="animate-rise mt-4 text-primary-foreground/90 md:text-lg" style={{ animationDelay: "300ms" }}>
               {[t.destination, t.stateOrRegion, dates].filter(Boolean).join(" · ")}
             </p>
+            {!!t.route?.length && <p className="animate-rise mt-2 text-sm text-primary-foreground/75" style={{ animationDelay: "340ms" }}>{t.route.join(" → ")}</p>}
             {price && <p className="display animate-rise mt-4 text-2xl text-sand" style={{ animationDelay: "380ms" }}>{price}</p>}
             <div className="animate-rise mt-8" style={{ animationDelay: "450ms" }}><TourCta t={t} light /></div>
           </div>
@@ -81,10 +87,63 @@ export function TourDetail({ t }: { t: Tour }) {
           </section>
         )}
 
+        {p && (p.offerPrice || p.regularPrice) && (
+          <section className="border-y border-border bg-card py-16 md:py-24">
+            <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-2 md:px-8">
+              <div className="reveal">
+                <h2 className={h2}>Package Price</h2>
+                <dl className="mt-8 space-y-6">
+                  {p.offerPrice && (
+                    <div>
+                      <dt className="eyebrow text-[0.62rem] text-accent">Special Price</dt>
+                      <dd className="display mt-1 text-4xl text-primary md:text-5xl">{inr(p.offerPrice)}<span className="ml-1 text-base text-muted-foreground">/ person</span></dd>
+                      {p.offerLabel && <dd className="mt-1 text-sm text-muted-foreground">{p.offerLabel}</dd>}
+                    </div>
+                  )}
+                  {p.regularPrice && p.offerPrice && (
+                    <div>
+                      <dt className="eyebrow text-[0.6rem] text-muted-foreground">Regular Price</dt>
+                      <dd className="mt-1 text-lg text-muted-foreground line-through">{inr(p.regularPrice)} / person</dd>
+                    </div>
+                  )}
+                  {p.advanceAmount && (
+                    <div className="border-t border-border pt-5">
+                      <dt className="eyebrow text-[0.6rem] text-muted-foreground">Advance Booking</dt>
+                      <dd className="mt-1 text-xl font-semibold text-primary">{inr(p.advanceAmount)} / person</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+              {!!p.childPricing?.length && (
+                <div className="reveal">
+                  <h3 className="display text-2xl text-primary md:text-3xl">Child Pricing</h3>
+                  <dl className="mt-6 divide-y divide-border border-y border-border">
+                    {p.childPricing.map((c) => (
+                      <div key={c.label} className="flex items-baseline justify-between gap-4 py-4">
+                        <dt className="text-muted-foreground">{c.label}</dt>
+                        <dd className="text-right font-semibold text-primary">{c.value ?? (c.amount != null ? inr(c.amount) : "")}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {!!t.placesCovered?.length && (
+          <section className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <h2 className={`reveal ${h2}`}>Places Covered</h2>
+            <ul className="reveal mt-8 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+              {t.placesCovered.map((pl) => <li key={pl} className="border-b border-border py-3 text-primary">{pl}</li>)}
+            </ul>
+          </section>
+        )}
+
         {!!t.itinerary?.length && (
           <section className="bg-secondary py-16 md:py-24">
             <div className="mx-auto max-w-4xl px-5 md:px-8">
-              <h2 className={`reveal ${h2}`}>Itinerary</h2>
+              <h2 className={`reveal ${h2}`}>{t.itinerary.length}-Day Itinerary</h2>
               <ol className="mt-10 border-l border-border">
                 {[...t.itinerary].sort((a, b) => a.day - b.day).map((d) => (
                   <li key={d.day} className="reveal relative pb-10 pl-8 last:pb-0">
@@ -93,6 +152,7 @@ export function TourDetail({ t }: { t: Tour }) {
                     <h3 className="display mt-2 text-2xl text-primary">{d.title}</h3>
                     {d.description && <p className="mt-2 max-w-[65ch] text-muted-foreground">{d.description}</p>}
                     {!!d.places?.length && <p className="mt-2 text-sm text-primary/80">{d.places.join(" · ")}</p>}
+                    {d.nightStay && <p className="mt-3 flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground"><BedDouble className="h-3.5 w-3.5" aria-hidden />Night Stay — {d.nightStay}</p>}
                   </li>
                 ))}
               </ol>
@@ -104,16 +164,45 @@ export function TourDetail({ t }: { t: Tour }) {
           <section className="mx-auto grid max-w-7xl gap-10 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
             {!!t.inclusions?.length && (
               <div className="reveal">
-                <h2 className={h2}>Included</h2>
+                <h2 className={h2}>Package Inclusions</h2>
                 <ul className="mt-6 space-y-3">{t.inclusions.map((i) => <li key={i} className="flex gap-3 text-primary"><Check className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden />{i}</li>)}</ul>
               </div>
             )}
             {!!t.exclusions?.length && (
               <div className="reveal">
-                <h2 className={h2}>Not Included</h2>
+                <h2 className={h2}>Package Exclusions</h2>
                 <ul className="mt-6 space-y-3">{t.exclusions.map((i) => <li key={i} className="flex gap-3 text-muted-foreground"><X className="mt-1 h-4 w-4 shrink-0" aria-hidden />{i}</li>)}</ul>
               </div>
             )}
+          </section>
+        )}
+
+        {!!t.cancellationPolicy?.length && (
+          <section className="bg-secondary py-16 md:py-24">
+            <div className="mx-auto max-w-4xl px-5 md:px-8">
+              <h2 className={`reveal ${h2}`}>Cancellation Policy</h2>
+              <dl className="reveal mt-8 space-y-6">
+                {t.cancellationPolicy.map((c) => (
+                  <div key={c.title} className="border-l-2 border-accent pl-5">
+                    <dt className="font-semibold text-primary">{c.title}</dt>
+                    <dd className="mt-1 text-muted-foreground">{c.description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </section>
+        )}
+
+        {t.bookingContact && t.status !== "completed" && (
+          <section className="mx-auto max-w-4xl px-5 py-16 md:px-8">
+            <p className="eyebrow reveal text-[0.62rem] text-accent">Tour Booking Contact</p>
+            <div className="reveal mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="display text-3xl text-primary">{t.bookingContact.name}</p>
+                <p className="mt-1 text-muted-foreground">{t.bookingContact.phone}</p>
+              </div>
+              {t.bookingContact.phoneHref && <a href={t.bookingContact.phoneHref} className={btnOutline}><Phone className="h-4 w-4" /> Call</a>}
+            </div>
           </section>
         )}
 

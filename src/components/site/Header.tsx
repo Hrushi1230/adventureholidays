@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { exploreNav, nav } from "@/lib/site";
+import logo from "@/assets/adventure-holiday-logo.png.asset.json";
 
 export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
@@ -26,13 +27,13 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? "bg-background/90 py-3 shadow-soft backdrop-blur-md" : "py-5 md:py-6"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="/#home" className={`flex shrink-0 flex-col leading-none ${solid ? "text-primary" : "text-primary-foreground"}`}>
-          <span className="display text-xl md:text-2xl">Adventure</span>
-          <span className="eyebrow mt-1 text-[0.6rem] text-accent">Holiday</span>
+        <a href="/#home" aria-label="Adventure Holiday home" className={`flex shrink-0 items-center gap-3 ${solid ? "text-primary" : "text-primary-foreground"}`}>
+          <img src={logo.url} alt="Adventure Holiday logo" width={48} height={48} className="h-11 w-11 md:h-12 md:w-12" />
+          <span className="display hidden whitespace-nowrap text-lg leading-none sm:inline xl:hidden 2xl:inline">Adventure Holiday</span>
         </a>
 
         <nav aria-label="Primary" className="hidden xl:block">
-          <ul className={`flex gap-7 text-sm font-medium ${tone}`}>
+          <ul className={`flex gap-5 whitespace-nowrap text-sm font-medium 2xl:gap-7 ${tone}`}>
             {nav.map((n) => (
               <li key={n.href}><a href={n.href} className="py-1 transition-colors hover:text-accent">{n.label}</a></li>
             ))}
@@ -42,10 +43,10 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
         <div className="flex items-center gap-2">
           <div className={`hidden items-center gap-1 border-l pl-4 xl:flex ${solid ? "border-border" : "border-primary-foreground/30"}`}>
             {exploreNav.map((n) => (
-              <a key={n.href} href={n.href} className={`rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:text-accent ${tone}`}>{n.label}</a>
+              <a key={n.href} href={n.href} className={`whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:text-accent ${tone}`}>{n.label}</a>
             ))}
           </div>
-          <a href="/#plan" className="hidden rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:-translate-y-0.5 sm:inline-flex">
+          <a href="/#plan" className="hidden whitespace-nowrap rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:-translate-y-0.5 sm:inline-flex">
             Plan Your Tour
           </a>
           <button

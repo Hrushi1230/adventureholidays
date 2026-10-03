@@ -18,10 +18,10 @@ afterEach(() => vi.useRealTimers());
 const advance = () => act(() => { vi.advanceTimersByTime(1500); });
 
 describe("UpcomingTourSpotlight", () => {
-  it("renders nothing with zero tours", () => {
-    const { container } = render(<UpcomingTourSpotlight />);
+  it("defaults to the featured production tour", () => {
+    render(<UpcomingTourSpotlight />);
     advance();
-    expect(container).toBeEmptyDOMElement();
+    expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toHaveTextContent("Andaman Group Tour");
   });
   it("shows the given tour with a detail link", () => {
     render(<UpcomingTourSpotlight tour={base} />);
@@ -45,7 +45,7 @@ describe("UpcomingTourSpotlight", () => {
   });
   it("is mounted on the homepage only", () => {
     expect(readFileSync("src/routes/index.tsx", "utf8")).toContain("<UpcomingTourSpotlight");
-    for (const f of ["gallery", "rural-camps", "picnic-point", "tours.$slug"]) {
+    for (const f of ["gallery.index", "gallery.$slug", "rural-camps", "picnic-point", "tours.$slug"]) {
       expect(readFileSync(`src/routes/${f}.tsx`, "utf8")).not.toContain("UpcomingTourSpotlight");
     }
   });
