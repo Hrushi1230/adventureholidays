@@ -5,7 +5,7 @@ import ornament from "@/assets/andaman-banner-ornament.png";
 import "./upcoming-spotlight.css";
 
 const SHOW_DELAY = 1000;
-const EXIT_MS = 760;
+const EXIT_MS = 900;
 const SWAP_MS = 180;
 const AUTO_MS = 7500;
 const W = 1600;
