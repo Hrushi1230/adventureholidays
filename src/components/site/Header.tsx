@@ -70,7 +70,7 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
       </div>
 
       {open && (
-        <div id="mobile-menu" className="animate-fade fixed inset-x-0 bottom-0 top-[68px] overflow-y-auto bg-primary text-primary-foreground xl:hidden">
+        <div id="mobile-menu" className="animate-fade absolute inset-x-0 top-full z-50 h-[calc(100dvh-68px)] overflow-y-auto overscroll-contain bg-primary text-primary-foreground xl:hidden">
           <div className="mx-auto flex min-h-full max-w-3xl flex-col px-5 pb-8 pt-6 sm:px-8 sm:pt-10">
             <div className="flex items-center gap-3 border-b border-primary-foreground/20 pb-4">
               <span className="h-px w-8 bg-accent" />
