@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { formatTourDateRange, getFeaturedUpcomingTour, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import ornament from "@/assets/andaman-banner-ornament.png";
 import "./upcoming-spotlight.css";
 
 const SHOW_DELAY = 1000;
 const EXIT_MS = 760;
+const SWAP_MS = 180;
+const AUTO_MS = 7500;
 const W = 1600;
 const TOP = 26;
 const BOTTOM = 324;
