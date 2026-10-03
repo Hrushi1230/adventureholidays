@@ -33,7 +33,7 @@ function clothPaths(t: number, amp: number) {
     bottom.push([x, BOTTOM + sag + bottomWave * amp]);
   }
   const f = (p: Pt) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
-  const cloth = `M ${f(top[0])} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
+  const cloth = `M ${f(top[0]!)} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
   const line = (pts: Pt[]) => "M " + pts.map(f).join(" L ");
   return {
     cloth,
