@@ -1,7 +1,6 @@
 /* Ported from adventure-holiday-banner-only-animated-v6.html — classes prefixed ahb- */
 .ahb-stage{--green:#0f4f39;--green-dark:#0a3c2c;--orange:#ff7a00;--ink:#154d39;--cream:#f6ead4;--cream-2:#ead7ba;--muted:#6f705f;--rope:#9a6428;--rope-dark:#5d3818;--brass:#a96f24;--brass-hi:#e2b66a;--shadow:rgba(18,31,25,.24);font-family:inherit;}
 .ahb-stage *{box-sizing:border-box;}
-.ahb-title{font-family:var(--font-display, Georgia, serif);}
 
 
   .ahb-stage {
@@ -162,7 +161,7 @@
 
   .ahb-title {
     margin:0;
-    font-family:Georgia, "Times New Roman", serif;
+    font-family:var(--font-display), Georgia, serif;
     font-size:clamp(38px,3vw,54px);
     line-height:.98;
     font-weight:700;
@@ -1485,3 +1484,10 @@
       transform:none;
     }
   }
+
+/* Integration: float over the homepage hero below the fixed header. */
+.ahb-anchor{position:absolute;inset-inline:0;top:92px;z-index:40;display:flex;justify-content:center;pointer-events:none;}
+@media (max-width:1279px){.ahb-anchor{top:76px;}}
+@media (max-width:620px){.ahb-anchor{top:64px;}}
+.ahb-btn:focus-visible,.ahb-close:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
+.ahb-stage.is-reduced .ahb-hanger.ahb-closing{transform:none;transition:opacity 220ms ease;}
