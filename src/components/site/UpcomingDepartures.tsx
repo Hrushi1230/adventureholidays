@@ -1,18 +1,35 @@
-import { ArrowRight } from "lucide-react";
-import { communityHref } from "@/lib/site";
-import { getUpcomingTours } from "@/lib/tours";
-import { TourCard } from "./TourCard";
+import { Link } from "@tanstack/react-router";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { communityHref, images } from "@/lib/site";
+import { formatTourDate, getUpcomingTours, statusLabel, type Tour } from "@/lib/tours";
 import { EmptyPanel, SectionHead, btnPrimary } from "./ui";
+
+function DepartureRow({ t }: { t: Tour }) {
+  const soldOut = t.status === "sold-out";
+  return (
+    <Link to="/tours/$slug" params={{ slug: t.slug }} className="group flex w-[80vw] max-w-sm shrink-0 snap-start items-center gap-4 border border-border bg-card p-3 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:w-auto md:max-w-none">
+      <img src={t.coverImage ?? images.hero} alt="" loading="lazy" className="h-20 w-20 shrink-0 object-cover" />
+      <div className="min-w-0 flex-1">
+        <p className="eyebrow text-[0.6rem] text-accent">{formatTourDate(t.startDate) ?? "Date TBA"}</p>
+        <p className="display mt-1 truncate text-xl text-primary">{t.destination}</p>
+        <div className="mt-1 flex items-center justify-between gap-2">
+          <span className={`text-[0.65rem] font-bold uppercase tracking-widest ${soldOut ? "text-muted-foreground" : "text-primary"}`}>{statusLabel[t.status]}</span>
+          <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold uppercase tracking-widest text-primary">View <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /></span>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export function UpcomingDepartures() {
   const upcomingTours = getUpcomingTours();
   return (
-    <section id="upcoming" className="py-20 md:py-28">
+    <section id="upcoming" className="py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <SectionHead eyebrow="Book now" title="Upcoming Departures" text="Confirmed group departures open for booking." />
+        <SectionHead eyebrow="Book now" title="Upcoming Departures" text="Browse every scheduled group departure." />
         {upcomingTours.length ? (
-          <div className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
-            {upcomingTours.map((t) => <TourCard key={t.id} t={t} className="w-[78vw] shrink-0 snap-start md:w-auto" />)}
+          <div className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
+            {upcomingTours.map((t) => <DepartureRow key={t.id} t={t} />)}
           </div>
         ) : (
           <EmptyPanel title="New departures are being planned." text="Join our WhatsApp travel community to receive upcoming tour announcements.">

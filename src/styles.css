@@ -186,3 +186,8 @@ body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing
   .reveal { opacity: 1; transform: none; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* Hide floating call/WhatsApp on phones while the homepage tour spotlight is open. */
+@media (max-width: 767px) {
+  html[data-spotlight="open"] .floating-actions { display: none; }
+}
