@@ -40,8 +40,8 @@
   background:radial-gradient(circle at 36% 32%, #f0cf8e 0 10%, var(--brass-hi) 11% 24%, var(--brass) 25% 52%, #6d4218 53% 68%, #17120b 69% 100%);
   box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.12);
 }
-.ahb-r1{left:8%;animation-delay:-.7s;} .ahb-r2{left:32%;animation-delay:-3.1s;}
-.ahb-r3{left:68%;animation-delay:-1.9s;} .ahb-r4{left:92%;animation-delay:-4.5s;}
+.ahb-r1{left:8%;animation-delay:-.7s;} .ahb-r2{left:34%;animation-delay:-3.1s;}
+.ahb-r3{left:70%;animation-delay:-1.9s;} .ahb-r4{left:92%;animation-delay:-4.5s;}
 .ahb-closing .ahb-rope{animation:none;transform:scaleY(.55);opacity:0;}
 
 .ahb-hanger {
@@ -64,7 +64,7 @@
 
 .ahb-content {
   position:absolute; inset:46px 74px 44px 40px; z-index:3;
-  display:grid; grid-template-columns:150px minmax(0,1fr) 290px; gap:34px; align-items:center;
+  display:grid; grid-template-columns:150px minmax(0,1fr) 290px; grid-template-areas:"photo center side"; gap:34px; align-items:center;
   color:var(--ink);
   transition:opacity 180ms ease, transform 180ms ease;
 }
@@ -151,7 +151,7 @@
 /* ───────── MOBILE (≤ 620) ───────── */
 @media (max-width:620px) {
   .ahb-anchor{--banner-top:116px;--banner-w:calc(100vw - 20px);--banner-h:272px;--eyelet-y:20px;}
-  .ahb-r1{left:16%;} .ahb-r4{left:78%;}
+  .ahb-r1{left:20%;} .ahb-r4{left:76%;}
   .ahb-content {
     inset:34px 16px 30px 16px;
     grid-template-columns:82px minmax(0,1fr);
