@@ -1,9 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import { communityHref, upcomingTours } from "@/lib/site";
+import { communityHref } from "@/lib/site";
+import { getUpcomingTours } from "@/lib/tours";
 import { TourCard } from "./TourCard";
 import { EmptyPanel, SectionHead, btnPrimary } from "./ui";
 
 export function UpcomingDepartures() {
+  const upcomingTours = getUpcomingTours();
   return (
     <section id="upcoming" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
