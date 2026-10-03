@@ -16,7 +16,7 @@ export function UpcomingHero() {
         <img ref={ref} src={brandImage} alt="Adventure Holiday travellers on a completed group journey" width={1920} height={1088} fetchPriority="high" className="h-full w-full object-cover object-center" />
       </div>
       <div className="hero-scrim absolute inset-0" />
-      <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-40 md:px-8 md:pb-8">
+      <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 md:px-8 md:pb-8" style={{ paddingTop: "max(10rem, var(--ahb-clearance, 0px))", transition: "padding-top 600ms cubic-bezier(.4,0,.2,1)" }}>
         <p className="eyebrow animate-rise text-sand" style={{ animationDelay: "100ms" }}>Adventure Holiday</p>
         <h1 className="display animate-rise mt-4 max-w-5xl text-[2.15rem] text-primary-foreground sm:text-6xl lg:text-[4.2rem]" style={{ animationDelay: "220ms" }}>
           <span className="block whitespace-nowrap">Group Tours.</span>

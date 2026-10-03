@@ -177,7 +177,7 @@ html.has-ahb { --ahb-clearance: calc(102px + 300px + 44px); }
 
 /* ───────── TABLET (621–1023) ───────── */
 @media (max-width:1023px) {
-  .ahb-anchor{--banner-top:96px;--banner-w:calc(100vw - 48px);--banner-h:270px;}
+  .ahb-anchor{--banner-top:96px;--banner-w:calc(100vw - 48px);--banner-h:270px;--rope-start:70px;}
   .ahb-r2,.ahb-r3{display:none;}
   .ahb-r1{left:14%;} .ahb-r4{left:84%;}
   .ahb-content{inset:42px 64px 40px 28px;grid-template-columns:110px minmax(0,1fr) 230px;gap:22px;}
@@ -193,7 +193,7 @@ html.has-ahb { --ahb-clearance: calc(102px + 300px + 44px); }
 
 /* ───────── MOBILE (≤ 620) ───────── */
 @media (max-width:620px) {
-  .ahb-anchor{--banner-top:90px;--banner-w:calc(100vw - 20px);--banner-h:245px;--eyelet-y:20px;}
+  .ahb-anchor{--banner-top:90px;--banner-w:calc(100vw - 20px);--banner-h:262px;--eyelet-y:20px;--rope-start:64px;}
   .ahb-r1{left:21%;} .ahb-r4{left:77%;}
   .ahb-content {
     inset:30px 16px 22px 16px;
@@ -234,7 +234,7 @@ html.has-ahb { --ahb-clearance: calc(102px + 300px + 44px); }
 
 /* ───────── SMALL MOBILE (≤ 420) ───────── */
 @media (max-width:420px) {
-  .ahb-anchor{--banner-top:88px;--banner-h:245px;}
+  .ahb-anchor{--banner-top:88px;--banner-h:262px;}
   .ahb-content{grid-template-columns:76px minmax(0,1fr);gap:9px 11px;inset:29px 14px 20px 14px;}
   .ahb-postcard{width:76px;height:66px;}
   .ahb-title{font-size:21px;}
