@@ -32,7 +32,7 @@ describe("UpcomingTourSpotlight", () => {
   it("dismisses but shows again on the next visit", () => {
     const { unmount } = render(<UpcomingTourSpotlight tour={base} />);
     advance();
-    fireEvent.click(screen.getByRole("button", { name: "Dismiss upcoming tour" }));
+    fireEvent.click(screen.getByRole("button", { name: "Dismiss Andaman Escape announcement" }));
     advance();
     expect(screen.queryByRole("complementary")).toBeNull();
     unmount();
@@ -45,6 +45,21 @@ describe("UpcomingTourSpotlight", () => {
     advance();
     expect(screen.getAllByRole("link", { name: /ask about next departure/i })[0]).toBeInTheDocument();
     expect(screen.queryByText(/book now/i)).toBeNull();
+  });
+  it("cycles and dismisses several tours inside one cloth", () => {
+    const list: Tour[] = [base, { ...base, id: "t2", slug: "k", title: "Kashmir Trip", startDate: "2026-12-01" }, { ...base, id: "t3", slug: "e", title: "Kerala Trip", startDate: "2027-01-01" }];
+    render(<UpcomingTourSpotlight tours={list} />);
+    advance();
+    expect(screen.getAllByRole("complementary")).toHaveLength(1);
+    expect(screen.getByText("01 / 03")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Next upcoming tour" })); advance();
+    expect(screen.getByRole("heading")).toHaveTextContent("Kashmir Trip");
+    fireEvent.click(screen.getByRole("button", { name: "Dismiss Kashmir Trip announcement" })); advance();
+    expect(screen.getByText("02 / 02")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /^Dismiss .* announcement$/ })); advance();
+    expect(screen.queryByText(/\/ 0/)).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: /^Dismiss .* announcement$/ })); advance();
+    expect(screen.queryByRole("complementary")).toBeNull();
   });
   it("is mounted on the homepage only", () => {
     expect(readFileSync("src/routes/index.tsx", "utf8")).toContain("<UpcomingTourSpotlight");

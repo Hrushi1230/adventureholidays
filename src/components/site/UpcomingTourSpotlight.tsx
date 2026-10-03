@@ -1,10 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { formatTourDateRange, getFeaturedUpcomingTour, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import ornament from "@/assets/andaman-banner-ornament.png";
 import "./upcoming-spotlight.css";
 
 const SHOW_DELAY = 1000;
 const EXIT_MS = 760;
+const SWAP_MS = 180;
+const AUTO_MS = 7500;
 const W = 1600;
 const TOP = 26;
 const BOTTOM = 324;
@@ -100,44 +103,64 @@ function ClothSvg({ closing, reduced }: { closing: boolean; reduced: boolean }) 
   );
 }
 
-function Flower() {
-  return (
-    <svg className="ahb-mobile-flower" viewBox="0 0 80 64" aria-hidden="true">
-      <g transform="translate(8 22) rotate(-18)">
-        <ellipse cx="17" cy="12" rx="18" ry="6" fill="#2f7a45" />
-        <ellipse cx="29" cy="20" rx="16" ry="5.5" fill="#4c9858" transform="rotate(28 29 20)" />
-      </g>
-      <g transform="translate(42 31)">
-        {[0, 72, 144, 216, 288].map((r) => (
-          <ellipse key={r} cx="0" cy="-11" rx="6" ry="14" fill="#fffaf0" transform={`rotate(${r})`} />
-        ))}
-        <circle r="5.5" fill="#f2b544" />
-        <circle r="2.3" fill="#e28b20" />
-      </g>
-    </svg>
-  );
-}
-
 const Icon = {
   cal: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>,
   clock: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>,
   pin: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.6" /></svg>,
 };
 
-/** Homepage-only hanging cloth banner (React port of the V6 prototype) for the featured/nearest upcoming departure. */
-export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { tour?: Tour }) {
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Featured tour first, then the remaining upcoming tours chronologically (no duplicates). */
+export function spotlightTours(list?: Tour[]): Tour[] {
+  const upcoming = getUpcomingTours(list);
+  const featured = getFeaturedUpcomingTour(list);
+  return featured ? [featured, ...upcoming.filter((t) => t.id !== featured.id)] : upcoming;
+}
+
+/**
+ * Homepage-only hanging cloth banner. One physical cloth; with several upcoming tours only the
+ * printed content changes. × dismisses the current tour for this visit (it returns on refresh).
+ */
+export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tours?: Tour[] }) {
+  const all = useMemo(() => (tour ? [tour] : spotlightTours(list)), [tour, list]);
   const [phase, setPhase] = useState<Phase>("hidden");
   const [reduced, setReduced] = useState(false);
+  const [dismissed, setDismissed] = useState<string[]>([]);
+  const [index, setIndex] = useState(0);
+  const [out, setOut] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
+  const interacted = useRef(false);
+
+  const visible = all.filter((t) => !dismissed.includes(t.id));
+  const i = visible.length ? Math.min(index, visible.length - 1) : 0;
+  const current = visible[i];
+  const multi = visible.length > 1;
+
+  useEffect(() => { setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches); }, []);
 
   useEffect(() => {
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
-
-  useEffect(() => {
-    if (!tour) return;
+    if (!all.length) return;
     const t = window.setTimeout(() => setPhase("open"), SHOW_DELAY);
     return () => window.clearTimeout(t);
-  }, [tour]);
+  }, [all.length]);
+
+  function swap(next: () => void) {
+    if (reduced) { next(); return; }
+    setOut(true);
+    window.setTimeout(() => { next(); setOut(false); setAnimKey((k) => k + 1); }, SWAP_MS);
+  }
+  const go = (d: number) => swap(() => setIndex((x) => (x + d + visible.length) % visible.length));
+  const userGo = (d: number) => { interacted.current = true; go(d); };
+
+  // Optional auto-advance: only with several tours, no interaction, visible tab, motion allowed.
+  useEffect(() => {
+    if (phase !== "open" || !multi || reduced) return;
+    const id = window.setInterval(() => {
+      if (!interacted.current && !document.hidden) go(1);
+    }, AUTO_MS);
+    return () => window.clearInterval(id);
+  });
 
   useEffect(() => {
     if (phase !== "open") return;
@@ -147,59 +170,75 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
   });
 
   function dismiss() {
-    if (!tour || phase !== "open") return;
+    if (!current || phase !== "open") return;
+    interacted.current = true;
+    if (multi) {
+      swap(() => { setDismissed((d) => [...d, current.id]); setIndex((x) => (x >= visible.length - 1 ? 0 : x)); });
+      return;
+    }
     setPhase("closing");
-    window.setTimeout(() => setPhase("hidden"), reduced ? 240 : EXIT_MS);
+    window.setTimeout(() => { setDismissed((d) => [...d, current.id]); setPhase("hidden"); }, reduced ? 240 : EXIT_MS);
   }
 
-  if (!tour || phase === "hidden") return null;
+  if (!current || phase === "hidden") return null;
 
-  const soldOut = tour.status === "sold-out";
-  const price = tour.pricing?.offerPrice ?? tour.pricing?.regularPrice;
-  const offer = tour.pricing?.offerPrice ? tour.pricing.offerLabel?.replace(/^Special price for the /i, "Special price for ") : undefined;
+  const soldOut = current.status === "sold-out";
+  const price = current.pricing?.offerPrice ?? current.pricing?.regularPrice;
+  const offer = current.pricing?.offerPrice ? current.pricing.offerLabel?.replace(/^Special price for the /i, "Special price for ") : undefined;
 
   return (
-    <div className="ahb-anchor">
-      <aside aria-label="Upcoming tour" className={`ahb-stage ${reduced ? "is-reduced" : ""}`}>
-        <section className={`ahb-hanger ${phase === "closing" ? "ahb-closing" : ""}`}>
+    <div className={`ahb-anchor ${phase === "closing" ? "ahb-closing" : ""}`}>
+      <aside aria-label="Upcoming tour" className={`ahb-stage ${reduced ? "is-reduced" : ""}`} onFocusCapture={() => { interacted.current = true; }}>
+        <div className="ahb-ropes" aria-hidden="true">
           <div className="ahb-rope ahb-r1" />
           <div className="ahb-rope ahb-r2" />
           <div className="ahb-rope ahb-r3" />
           <div className="ahb-rope ahb-r4" />
+        </div>
+        <section className="ahb-hanger">
           <div className="ahb-cloth-wrap">
             <ClothSvg closing={phase === "closing"} reduced={reduced} />
           </div>
-          <div className="ahb-content">
-            {tour.coverImage && (
+          <div key={animKey} className={`ahb-content ${out ? "is-out" : animKey ? "is-in" : ""}`} aria-live={multi ? "polite" : undefined}>
+            {current.coverImage && (
               <div className="ahb-postcard" aria-hidden="true">
-                <img src={tour.coverImage} alt="" loading="lazy" />
-                <Flower />
+                <img src={current.coverImage} alt="" loading="lazy" />
+                <img className="ahb-ornament" src={ornament} alt="" width={121} height={155} />
               </div>
             )}
             <div className="ahb-center">
-              <div className="ahb-eyebrow">Upcoming Departure</div>
-              <h2 className="ahb-title">{tour.title}</h2>
+              <div className="ahb-eyebrow-row">
+                <span className="ahb-eyebrow">Upcoming Departure</span>
+                {multi && (
+                  <span className="ahb-nav">
+                    <span className="ahb-count" aria-label={`Tour ${i + 1} of ${visible.length}`}>{pad(i + 1)} / {pad(visible.length)}</span>
+                    <button type="button" className="ahb-arrow" onClick={() => userGo(-1)} aria-label="Previous upcoming tour">‹</button>
+                    <button type="button" className="ahb-arrow" onClick={() => userGo(1)} aria-label="Next upcoming tour">›</button>
+                  </span>
+                )}
+              </div>
+              <h2 className="ahb-title">{current.title}</h2>
               <div className="ahb-meta" aria-label="Tour details">
-                {tour.startDate && <span>{Icon.cal}{formatTourDateRange(tour)}</span>}
-                {tour.duration && <span>{Icon.clock}{tour.duration}</span>}
-                {tour.departureFrom && <span>{Icon.pin}From {tour.departureFrom}</span>}
+                {current.startDate && <span>{Icon.cal}{formatTourDateRange(current)}</span>}
+                {current.duration && <span>{Icon.clock}{current.duration}</span>}
+                {current.departureFrom && <span>{Icon.pin}From {current.departureFrom}</span>}
               </div>
             </div>
             <div className="ahb-side">
-              <span className="ahb-status">{statusLabel[tour.status]}</span>
+              <span className="ahb-status">{statusLabel[current.status]}</span>
               {price && <div className="ahb-price"><strong>{inr(price)}</strong><small>/ person</small></div>}
               {offer && <div className="ahb-offer">{offer}</div>}
               <div className="ahb-actions">
                 {!soldOut && (
-                  <Link to="/tours/$slug" params={{ slug: tour.slug }} className="ahb-btn ahb-btn-primary">View Tour <span aria-hidden>→</span></Link>
+                  <Link to="/tours/$slug" params={{ slug: current.slug }} className="ahb-btn ahb-btn-primary">View Tour <span aria-hidden>→</span></Link>
                 )}
-                <a href={tourWhatsappHref(tour)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
+                <a href={tourWhatsappHref(current)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
                   {soldOut ? "Ask About Next Departure" : "WhatsApp"}
                 </a>
               </div>
             </div>
           </div>
-          <button type="button" className="ahb-close" onClick={dismiss} aria-label="Dismiss upcoming tour">×</button>
+          <button type="button" className="ahb-close" onClick={dismiss} aria-label={`Dismiss ${current.title} announcement`}>×</button>
         </section>
       </aside>
     </div>
