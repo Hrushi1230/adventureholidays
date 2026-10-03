@@ -95,3 +95,22 @@ export function openEnquiry(type?: TourType) {
   if (type) window.dispatchEvent(new CustomEvent<TourType>("ah:tour-type", { detail: type }));
   document.getElementById("plan")?.scrollIntoView({ behavior: "smooth" });
 }
+
+// TEMPORARY DEMO SOCIAL PROOF.
+// Replace with verified client metrics before production launch, then set demoOnly: false.
+export const trustMetrics = {
+  demoOnly: true,
+  yearsExperience: "10+",
+  reviews: "100+",
+  rating: "4.8",
+};
+
+/** Demo metrics render only in development while unverified. */
+export const showTrustMetrics = !trustMetrics.demoOnly || import.meta.env.DEV;
+
+// DEVELOPMENT-ONLY layout fixtures. Never rendered in production builds.
+export const demoTestimonials: Testimonial[] = [
+  { id: "demo-1", name: "Demo Traveller", tour: "Layout preview", quote: "Demo testimonial for layout preview only." },
+  { id: "demo-2", name: "Demo Traveller", tour: "Layout preview", quote: "Demo testimonial for layout preview only." },
+  { id: "demo-3", name: "Demo Traveller", tour: "Layout preview", quote: "Demo testimonial for layout preview only." },
+];

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-/** Adds `is-visible` to every `.reveal` element as it enters the viewport. */
+/** Adds `is-visible` to every `.reveal` / `.poster-reveal` element; ones already on screen reveal immediately. */
 export function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const els = document.querySelectorAll<HTMLElement>(".reveal, .poster-reveal");
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) => {
@@ -14,7 +14,11 @@ export function useReveal() {
         }),
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
-    els.forEach((el) => io.observe(el));
+    els.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-visible");
+      else io.observe(el);
+    });
     return () => io.disconnect();
   }, []);
 }
