@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
 import ornament from "@/assets/andaman-banner-ornament.png";
+import kashmirPreview from "@/assets/kashmir.jpg";
 import "./upcoming-spotlight.css";
 
-const SHOW_DELAY = 450;
 const EXIT_MS = 900;
 const SWAP_MS = 180;
 const AUTO_MS = 7500;
@@ -12,7 +12,7 @@ const W = 1600;
 const TOP = 26;
 const BOTTOM = 324;
 
-type Phase = "hidden" | "open" | "closing";
+type Phase = "entering" | "open" | "closing" | "hidden";
 type Pt = [number, number];
 
 /** Cloth outline from the V6 prototype: top breathing + travelling bottom "leher" + centre sag. */
@@ -33,7 +33,8 @@ function clothPaths(t: number, amp: number) {
     bottom.push([x, BOTTOM + sag + bottomWave * amp]);
   }
   const f = (p: Pt) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
-  const cloth = `M ${f(top[0]!)} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
+  const first = top[0];
+  const cloth = first ? `M ${f(first)} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z` : "";
   const line = (pts: Pt[]) => "M " + pts.map(f).join(" L ");
   return {
     cloth,
@@ -114,6 +115,22 @@ const pad = (n: number) => String(n).padStart(2, "0");
 const RANK: Record<string, number> = { "booking-open": 0, "few-seats": 1, "sold-out": 2 };
 const DAY_MS = 24 * 60 * 60 * 1000;
 const KEY = (id: string) => `ah-tour-spotlight-dismissed:${id}`;
+const DEMO_ID = "demo-kashmir-dec-2026";
+const bannerDemoTour: Tour = {
+  id: DEMO_ID,
+  slug: "demo-kashmir-december-2026",
+  title: "Kashmir Group Tour",
+  destination: "Kashmir",
+  category: "group-india",
+  startDate: "2026-12-12",
+  endDate: "2026-12-17",
+  duration: "6 Days / 5 Nights",
+  departureFrom: "Bhubaneswar",
+  status: "few-seats",
+  featured: false,
+  coverImage: kashmirPreview,
+  pricing: { regularPrice: 48500 },
+};
 
 /** Featured first, then booking-open → few-seats → sold-out, each by nearest date. No completed, no duplicates. */
 export function spotlightTours(list?: Tour[]): Tour[] {
@@ -143,33 +160,37 @@ function storeDismissed(id: string) {
  * printed content changes. × dismisses the current tour for 24 hours.
  */
 export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tours?: Tour[] }) {
-  const all = useMemo(() => (tour ? [tour] : spotlightTours(list)), [tour, list]);
-  const [phase, setPhase] = useState<Phase>("hidden");
+  const [demo, setDemo] = useState(false);
+  const all = useMemo(() => {
+    const production = tour ? [tour] : spotlightTours(list);
+    return demo && !tour && !list ? [...production, bannerDemoTour] : production;
+  }, [demo, tour, list]);
+  const [phase, setPhase] = useState<Phase>("entering");
   const [reduced, setReduced] = useState(false);
-  const [dismissed, setDismissed] = useState<string[] | null>(null);
+  const [dismissed, setDismissed] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [out, setOut] = useState(false);
   const [dir, setDir] = useState<1 | -1>(1);
   const [animKey, setAnimKey] = useState(0);
   const interacted = useRef(false);
 
-  const visible = dismissed ? all.filter((t) => !dismissed.includes(t.id)) : [];
+  const visible = all.filter((t) => !dismissed.includes(t.id));
   const i = visible.length ? Math.min(index, visible.length - 1) : 0;
   const current = visible[i];
   const multi = visible.length > 1;
 
   useEffect(() => {
+    setDemo(new URLSearchParams(window.location.search).get("bannerDemo") === "2");
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     setDismissed(all.filter((t) => isDismissed(t.id)).map((t) => t.id));
   }, [all]);
 
   const hasAny = visible.length > 0;
   useEffect(() => {
-    if (!hasAny || phase !== "hidden") return;
-    const t = window.setTimeout(() => setPhase("open"), SHOW_DELAY);
+    if (!hasAny || phase !== "entering") return;
+    const t = window.setTimeout(() => setPhase("open"), reduced ? 240 : 900);
     return () => window.clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasAny]);
+  }, [hasAny, phase, reduced]);
 
   function swap(d: 1 | -1, next: () => void) {
     setDir(d);
@@ -190,14 +211,14 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
   });
 
   useEffect(() => {
-    if (phase !== "open") return;
+    if (phase === "closing" || phase === "hidden") return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && dismiss();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
 
   function dismiss() {
-    if (!current || phase !== "open") return;
+    if (!current || phase === "closing" || phase === "hidden") return;
     interacted.current = true;
     storeDismissed(current.id);
     if (multi) {
@@ -213,16 +234,28 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
   const soldOut = current.status === "sold-out";
   const price = current.pricing?.offerPrice ?? current.pricing?.regularPrice;
   const offer = current.pricing?.offerPrice ? current.pricing.offerLabel?.replace(/^Special price for the /i, "Special price for ") : undefined;
+  const next = multi ? visible[(i + 1) % visible.length] : undefined;
+  const hasThird = visible.length > 2;
+  const isDemo = current.id === DEMO_ID;
 
   return (
     <div className={`ahb-anchor ${phase === "closing" ? "ahb-closing" : ""}`}>
+      <div className="ahb-viewport-ropes" aria-hidden="true">
+        <div className="ahb-rope ahb-r1" />
+        <div className="ahb-rope ahb-r2" />
+        <div className="ahb-rope ahb-r3" />
+        <div className="ahb-rope ahb-r4" />
+      </div>
       <aside aria-label="Upcoming tour" className={`ahb-stage ${reduced ? "is-reduced" : ""}`} onFocusCapture={() => { interacted.current = true; }}>
-        <div className="ahb-ropes" aria-hidden="true">
-          <div className="ahb-rope ahb-r1" />
-          <div className="ahb-rope ahb-r2" />
-          <div className="ahb-rope ahb-r3" />
-          <div className="ahb-rope ahb-r4" />
-        </div>
+        {hasThird && <div className="ahb-stack-third" aria-hidden="true" />}
+        {next && (
+          <button type="button" className="ahb-stack-next" onClick={() => userGo(1)} aria-label={`Show next tour: ${next.title}`}>
+            <span>Next departure</span>
+            <strong>{next.title}</strong>
+            {next.startDate && <small>{formatTourDateRange(next)}</small>}
+            <b aria-hidden>›</b>
+          </button>
+        )}
         <section className="ahb-hanger">
           <div className="ahb-cloth-wrap">
             <ClothSvg closing={phase === "closing"} reduced={reduced} />
@@ -257,12 +290,14 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
               {price && <div className="ahb-price"><strong>{inr(price)}</strong><small>/ person</small></div>}
               {offer && <div className="ahb-offer">{offer}</div>}
               <div className="ahb-actions">
-                {!soldOut && (
+                {!soldOut && !isDemo && (
                   <Link to="/tours/$slug" params={{ slug: current.slug }} className="ahb-btn ahb-btn-primary">View Tour <span aria-hidden>→</span></Link>
                 )}
-                <a href={tourWhatsappHref(current)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
-                  {soldOut ? "Ask About Next Departure" : "WhatsApp"}
-                </a>
+                {isDemo ? <span className="ahb-btn ahb-btn-preview">Preview</span> : (
+                  <a href={tourWhatsappHref(current)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
+                    {soldOut ? "Ask About Next Departure" : "WhatsApp"}
+                  </a>
+                )}
               </div>
             </div>
           </div>
