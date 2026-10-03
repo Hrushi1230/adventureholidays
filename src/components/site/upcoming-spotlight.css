@@ -1491,3 +1491,8 @@
 @media (max-width:620px){.ahb-anchor{top:64px;}}
 .ahb-btn:focus-visible,.ahb-close:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
 .ahb-stage.is-reduced .ahb-hanger.ahb-closing{transform:none;transition:opacity 220ms ease;}
+@media (max-width:620px){
+  .ahb-content{grid-template-areas:"photo center" "side side";align-content:start;row-gap:12px;}
+  .ahb-meta{margin-top:8px;}
+  .ahb-stage{height:auto;min-height:300px;}
+}
