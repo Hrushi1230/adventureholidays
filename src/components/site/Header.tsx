@@ -33,7 +33,7 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
         </a>
 
         <nav aria-label="Primary" className="hidden xl:block">
-          <ul className={`flex gap-7 text-sm font-medium ${tone}`}>
+          <ul className={`flex gap-5 whitespace-nowrap text-sm font-medium 2xl:gap-7 ${tone}`}>
             {nav.map((n) => (
               <li key={n.href}><a href={n.href} className="py-1 transition-colors hover:text-accent">{n.label}</a></li>
             ))}
@@ -43,10 +43,10 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
         <div className="flex items-center gap-2">
           <div className={`hidden items-center gap-1 border-l pl-4 xl:flex ${solid ? "border-border" : "border-primary-foreground/30"}`}>
             {exploreNav.map((n) => (
-              <a key={n.href} href={n.href} className={`rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:text-accent ${tone}`}>{n.label}</a>
+              <a key={n.href} href={n.href} className={`whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:text-accent ${tone}`}>{n.label}</a>
             ))}
           </div>
-          <a href="/#plan" className="hidden rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:-translate-y-0.5 sm:inline-flex">
+          <a href="/#plan" className="hidden whitespace-nowrap rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-widest text-accent-foreground transition-transform hover:-translate-y-0.5 sm:inline-flex">
             Plan Your Tour
           </a>
           <button
