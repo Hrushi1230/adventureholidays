@@ -222,6 +222,14 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
     window.setTimeout(() => { setDismissed((d) => [...(d ?? []), current.id]); setPhase("hidden"); }, reduced ? 240 : EXIT_MS);
   }
 
+  // Reserve room at the top of the hero while the banner hangs, so it never covers the headline.
+  const showing = !!current && phase !== "hidden" && phase !== "closing";
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("has-ahb", showing);
+    return () => root.classList.remove("has-ahb");
+  }, [showing]);
+
   if (!current || phase === "hidden") return null;
 
   const soldOut = current.status === "sold-out";
