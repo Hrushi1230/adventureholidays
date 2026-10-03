@@ -68,18 +68,7 @@ export const destinations = [
 // Scheduled group departures live in src/lib/tours.ts.
 
 
-export type CompletedTour = {
-  id: string;
-  slug: string;
-  title: string;
-  tourDate: string;
-  coverImage: string;
-  photoCount?: number;
-  testimonialType?: "text" | "video";
-};
-
-// Add only real completed tours here.
-export const completedToursPreview: CompletedTour[] = [];
+// Completed-tour albums live in src/lib/gallery.ts.
 
 export type Testimonial = {
   id: string;
