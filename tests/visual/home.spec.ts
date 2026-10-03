@@ -16,7 +16,7 @@ async function preparePage(page: Page) {
   await page.evaluate(() => {
     const h = window.innerHeight;
     const style = document.createElement("style");
-    style.textContent = `#home{min-height:${h}px !important}section[class*="80svh"]{min-height:${Math.round(h * 0.8)}px !important}`;
+    style.textContent = `#home{min-height:${h}px !important}section[class*="70svh"]{min-height:${Math.round(h * 0.7)}px !important}`;
     document.head.appendChild(style);
   });
   // Load every lazy image so the full-page capture is complete.
@@ -44,17 +44,8 @@ test("home page matches reference", async ({ page }) => {
   }
 });
 
-test("gallery photo viewer matches reference", async ({ page }) => {
+test("no horizontal overflow", async ({ page }) => {
   await preparePage(page);
-  await page.locator("#gallery").scrollIntoViewIfNeeded();
-  await page.getByRole("button", { name: /^Open image:/ }).first().click();
-  const viewer = page.getByRole("dialog", { name: "Image viewer" });
-  await expect(viewer).toBeVisible();
-  await expect(page).toHaveScreenshot("viewer-open.png");
-
-  await viewer.getByRole("button", { name: "Next" }).click();
-  await expect(page).toHaveScreenshot("viewer-next.png");
-
-  await page.keyboard.press("Escape");
-  await expect(viewer).toBeHidden();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
 });

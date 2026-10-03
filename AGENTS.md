@@ -9,5 +9,5 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 # Agent rules
-- Site content (contact placeholders, tours, destinations, gallery) lives in src/lib/site.ts so it is editable in one place.
-- Landing sections are components in src/components/site/; scroll reveal via `.reveal` + useReveal hook.
+- Business data (contact, destinations, upcomingTours, completedToursPreview, testimonials) lives in src/lib/site.ts; components render honest empty states when arrays are empty — never invent tour/testimonial data.
+- Each homepage section is its own file in src/components/site/; enquiry form submits via prefilled WhatsApp (no backend); scroll reveal via `.reveal` + useReveal hook.
