@@ -4,7 +4,7 @@ import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, st
 import ornament from "@/assets/andaman-banner-ornament.png";
 import "./upcoming-spotlight.css";
 
-const SHOW_DELAY = 1000;
+const SHOW_DELAY = 450;
 const EXIT_MS = 900;
 const SWAP_MS = 180;
 const AUTO_MS = 7500;
