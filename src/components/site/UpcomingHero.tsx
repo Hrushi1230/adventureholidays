@@ -1,19 +1,18 @@
 import { useRef } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { getAlbumsNewestFirst } from "@/lib/gallery";
-import { communityHref, images } from "@/lib/site";
+import heroAsset from "@/assets/adventure-holiday-hero.png.asset.json";
+import { communityHref } from "@/lib/site";
 import { useParallax } from "@/hooks/use-reveal";
 import { btnGhostLight, btnPrimary } from "./ui";
 
 export function UpcomingHero() {
   const ref = useRef<HTMLImageElement>(null);
   useParallax(ref, 0.2);
-  const brandImage = getAlbumsNewestFirst()[0]?.coverImage ?? images.hero;
 
   return (
     <section id="home" className="relative flex min-h-[100svh] items-end overflow-hidden">
       <div className="absolute inset-0 animate-hero-zoom">
-        <img ref={ref} src={brandImage} alt="Adventure Holiday travellers on a completed group journey" width={1920} height={1088} fetchPriority="high" className="h-full w-full object-cover object-center" />
+        <img ref={ref} src={heroAsset.url} alt="Hikers overlooking a turquoise alpine lake and mountain range" width={1365} height={768} fetchPriority="high" className="h-full w-full object-cover object-center" />
       </div>
       <div className="hero-scrim absolute inset-0" />
       <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 md:px-8 md:pb-8" style={{ paddingTop: "max(10rem, var(--ahb-clearance, 0px))", transition: "padding-top 600ms cubic-bezier(.4,0,.2,1)" }}>
