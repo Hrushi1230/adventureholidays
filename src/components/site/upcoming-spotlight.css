@@ -95,7 +95,7 @@
   }
 
   .ahb-cloth-main {
-    fill:url(#clothFill);
+    fill:url(#ahbClothFill);
     stroke:#d8c39d;
     stroke-width:2.2;
   }
