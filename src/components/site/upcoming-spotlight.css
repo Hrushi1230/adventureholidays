@@ -63,17 +63,17 @@
   background:#ead7b7; box-shadow:0 12px 18px rgba(18,31,25,.16); transform-origin:50% 0;
 }
 .ahb-stack-next {
-  top:calc(100% - 12px); z-index:1; min-height:54px; padding:25px 54px 9px;
+  top:calc(100% - 24px); z-index:1; height:52px; padding:23px 54px 7px;
   display:flex; align-items:center; gap:13px; color:var(--ink); cursor:pointer; pointer-events:auto;
-  transform:translateY(20px) scale(.985); border-radius:0 0 7px 7px; text-align:left;
+  transform:scale(.985); border-radius:0 0 7px 7px; text-align:left;
   transition:transform 340ms cubic-bezier(.2,.7,.2,1),background-color 180ms ease;
 }
-.ahb-stack-next:hover{background:#f0dfc2;transform:translateY(18px) scale(.988);}
+.ahb-stack-next:hover{background:#f0dfc2;transform:scale(.988);}
 .ahb-stack-next span{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);}
 .ahb-stack-next strong{font-size:14px;line-height:1.1;}
 .ahb-stack-next small{font-size:12px;color:#5e6758;}
 .ahb-stack-next b{margin-left:auto;font-size:22px;font-weight:500;}
-.ahb-stack-third{top:calc(100% + 14px);z-index:0;height:42px;transform:translateY(18px) scale(.97);opacity:.75;border-radius:0 0 7px 7px;}
+.ahb-stack-third{top:calc(100% - 3px);z-index:0;height:36px;transform:scale(.97);opacity:.75;border-radius:0 0 7px 7px;}
 .ahb-closing .ahb-stack-next,.ahb-closing .ahb-stack-third{opacity:0;transition:opacity 180ms ease;}
 .ahb-closing .ahb-hanger {
   animation:ahbExit 840ms cubic-bezier(.5,.05,.3,1) 60ms both;
@@ -213,12 +213,12 @@
   .ahb-nav{font-size:10px;gap:4px;}
   .ahb-arrow{width:24px;height:24px;font-size:13px;}
   .ahb-close{top:30px;right:10px;width:34px;height:34px;font-size:19px;}
-  .ahb-stack-next{top:calc(100% - 14px);min-height:45px;padding:20px 18px 7px;gap:7px;transform:translateY(16px) scale(.985);}
+  .ahb-stack-next{top:calc(100% - 20px);height:48px;padding:19px 18px 6px;gap:7px;transform:scale(.985);}
   .ahb-stack-next span{font-size:9px;}
   .ahb-stack-next strong{font-size:11px;max-width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .ahb-stack-next small{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .ahb-stack-next b{font-size:18px;}
-  .ahb-stack-third{top:calc(100% + 7px);height:35px;}
+  .ahb-stack-third{top:calc(100% - 1px);height:31px;}
 }
 
 /* ───────── SMALL MOBILE (≤ 420) ───────── */
