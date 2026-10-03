@@ -3,19 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar, Clock, MapPin, MessageCircle, X } from "lucide-react";
 import { formatTourDateRange, getFeaturedUpcomingTour, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
 
-const KEY = (t: Tour) => `ah-tour-spotlight-dismissed:${t.id}`;
-const DAY = 24 * 60 * 60 * 1000;
 const SHOW_DELAY = 1000;
 const EXIT_MS = 780;
-
-function wasDismissed(t: Tour) {
-  try {
-    const at = Number(localStorage.getItem(KEY(t)));
-    return Number.isFinite(at) && at > 0 && Date.now() - at < DAY;
-  } catch {
-    return false;
-  }
-}
 
 function shortRange(t: Tour) {
   if (!t.startDate) return "";
@@ -116,7 +105,7 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
   const still = useMedia("(prefers-reduced-motion: reduce)");
 
   useEffect(() => {
-    if (!tour || wasDismissed(tour)) return;
+    if (!tour) return;
     const t = window.setTimeout(() => setPhase("open"), SHOW_DELAY);
     return () => window.clearTimeout(t);
   }, [tour]);
@@ -130,7 +119,6 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
 
   function dismiss() {
     if (!tour || phase === "closing") return;
-    try { localStorage.setItem(KEY(tour), String(Date.now())); } catch { /* ignore */ }
     setPhase("closing");
     window.setTimeout(() => setPhase("hidden"), still ? 220 : EXIT_MS);
   }

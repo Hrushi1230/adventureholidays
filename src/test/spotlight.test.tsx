@@ -29,13 +29,16 @@ describe("UpcomingTourSpotlight", () => {
     expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toHaveTextContent("Andaman Escape");
     for (const l of screen.getAllByRole("link", { name: /^view tour/i })) expect(l).toHaveAttribute("href", "/tours/andaman-nov-2026");
   });
-  it("dismisses and remembers", () => {
-    render(<UpcomingTourSpotlight tour={base} />);
+  it("dismisses but shows again on the next visit", () => {
+    const { unmount } = render(<UpcomingTourSpotlight tour={base} />);
     advance();
     fireEvent.click(screen.getByRole("button", { name: "Dismiss upcoming tour" }));
     advance();
     expect(screen.queryByRole("complementary")).toBeNull();
-    expect(localStorage.getItem("ah-tour-spotlight-dismissed:t1")).toBeTruthy();
+    unmount();
+    render(<UpcomingTourSpotlight tour={base} />);
+    advance();
+    expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toBeInTheDocument();
   });
   it("sold-out uses next-departure wording", () => {
     render(<UpcomingTourSpotlight tour={{ ...base, status: "sold-out" }} />);
