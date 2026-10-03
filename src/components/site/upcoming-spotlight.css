@@ -1494,5 +1494,6 @@
 @media (max-width:620px){
   .ahb-content{grid-template-areas:"photo center" "side side";align-content:start;row-gap:12px;}
   .ahb-meta{margin-top:8px;}
-  .ahb-stage{height:auto;min-height:300px;}
+  .ahb-stage{height:326px;}
+  .ahb-cloth-wrap{height:290px;}
 }
