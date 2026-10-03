@@ -111,49 +111,76 @@ const Icon = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Featured tour first, then the remaining upcoming tours chronologically (no duplicates). */
+const RANK: Record<string, number> = { "booking-open": 0, "few-seats": 1, "sold-out": 2 };
+const DAY_MS = 24 * 60 * 60 * 1000;
+const KEY = (id: string) => `ah-tour-spotlight-dismissed:${id}`;
+
+/** Featured first, then booking-open → few-seats → sold-out, each by nearest date. No completed, no duplicates. */
 export function spotlightTours(list?: Tour[]): Tour[] {
   const upcoming = getUpcomingTours(list);
   const featured = getFeaturedUpcomingTour(list);
-  return featured ? [featured, ...upcoming.filter((t) => t.id !== featured.id)] : upcoming;
+  const time = (t: Tour) => (t.startDate ? new Date(t.startDate).getTime() : Number.MAX_SAFE_INTEGER);
+  const rest = upcoming
+    .filter((t) => t.id !== featured?.id)
+    .sort((a, b) => (RANK[a.status] ?? 3) - (RANK[b.status] ?? 3) || time(a) - time(b));
+  return featured ? [featured, ...rest] : rest;
+}
+
+function isDismissed(id: string): boolean {
+  try {
+    const v = Number(localStorage.getItem(KEY(id)));
+    if (v && Date.now() - v < DAY_MS) return true;
+    if (v) localStorage.removeItem(KEY(id));
+  } catch { /* storage unavailable */ }
+  return false;
+}
+function storeDismissed(id: string) {
+  try { localStorage.setItem(KEY(id), String(Date.now())); } catch { /* ignore */ }
 }
 
 /**
  * Homepage-only hanging cloth banner. One physical cloth; with several upcoming tours only the
- * printed content changes. × dismisses the current tour for this visit (it returns on refresh).
+ * printed content changes. × dismisses the current tour for 24 hours.
  */
 export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tours?: Tour[] }) {
   const all = useMemo(() => (tour ? [tour] : spotlightTours(list)), [tour, list]);
   const [phase, setPhase] = useState<Phase>("hidden");
   const [reduced, setReduced] = useState(false);
-  const [dismissed, setDismissed] = useState<string[]>([]);
+  const [dismissed, setDismissed] = useState<string[] | null>(null);
   const [index, setIndex] = useState(0);
   const [out, setOut] = useState(false);
+  const [dir, setDir] = useState<1 | -1>(1);
   const [animKey, setAnimKey] = useState(0);
   const interacted = useRef(false);
 
-  const visible = all.filter((t) => !dismissed.includes(t.id));
+  const visible = dismissed ? all.filter((t) => !dismissed.includes(t.id)) : [];
   const i = visible.length ? Math.min(index, visible.length - 1) : 0;
   const current = visible[i];
   const multi = visible.length > 1;
 
-  useEffect(() => { setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches); }, []);
-
   useEffect(() => {
-    if (!all.length) return;
+    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    setDismissed(all.filter((t) => isDismissed(t.id)).map((t) => t.id));
+  }, [all]);
+
+  const hasAny = visible.length > 0;
+  useEffect(() => {
+    if (!hasAny || phase !== "hidden") return;
     const t = window.setTimeout(() => setPhase("open"), SHOW_DELAY);
     return () => window.clearTimeout(t);
-  }, [all.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasAny]);
 
-  function swap(next: () => void) {
+  function swap(d: 1 | -1, next: () => void) {
+    setDir(d);
     if (reduced) { next(); return; }
     setOut(true);
     window.setTimeout(() => { next(); setOut(false); setAnimKey((k) => k + 1); }, SWAP_MS);
   }
-  const go = (d: number) => swap(() => setIndex((x) => (x + d + visible.length) % visible.length));
-  const userGo = (d: number) => { interacted.current = true; go(d); };
+  const go = (d: 1 | -1) => swap(d, () => setIndex((x) => (x + d + visible.length) % visible.length));
+  const userGo = (d: 1 | -1) => { interacted.current = true; go(d); };
 
-  // Optional auto-advance: only with several tours, no interaction, visible tab, motion allowed.
+  // Auto-advance: only with several tours, no interaction, visible tab, motion allowed.
   useEffect(() => {
     if (phase !== "open" || !multi || reduced) return;
     const id = window.setInterval(() => {
@@ -172,12 +199,13 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
   function dismiss() {
     if (!current || phase !== "open") return;
     interacted.current = true;
+    storeDismissed(current.id);
     if (multi) {
-      swap(() => { setDismissed((d) => [...d, current.id]); setIndex((x) => (x >= visible.length - 1 ? 0 : x)); });
+      swap(1, () => { setDismissed((d) => [...(d ?? []), current.id]); setIndex((x) => (x >= visible.length - 1 ? 0 : x)); });
       return;
     }
     setPhase("closing");
-    window.setTimeout(() => { setDismissed((d) => [...d, current.id]); setPhase("hidden"); }, reduced ? 240 : EXIT_MS);
+    window.setTimeout(() => { setDismissed((d) => [...(d ?? []), current.id]); setPhase("hidden"); }, reduced ? 240 : EXIT_MS);
   }
 
   if (!current || phase === "hidden") return null;

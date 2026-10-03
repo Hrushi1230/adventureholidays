@@ -9,7 +9,7 @@ vi.mock("@tanstack/react-router", () => ({
   ),
 }));
 
-import { UpcomingTourSpotlight } from "@/components/site/UpcomingTourSpotlight";
+import { UpcomingTourSpotlight, spotlightTours } from "@/components/site/UpcomingTourSpotlight";
 
 const base: Tour = { id: "t1", slug: "andaman-nov-2026", title: "Andaman Escape", destination: "Andaman", category: "group-india", status: "booking-open", startDate: "2026-11-02" };
 
@@ -29,16 +29,49 @@ describe("UpcomingTourSpotlight", () => {
     expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toHaveTextContent("Andaman Escape");
     for (const l of screen.getAllByRole("link", { name: /^view tour/i })) expect(l).toHaveAttribute("href", "/tours/andaman-nov-2026");
   });
-  it("dismisses but shows again on the next visit", () => {
+  it("dismissed tour stays hidden for 24h, then returns", () => {
     const { unmount } = render(<UpcomingTourSpotlight tour={base} />);
     advance();
     fireEvent.click(screen.getByRole("button", { name: "Dismiss Andaman Escape announcement" }));
     advance();
     expect(screen.queryByRole("complementary")).toBeNull();
+    expect(localStorage.getItem("ah-tour-spotlight-dismissed:t1")).toBeTruthy();
     unmount();
+    const r = render(<UpcomingTourSpotlight tour={base} />);
+    advance();
+    expect(screen.queryByRole("complementary")).toBeNull();
+    r.unmount();
+    localStorage.setItem("ah-tour-spotlight-dismissed:t1", String(Date.now() - 25 * 3600 * 1000));
     render(<UpcomingTourSpotlight tour={base} />);
     advance();
     expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toBeInTheDocument();
+  });
+  it("one tour shows no counter or arrows", () => {
+    render(<UpcomingTourSpotlight tours={[base]} />);
+    advance();
+    expect(screen.queryByText(/\/ 0/)).toBeNull();
+    expect(screen.queryByRole("button", { name: "Next upcoming tour" })).toBeNull();
+  });
+  it("orders featured, booking-open, few-seats, sold-out and excludes completed", () => {
+    const list: Tour[] = [
+      { ...base, id: "goa", title: "Goa", status: "sold-out", startDate: "2026-10-10" },
+      { ...base, id: "kas", title: "Kashmir", status: "few-seats", startDate: "2026-10-12" },
+      { ...base, id: "ker", title: "Kerala", status: "booking-open", startDate: "2026-12-01" },
+      { ...base, id: "and", title: "Andaman", featured: true, startDate: "2027-01-01" },
+      { ...base, id: "old", title: "Old", status: "completed", startDate: "2025-01-01" },
+    ];
+    expect(spotlightTours(list).map((t) => t.title)).toEqual(["Andaman", "Kerala", "Kashmir", "Goa"]);
+  });
+  it("auto-advances, and manual navigation pauses it", () => {
+    const list: Tour[] = [base, { ...base, id: "t2", slug: "k", title: "Kashmir Trip", startDate: "2026-12-01" }];
+    render(<UpcomingTourSpotlight tours={list} />);
+    advance();
+    act(() => { vi.advanceTimersByTime(7800); });
+    expect(screen.getByRole("heading")).toHaveTextContent("Kashmir Trip");
+    fireEvent.click(screen.getByRole("button", { name: "Previous upcoming tour" })); advance();
+    expect(screen.getByRole("heading")).toHaveTextContent("Andaman Escape");
+    act(() => { vi.advanceTimersByTime(20000); });
+    expect(screen.getByRole("heading")).toHaveTextContent("Andaman Escape");
   });
   it("sold-out uses next-departure wording", () => {
     render(<UpcomingTourSpotlight tour={{ ...base, status: "sold-out" }} />);
