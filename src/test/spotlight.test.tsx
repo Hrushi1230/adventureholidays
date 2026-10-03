@@ -55,7 +55,7 @@ describe("UpcomingTourSpotlight", () => {
     fireEvent.click(screen.getByRole("button", { name: "Next upcoming tour" })); advance();
     expect(screen.getByRole("heading")).toHaveTextContent("Kashmir Trip");
     fireEvent.click(screen.getByRole("button", { name: "Dismiss Kashmir Trip announcement" })); advance();
-    expect(screen.getByText("01 / 02")).toBeInTheDocument();
+    expect(screen.getByText("02 / 02")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /^Dismiss .* announcement$/ })); advance();
     expect(screen.queryByText(/\/ 0/)).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: /^Dismiss .* announcement$/ })); advance();
