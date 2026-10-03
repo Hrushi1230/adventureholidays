@@ -167,6 +167,8 @@ export function formatTourDateRange(t: Pick<Tour, "startDate" | "endDate">) {
   return s && e ? `${s} – ${e}` : s;
 }
 
+export const inr = (n: number) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+
 export function formatPrice(p?: Tour["price"]) {
   if (!p) return undefined;
   if (typeof p.amount === "number") {
@@ -212,7 +214,8 @@ export function tourEnquiryText(t: Tour) {
     ].join("\n");
   }
   if (t.contactMessage) return t.contactMessage;
-  const date = formatTourDate(t.startDate);
+  const date = formatTourDateRange(t);
+  const offer = t.pricing?.offerPrice ?? t.pricing?.regularPrice;
   return [
     "Hello Adventure Holiday,",
     "",
@@ -221,11 +224,12 @@ export function tourEnquiryText(t: Tour) {
     `Tour: ${t.title}`,
     `Destination: ${t.destination}`,
     ...(date ? [`Travel Date: ${date}`] : []),
+    ...(offer ? [`${t.pricing?.offerPrice ? "Special " : ""}Package Price: ${inr(offer)} per person`] : []),
     "",
     "Name:",
     "Number of Travellers:",
     "",
-    "Please share the tour details and booking information.",
+    "Please share the booking details.",
   ].join("\n");
 }
 
