@@ -11,8 +11,10 @@ function Poster({ a, featured, delay = 0, className = "" }: { a: TourAlbum; feat
       style={{ ["--d" as string]: `${delay}ms` }}
       className={`poster-reveal group relative block overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${className}`}
     >
+      <div className="poster-clip absolute inset-0">
       <img src={a.coverImage} alt={`${a.title} — Adventure Holiday completed tour`} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
       <div className="card-scrim absolute inset-0" />
+      </div>
       <div className={`poster-text absolute inset-x-0 bottom-0 text-primary-foreground ${featured ? "p-6 md:p-10" : "p-5 md:p-6"}`}>
         <p className="eyebrow text-[0.6rem] text-sand">{featured ? "Recent Journey" : formatAlbumDate(a.tourDate, "short")}</p>
         <h3 className={`display mt-2 ${featured ? "text-3xl md:text-5xl" : "text-2xl"}`}>{a.title}</h3>
