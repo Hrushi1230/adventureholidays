@@ -63,11 +63,11 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
     <aside
       aria-label="Upcoming tour"
       data-state={open ? "open" : "closed"}
-      className="fixed inset-x-3 z-50 max-h-[58svh] overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-soft transition-[opacity,transform] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] data-[state=closed]:translate-y-[110%] data-[state=closed]:opacity-0 motion-reduce:!translate-y-0 motion-reduce:!scale-100 sm:inset-x-4 md:inset-x-auto md:right-8 md:!bottom-24 md:max-h-none md:w-[560px] md:overflow-hidden md:data-[state=closed]:translate-y-[18px] md:data-[state=closed]:scale-[0.98]"
+      className="fixed inset-x-3 z-50 max-h-[58svh] overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-soft transition-[opacity,transform] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] data-[state=closed]:translate-y-[110%] data-[state=closed]:opacity-0 motion-reduce:!translate-y-0 motion-reduce:!scale-100 sm:inset-x-4 md:inset-x-auto md:right-8 md:!bottom-24 md:max-h-none md:w-[420px] 2xl:w-[560px] md:overflow-hidden md:data-[state=closed]:translate-y-[18px] md:data-[state=closed]:scale-[0.98]"
       style={{ bottom: "calc(env(safe-area-inset-bottom) + 0.875rem)" }}
     >
       <div className="flex flex-col md:flex-row">
-        <img src={tour.coverImage ?? images.hero} alt="" loading="lazy" className="h-36 w-full object-cover md:h-auto md:w-44 md:shrink-0" />
+        <img src={tour.coverImage ?? images.hero} alt="" loading="lazy" className="h-36 w-full object-cover md:hidden 2xl:block 2xl:h-auto 2xl:w-44 2xl:shrink-0" />
         <div className="relative flex-1 p-5 md:p-6">
           <button type="button" onClick={dismiss} aria-label="Dismiss upcoming tour" className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
             <X className="h-4 w-4" />
