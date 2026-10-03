@@ -103,7 +103,7 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
               </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 md:mt-4 md:pl-[152px] lg:pl-0 lg:justify-end">
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 md:mt-4 lg:justify-end">
               {price && <p className="text-primary lg:hidden"><span className="text-lg font-extrabold">{inr(price)}</span> <span className="text-xs">/ person</span></p>}
               <div className="flex gap-2">
                 {!soldOut && (
