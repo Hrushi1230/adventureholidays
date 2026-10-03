@@ -61,7 +61,7 @@ export const categoryLabel: Record<TourCategory, string> = {
 /** Parse an ISO date as a local calendar day (avoids timezone shifts). */
 function parseISO(d: string) {
   const [y, m, day] = d.split("-").map(Number);
-  return new Date(y, (m ?? 1) - 1, day ?? 1);
+  return new Date(y ?? NaN, (m ?? 1) - 1, day ?? 1);
 }
 
 export function formatTourDate(d?: string) {
