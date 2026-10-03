@@ -85,7 +85,7 @@
 .ahb-title {
   margin:0; font-family:var(--font-display), Georgia, serif; font-size:clamp(34px,3vw,52px);
   line-height:1; font-weight:700; letter-spacing:-.03em; color:#0d4b35;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  overflow-wrap:anywhere;
 }
 .ahb-meta { margin-top:16px; display:flex; flex-wrap:wrap; gap:10px 22px; font-size:16px; font-weight:600; color:#214f3d; }
 .ahb-meta span { display:inline-flex; align-items:center; gap:8px; }
