@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import { images, upcomingTours } from "@/lib/site";
+import { images } from "@/lib/site";
+import { getIndiaGroupTours } from "@/lib/tours";
 import { TourCard } from "./TourCard";
 import { btnPrimary } from "./ui";
 
 export function IndiaGroupTours() {
-  const tours = upcomingTours.filter((t) => t.segment !== "odisha");
+  const tours = getIndiaGroupTours();
   return (
     <section id="group-tours" className="py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-8 lg:grid-cols-12">

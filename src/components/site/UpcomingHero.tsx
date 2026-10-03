@@ -1,13 +1,15 @@
 import { useRef } from "react";
+import { Link } from "@tanstack/react-router";
 import { ArrowRight, Calendar, Clock, MapPin } from "lucide-react";
-import { communityHref, formatDate, images, statusLabel, upcomingTours } from "@/lib/site";
+import { communityHref, images } from "@/lib/site";
+import { formatTourDateRange, getFeaturedUpcomingTour, statusLabel } from "@/lib/tours";
 import { useParallax } from "@/hooks/use-reveal";
 import { btnGhostLight, btnPrimary } from "./ui";
 
 export function UpcomingHero() {
   const ref = useRef<HTMLImageElement>(null);
   useParallax(ref, 0.2);
-  const tour = upcomingTours.find((t) => t.featured) ?? upcomingTours[0];
+  const tour = getFeaturedUpcomingTour();
 
   return (
     <section id="home" className="relative flex min-h-[100svh] items-end overflow-hidden">
@@ -24,12 +26,12 @@ export function UpcomingHero() {
             </div>
             <h1 className="display animate-rise mt-5 max-w-4xl text-[2.6rem] text-primary-foreground sm:text-6xl lg:text-[5.4rem]" style={{ animationDelay: "300ms" }}>{tour.title}</h1>
             <ul className="animate-rise mt-6 flex flex-wrap gap-x-6 gap-y-2 text-primary-foreground/90" style={{ animationDelay: "450ms" }}>
-              {tour.startDate && <li className="flex items-center gap-2"><Calendar className="h-4 w-4" />{formatDate(tour.startDate)}{tour.endDate && ` – ${formatDate(tour.endDate)}`}</li>}
+              {tour.startDate && <li className="flex items-center gap-2"><Calendar className="h-4 w-4" />{formatTourDateRange(tour)}</li>}
               {tour.duration && <li className="flex items-center gap-2"><Clock className="h-4 w-4" />{tour.duration}</li>}
               {tour.departureFrom && <li className="flex items-center gap-2"><MapPin className="h-4 w-4" />From {tour.departureFrom}</li>}
             </ul>
             <div className="animate-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "600ms" }}>
-              <a href="#upcoming" className={btnPrimary}>View Tour Details <ArrowRight className="h-4 w-4" /></a>
+              <Link to="/tours/$slug" params={{ slug: tour.slug }} className={btnPrimary}>View Tour Details <ArrowRight className="h-4 w-4" /></Link>
               <a href="#plan" className={btnGhostLight}>Enquire Now</a>
             </div>
           </>
