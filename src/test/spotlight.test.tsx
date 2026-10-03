@@ -66,7 +66,7 @@ describe("UpcomingTourSpotlight", () => {
     const list: Tour[] = [base, { ...base, id: "t2", slug: "k", title: "Kashmir Trip", startDate: "2026-12-01" }];
     render(<UpcomingTourSpotlight tours={list} />);
     advance();
-    act(() => { vi.advanceTimersByTime(7600); });
+    act(() => { vi.advanceTimersByTime(7800); });
     expect(screen.getByRole("heading")).toHaveTextContent("Kashmir Trip");
     fireEvent.click(screen.getByRole("button", { name: "Previous upcoming tour" })); advance();
     expect(screen.getByRole("heading")).toHaveTextContent("Andaman Escape");
