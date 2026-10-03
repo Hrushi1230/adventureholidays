@@ -3,4 +3,4 @@
 - [x] Confirm the hanging banner final behavior and stack demo
 - [x] Confirm Recent Journeys, Gallery hero, Testimonials, and reveal behavior
 - [x] Combine Rural Camps and Picnic Point previews on the homepage
-- [ ] Run requested desktop and mobile visual checks
+- [x] Run requested desktop and mobile visual checks
