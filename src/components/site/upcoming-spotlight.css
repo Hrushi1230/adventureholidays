@@ -1,1499 +1,200 @@
-/* Ported from adventure-holiday-banner-only-animated-v6.html — classes prefixed ahb- */
-.ahb-stage{--green:#0f4f39;--green-dark:#0a3c2c;--orange:#ff7a00;--ink:#154d39;--cream:#f6ead4;--cream-2:#ead7ba;--muted:#6f705f;--rope:#9a6428;--rope-dark:#5d3818;--brass:#a96f24;--brass-hi:#e2b66a;--shadow:rgba(18,31,25,.24);font-family:inherit;}
-.ahb-stage *{box-sizing:border-box;}
-
-
-  .ahb-stage {
-    position:relative;
-    width:min(1240px, calc(100vw - 40px));
-    height:340px;
-    margin-top:0;
-    perspective:1300px;
-    pointer-events:none;
-  }
-
-  .ahb-hanger {
-    position:absolute;
-    inset:0;
-    transform-origin:50% 0%;
-    animation:ahbbannerEnter 900ms cubic-bezier(.19,.75,.2,1) both;
-    pointer-events:auto;
-  }
-
-  .ahb-hanger.ahb-closing {
-    animation:none;
-    transition:
-      transform 640ms cubic-bezier(.4,0,.2,1),
-      opacity 220ms ease 430ms;
-    transform:translateY(-105px) scaleY(.12) rotateX(-4deg);
-    opacity:0;
-  }
-
-  .ahb-rope {
-    position:absolute;
-    top:-10px;
-    width:8px;
-    height:106px;
-    transform-origin:50% 0%;
-    border-radius:8px;
-    background:
-      repeating-linear-gradient(
-        72deg,
-        var(--rope-dark) 0 4px,
-        var(--rope) 4px 8px,
-        #be8744 8px 11px,
-        var(--rope) 11px 14px
-      );
-    box-shadow:
-      inset 1px 0 0 rgba(255,255,255,.22),
-      inset -1px 0 0 rgba(0,0,0,.25),
-      0 3px 5px rgba(0,0,0,.2);
-    animation:ahbropeSway 7.4s ease-in-out infinite;
-    z-index:5;
-  }
-
-  .ahb-rope::after {
-    content:"";
-    position:absolute;
-    left:50%;
-    bottom:-11px;
-    width:23px;
-    height:23px;
-    transform:translateX(-50%);
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 36% 32%, #f0cf8e 0 10%, var(--brass-hi) 11% 24%, var(--brass) 25% 52%, #6d4218 53% 68%, #17120b 69% 100%);
-    box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.12);
-  }
-
-  .ahb-r1 { left:7%; animation-delay:-.7s; }
-  .ahb-r2 { left:31%; animation-delay:-3.1s; }
-  .ahb-r3 { left:69%; animation-delay:-1.9s; }
-  .ahb-r4 { left:93%; animation-delay:-4.5s; }
-
-  .ahb-cloth-wrap {
-    position:absolute;
-    left:0;
-    right:0;
-    top:48px;
-    height:284px;
-    transform-origin:50% 10px;
-    animation:ahbclothBreath 8s ease-in-out 1s infinite;
-  }
-
-  .ahb-hanger.ahb-closing .ahb-cloth-wrap {
-    animation:none;
-  }
-
-  .ahb-cloth-svg {
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    overflow:visible;
-    filter:drop-shadow(0 18px 17px var(--shadow));
-  }
-
-  .ahb-cloth-main {
-    fill:url(#ahbClothFill);
-    stroke:#d8c39d;
-    stroke-width:2.2;
-  }
-
-  .ahb-cloth-seam {
-    fill:none;
-    stroke:#bfa477;
-    stroke-width:1.3;
-    stroke-dasharray:7 7;
-    opacity:.55;
-  }
-
-  .ahb-content {
-    position:absolute;
-    inset:64px 34px 24px 34px;
-    display:grid;
-    grid-template-columns:150px minmax(0,1fr) 285px;
-    gap:34px;
-    align-items:center;
-    color:var(--ink);
-    z-index:3;
-  }
-
-  .ahb-postcard {
-    position:relative;
-    width:150px;
-    height:128px;
-    transform:rotate(-2.2deg);
-    background:#f8f1e7;
-    padding:7px;
-    box-shadow:0 14px 22px rgba(67,43,21,.18), 0 1px 0 rgba(255,255,255,.8) inset;
-  }
-
-  .ahb-postcard img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-  }
-
-  .ahb-postcard::before {
-    content:"";
-    position:absolute;
-    inset:auto -22px -14px -24px;
-    height:48px;
-    background:
-      radial-gradient(ellipse at 16% 60%, #3e7f47 0 19%, transparent 20%),
-      radial-gradient(ellipse at 42% 50%, #4f9856 0 17%, transparent 18%),
-      radial-gradient(circle at 76% 52%, #fff9ea 0 14%, #f2d9a6 15% 26%, transparent 27%);
-    transform:rotate(-7deg);
-    opacity:.88;
-    pointer-events:none;
-  }
-
-  .ahb-eyebrow {
-    font-size:13px;
-    font-weight:800;
-    letter-spacing:.22em;
-    color:var(--orange);
-    text-transform:uppercase;
-    margin-bottom:8px;
-  }
-
-  .ahb-title {
-    margin:0;
-    font-family:var(--font-display), Georgia, serif;
-    font-size:clamp(38px,3vw,54px);
-    line-height:.98;
-    font-weight:700;
-    letter-spacing:-.03em;
-    color:#0d4b35;
-    white-space:nowrap;
-  }
-
-  .ahb-meta {
-    margin-top:18px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:13px 22px;
-    font-size:16px;
-    font-weight:600;
-    color:#214f3d;
-  }
-
-  .ahb-meta span {
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-  }
-
-  .ahb-meta svg {
-    width:21px;
-    height:21px;
-    flex:none;
-  }
-
-  .ahb-side {
-    border-left:1px solid rgba(70,84,60,.28);
-    padding-left:28px;
-    min-width:0;
-  }
-
-  .ahb-status {
-    display:inline-block;
-    padding:9px 18px;
-    border-radius:999px;
-    background:var(--orange);
-    color:white;
-    font-size:13px;
-    line-height:1;
-    font-weight:800;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-  }
-
-  .ahb-price {
-    margin-top:14px;
-    display:flex;
-    align-items:flex-end;
-    gap:7px;
-    color:#0d4b35;
-  }
-
-  .ahb-price strong {
-    font-size:38px;
-    line-height:.92;
-    letter-spacing:-.035em;
-  }
-
-  .ahb-price small {
-    margin-bottom:4px;
-    font-size:15px;
-    font-weight:600;
-  }
-
-  .ahb-offer {
-    margin-top:7px;
-    color:#6a745f;
-    font-size:13px;
-  }
-
-  .ahb-actions {
-    margin-top:18px;
-    display:flex;
-    gap:10px;
-    align-items:center;
-  }
-
-  .ahb-btn {
-    min-height:48px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:9px;
-    border-radius:999px;
-    padding:0 22px;
-    text-decoration:none;
-    text-transform:uppercase;
-    letter-spacing:.05em;
-    font-size:12px;
-    font-weight:800;
-    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
-    white-space:nowrap;
-  }
-
-  .ahb-btn:hover { transform:translateY(-1px); }
-
-  .ahb-btn-primary {
-    background:var(--green);
-    color:white;
-    box-shadow:0 7px 16px rgba(15,79,57,.16);
-  }
-
-  .ahb-btn-outline {
-    border:1.5px solid rgba(15,79,57,.55);
-    color:var(--green);
-    background:rgba(255,255,255,.26);
-  }
-
-  .ahb-close {
-    position:absolute;
-    right:20px;
-    top:66px;
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border-radius:50%;
-    border:1px solid rgba(35,80,60,.2);
-    background:rgba(255,255,255,.44);
-    color:var(--green);
-    font-size:24px;
-    line-height:1;
-    cursor:pointer;
-    z-index:8;
-    backdrop-filter:blur(4px);
-  }
-
-  .ahb-close:hover { background:rgba(255,255,255,.72); }
-
-  @keyframes ahbbannerEnter {
-    0% {
-      transform:translateY(-70px) scaleY(.90) rotateX(-4deg);
-      opacity:0;
-    }
-    58% {
-      transform:translateY(7px) scaleY(1.01) rotateX(.7deg);
-      opacity:1;
-    }
-    100% {
-      transform:translateY(0) scaleY(1) rotateX(0);
-      opacity:1;
-    }
-  }
-
-  @keyframes ahbropeSway {
-    0%,100% { transform:rotate(-.28deg) translateX(0); }
-    50% { transform:rotate(.28deg) translateX(1px); }
-  }
-
-  @keyframes ahbclothBreath {
-    0%,100% { transform:perspective(1300px) rotateY(-.14deg) translateY(0); }
-    50% { transform:perspective(1300px) rotateY(.16deg) translateY(1.2px); }
-  }
-
-  
-  /* TABLET / SMALL DESKTOP:
-     Keep it horizontal, but remove the postcard and prevent content collisions. */
-  @media (max-width: 1050px) {
-    .ahb-stage {
-      width:calc(100vw - 18px);
-      height:320px;
-    }
-
-    .ahb-cloth-wrap {
-      top:44px;
-      height:272px;
-    }
-
-    /* Use only the two outer ropes so no rope passes through the title/price. */
-    .ahb-r2,.ahb-r3 { display:none; }
-    .ahb-r1 { left:16%; }
-    .ahb-r4 { left:84%; }
-
-    .ahb-content {
-      inset:64px 28px 24px 28px;
-      grid-template-columns:minmax(0,1fr) 230px;
-      gap:26px;
-      align-items:center;
-    }
-
-    .ahb-postcard { display:none; }
-
-    .ahb-center {
-      min-width:0;
-      padding-right:6px;
-    }
-
-    .ahb-title {
-      font-size:clamp(34px,4.6vw,46px);
-      white-space:normal;
-      max-width:15ch;
-      line-height:.98;
-    }
-
-    .ahb-meta {
-      margin-top:15px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:8px;
-      font-size:14px;
-    }
-
-    .ahb-side {
-      width:230px;
-      border-left:1px solid rgba(70,84,60,.24);
-      padding-left:24px;
-    }
-
-    .ahb-price strong { font-size:34px; }
-
-    .ahb-actions {
-      flex-direction:column;
-      align-items:stretch;
-      gap:9px;
-    }
-
-    .ahb-btn {
-      width:100%;
-      min-height:44px;
-      padding:0 16px;
-    }
-
-    .ahb-close {
-      top:57px;
-      right:14px;
-      width:38px;
-      height:38px;
-    }
-  }
-
-  /* MOBILE / NARROW TABLET:
-     One-column composition. Price + status become part of the same flow.
-     Nothing competes side-by-side anymore. */
-  @media (max-width: 760px) {
-    .ahb-stage {
-      width:calc(100vw - 10px);
-      height:336px;
-    }
-
-    .ahb-cloth-wrap {
-      top:34px;
-      height:298px;
-    }
-
-    .ahb-r1 { left:17%; }
-    .ahb-r4 { left:83%; }
-
-    .ahb-content {
-      inset:53px 22px 18px 22px;
-      display:block;
-    }
-
-    .ahb-center {
-      padding-right:42px;
-    }
-
-    .ahb-eyebrow {
-      font-size:10px;
-      letter-spacing:.19em;
-      margin-bottom:7px;
-    }
-
-    .ahb-title {
-      max-width:none;
-      font-size:clamp(29px,7.7vw,38px);
-      line-height:.97;
-      white-space:normal;
-      padding-right:0;
-    }
-
-    .ahb-meta {
-      margin-top:12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px 14px;
-      font-size:12px;
-      line-height:1.25;
-    }
-
-    .ahb-meta span {
-      gap:6px;
-    }
-
-    .ahb-meta svg {
-      width:16px;
-      height:16px;
-    }
-
-    .ahb-side {
-      width:auto;
-      margin-top:15px;
-      padding:13px 0 0;
-      border-left:0;
-      border-top:1px solid rgba(70,84,60,.18);
-      display:grid;
-      grid-template-columns:auto minmax(0,1fr);
-      grid-template-areas:
-        "status price"
-        "offer  price"
-        "actions actions";
-      column-gap:14px;
-      row-gap:5px;
-      align-items:center;
-    }
-
-    .ahb-status {
-      grid-area:status;
-      justify-self:start;
-      padding:7px 11px;
-      font-size:10px;
-    }
-
-    .ahb-price {
-      grid-area:price;
-      margin:0;
-      justify-self:end;
-      align-self:center;
-    }
-
-    .ahb-price strong {
-      font-size:28px;
-    }
-
-    .ahb-price small {
-      font-size:11px;
-      margin-bottom:3px;
-    }
-
-    .ahb-offer {
-      grid-area:offer;
-      margin:0;
-      font-size:10.5px;
-      line-height:1.2;
-      max-width:190px;
-    }
-
-    .ahb-actions {
-      grid-area:actions;
-      margin-top:8px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .ahb-btn {
-      min-height:42px;
-      padding:0 12px;
-      font-size:10.5px;
-    }
-
-    .ahb-close {
-      top:45px;
-      right:12px;
-      width:34px;
-      height:34px;
-      font-size:20px;
-    }
-  }
-
-  /* PHONE PORTRAIT:
-     More vertical room, slightly smaller type, one clean action row. */
-  @media (max-width: 480px) {
-    .ahb-stage {
-      height:348px;
-    }
-
-    .ahb-cloth-wrap {
-      height:310px;
-    }
-
-    .ahb-content {
-      inset:51px 17px 16px;
-    }
-
-    .ahb-center {
-      padding-right:34px;
-    }
-
-    .ahb-title {
-      font-size:30px;
-      max-width:12ch;
-    }
-
-    .ahb-meta {
-      gap:7px 10px;
-      font-size:11.5px;
-    }
-
-    .ahb-side {
-      margin-top:13px;
-      column-gap:10px;
-    }
-
-    .ahb-price strong {
-      font-size:25px;
-    }
-
-    .ahb-offer {
-      max-width:145px;
-      font-size:10px;
-    }
-
-    .ahb-btn {
-      font-size:10px;
-      padding:0 8px;
-    }
-  }
-
-
-  /* MOBILE V3 — purpose-built composition, not a squeezed desktop banner */
-  @media (max-width: 620px) {
-    .ahb-stage {
-      width:calc(100vw - 8px);
-      height:372px;
-    }
-
-    .ahb-cloth-wrap {
-      top:34px;
-      height:334px;
-    }
-
-    /* Move ropes to outer edges so they never cut through title/content */
-    .ahb-r1 { left:9%; height:88px; }
-    .ahb-r4 { left:91%; height:88px; }
-    .ahb-r2,.ahb-r3 { display:none; }
-
-    .ahb-content {
-      inset:64px 18px 18px 18px;
-      display:block;
-    }
-
-    .ahb-center {
-      padding-right:44px;
-    }
-
-    .ahb-eyebrow {
-      font-size:10px;
-      letter-spacing:.18em;
-      margin-bottom:7px;
-    }
-
-    .ahb-title {
-      font-size:clamp(31px,8.8vw,38px);
-      line-height:.97;
-      max-width:100%;
-      white-space:normal;
-      letter-spacing:-.03em;
-    }
-
-    .ahb-meta {
-      margin-top:13px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px 13px;
-      font-size:12px;
-      line-height:1.25;
-    }
-
-    .ahb-meta span {
-      gap:6px;
-    }
-
-    .ahb-meta svg {
-      width:16px;
-      height:16px;
-    }
-
-    .ahb-side {
-      margin-top:16px;
-      width:auto;
-      padding:14px 0 0;
-      border-left:0;
-      border-top:1px solid rgba(70,84,60,.18);
-      display:grid;
-      grid-template-columns:auto 1fr;
-      grid-template-areas:
-        "status price"
-        "offer offer"
-        "actions actions";
-      gap:8px 12px;
-      align-items:center;
-    }
-
-    .ahb-status {
-      grid-area:status;
-      justify-self:start;
-      padding:7px 11px;
-      font-size:10px;
-      line-height:1;
-    }
-
-    .ahb-price {
-      grid-area:price;
-      margin:0;
-      justify-self:end;
-      align-items:flex-end;
-    }
-
-    .ahb-price strong {
-      font-size:30px;
-      line-height:.95;
-    }
-
-    .ahb-price small {
-      font-size:11px;
-      margin-bottom:3px;
-    }
-
-    .ahb-offer {
-      grid-area:offer;
-      margin:0;
-      font-size:10.5px;
-      line-height:1.25;
-    }
-
-    .ahb-actions {
-      grid-area:actions;
-      margin-top:4px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .ahb-btn {
-      min-height:44px;
-      width:100%;
-      padding:0 10px;
-      font-size:10.5px;
-    }
-
-    .ahb-close {
-      top:48px;
-      right:12px;
-      width:34px;
-      height:34px;
-      font-size:19px;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .ahb-stage {
-      height:388px;
-    }
-
-    .ahb-cloth-wrap {
-      height:350px;
-    }
-
-    .ahb-content {
-      inset:62px 15px 16px;
-    }
-
-    .ahb-r1 { left:8%; }
-    .ahb-r4 { left:92%; }
-
-    .ahb-title {
-      font-size:32px;
-      max-width:11ch;
-    }
-
-    .ahb-meta {
-      font-size:11.3px;
-      gap:7px 10px;
-    }
-
-    .ahb-side {
-      margin-top:14px;
-      gap:7px 10px;
-    }
-
-    .ahb-price strong {
-      font-size:27px;
-    }
-
-    .ahb-offer {
-      font-size:10px;
-    }
-
-    .ahb-btn {
-      min-height:42px;
-      font-size:10px;
-    }
-  }
-
-
-  /* MOBILE V4 — bring back the postcard + flower and clean up the top label */
-  @media (max-width: 620px) {
-    .ahb-stage {
-      width:calc(100vw - 8px);
-      height:430px;
-    }
-
-    .ahb-cloth-wrap {
-      top:34px;
-      height:392px;
-    }
-
-    .ahb-r1 { left:8%; height:82px; }
-    .ahb-r4 { left:92%; height:82px; }
-    .ahb-r2,.ahb-r3 { display:none; }
-
-    .ahb-content {
-      inset:58px 16px 18px 16px;
-      display:grid;
-      grid-template-columns:92px minmax(0,1fr);
-      grid-template-areas:
-        "photo center"
-        "side side";
-      column-gap:14px;
-      row-gap:14px;
-      align-items:start;
-    }
-
-    /* IMPORTANT: restore the real postcard + flower decoration on mobile */
-    .ahb-postcard {
-      display:block !important;
-      grid-area:photo;
-      width:92px;
-      height:82px;
-      margin-top:4px;
-      padding:5px;
-      transform:rotate(-2deg);
-      z-index:2;
-    }
-
-    .ahb-postcard::before {
-      display:block;
-      inset:auto -14px -10px -14px;
-      height:34px;
-      transform:rotate(-6deg) scale(.8);
-      transform-origin:center;
-    }
-
-    .ahb-center {
-      grid-area:center;
-      min-width:0;
-      padding-right:38px;
-    }
-
-    .ahb-eyebrow {
-      display:block;
-      margin:0 0 6px;
-      font-size:9.5px;
-      line-height:1.15;
-      letter-spacing:.16em;
-      white-space:nowrap;
-      color:var(--orange);
-    }
-
-    .ahb-title {
-      margin:0;
-      font-size:clamp(27px,7.4vw,34px);
-      line-height:.96;
-      max-width:11ch;
-      white-space:normal;
-      letter-spacing:-.03em;
-    }
-
-    .ahb-meta {
-      grid-column:1 / -1;
-      margin-top:12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px 12px;
-      font-size:11.5px;
-      line-height:1.25;
-    }
-
-    .ahb-meta span {
-      gap:5px;
-    }
-
-    .ahb-meta svg {
-      width:15px;
-      height:15px;
-    }
-
-    .ahb-side {
-      grid-area:side;
-      width:auto;
-      margin-top:0;
-      padding:14px 0 0;
-      border-left:0;
-      border-top:1px solid rgba(70,84,60,.18);
-      display:grid;
-      grid-template-columns:auto 1fr;
-      grid-template-areas:
-        "status price"
-        "offer offer"
-        "actions actions";
-      gap:8px 10px;
-      align-items:center;
-    }
-
-    .ahb-status {
-      grid-area:status;
-      justify-self:start;
-      padding:7px 10px;
-      font-size:9.5px;
-      line-height:1;
-    }
-
-    .ahb-price {
-      grid-area:price;
-      margin:0;
-      justify-self:end;
-      align-items:flex-end;
-    }
-
-    .ahb-price strong {
-      font-size:28px;
-      line-height:.95;
-    }
-
-    .ahb-price small {
-      font-size:10.5px;
-      margin-bottom:3px;
-    }
-
-    .ahb-offer {
-      grid-area:offer;
-      margin:0;
-      font-size:10px;
-      line-height:1.25;
-    }
-
-    .ahb-actions {
-      grid-area:actions;
-      margin-top:4px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .ahb-btn {
-      min-height:43px;
-      width:100%;
-      padding:0 8px;
-      font-size:10px;
-    }
-
-    .ahb-close {
-      top:45px;
-      right:10px;
-      width:33px;
-      height:33px;
-      font-size:18px;
-      z-index:10;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .ahb-stage {
-      height:446px;
-    }
-
-    .ahb-cloth-wrap {
-      height:408px;
-    }
-
-    .ahb-content {
-      inset:56px 13px 16px;
-      grid-template-columns:82px minmax(0,1fr);
-      column-gap:11px;
-    }
-
-    .ahb-postcard {
-      width:82px;
-      height:74px;
-    }
-
-    .ahb-postcard::before {
-      transform:rotate(-6deg) scale(.7);
-    }
-
-    .ahb-center {
-      padding-right:32px;
-    }
-
-    .ahb-eyebrow {
-      font-size:8.8px;
-      letter-spacing:.14em;
-    }
-
-    .ahb-title {
-      font-size:29px;
-      max-width:10.5ch;
-    }
-
-    .ahb-meta {
-      font-size:11px;
-      gap:7px 9px;
-    }
-
-    .ahb-price strong {
-      font-size:25px;
-    }
-
-    .ahb-btn {
-      font-size:9.5px;
-      min-height:41px;
-    }
-  }
-
-
-  /* MOBILE V5 — compact, intentional, no dead empty cloth */
-  @media (max-width: 620px) {
-    .ahb-stage {
-      width:calc(100vw - 8px);
-      height:326px;
-    }
-
-    .ahb-cloth-wrap {
-      top:34px;
-      height:288px;
-    }
-
-    /* Two ropes only, pushed to extreme sides */
-    .ahb-r1 { left:8%; height:78px; }
-    .ahb-r4 { left:92%; height:78px; }
-    .ahb-r2,.ahb-r3 { display:none; }
-
-    .ahb-content {
-      inset:58px 16px 20px;
-      display:grid;
-      grid-template-columns:92px minmax(0,1fr);
-      grid-template-areas:
-        "photo center"
-        "meta meta"
-        "side side";
-      column-gap:13px;
-      row-gap:10px;
-      align-items:start;
-    }
-
-    /* Real postcard/photo + decorative flower/leaf */
-    .ahb-postcard {
-      display:block !important;
-      grid-area:photo;
-      width:92px;
-      height:82px;
-      margin:0;
-      padding:5px;
-      transform:rotate(-2.5deg);
-      z-index:2;
-    }
-
-    .ahb-postcard img {
-      object-fit:cover;
-    }
-
-    .ahb-postcard::before {
-      display:block;
-      inset:auto -17px -12px -18px;
-      height:38px;
-      transform:rotate(-7deg) scale(.86);
-      transform-origin:center;
-    }
-
-    .ahb-center {
-      grid-area:center;
-      min-width:0;
-      padding-right:34px;
-    }
-
-    .ahb-eyebrow {
-      margin:1px 0 6px;
-      font-size:9px;
-      line-height:1.05;
-      letter-spacing:.15em;
-      white-space:nowrap;
-      color:var(--orange);
-    }
-
-    .ahb-title {
-      margin:0;
-      max-width:10.5ch;
-      font-size:clamp(27px,7.6vw,33px);
-      line-height:.93;
-      letter-spacing:-.035em;
-      white-space:normal;
-    }
-
-    /* Move meta out of the title block and span full width */
-    .ahb-meta {
-      grid-area:meta;
-      margin:0;
-      display:flex;
-      flex-wrap:wrap;
-      gap:7px 12px;
-      font-size:11px;
-      line-height:1.2;
-    }
-
-    .ahb-meta span {
-      gap:5px;
-    }
-
-    .ahb-meta svg {
-      width:15px;
-      height:15px;
-    }
-
-    /* Lower information block is compact, not separated by a huge void */
-    .ahb-side {
-      grid-area:side;
-      width:auto;
-      margin:0;
-      padding:11px 0 0;
-      border-left:0;
-      border-top:1px solid rgba(70,84,60,.18);
-      display:grid;
-      grid-template-columns:auto 1fr;
-      grid-template-areas:
-        "status price"
-        "offer price"
-        "actions actions";
-      gap:5px 10px;
-      align-items:center;
-    }
-
-    .ahb-status {
-      grid-area:status;
-      justify-self:start;
-      padding:6px 10px;
-      font-size:9px;
-      line-height:1;
-    }
-
-    .ahb-price {
-      grid-area:price;
-      margin:0;
-      justify-self:end;
-      align-self:center;
-    }
-
-    .ahb-price strong {
-      font-size:27px;
-      line-height:.95;
-    }
-
-    .ahb-price small {
-      font-size:10px;
-      margin-bottom:2px;
-    }
-
-    .ahb-offer {
-      grid-area:offer;
-      margin:0;
-      font-size:9.5px;
-      line-height:1.15;
-      max-width:160px;
-    }
-
-    .ahb-actions {
-      grid-area:actions;
-      margin-top:6px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px;
-    }
-
-    .ahb-btn {
-      min-height:41px;
-      width:100%;
-      padding:0 8px;
-      font-size:9.6px;
-    }
-
-    .ahb-close {
-      top:44px;
-      right:9px;
-      width:32px;
-      height:32px;
-      font-size:18px;
-      z-index:10;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .ahb-stage {
-      height:334px;
-    }
-
-    .ahb-cloth-wrap {
-      height:296px;
-    }
-
-    .ahb-content {
-      inset:56px 13px 18px;
-      grid-template-columns:84px minmax(0,1fr);
-      column-gap:10px;
-      row-gap:9px;
-    }
-
-    .ahb-postcard {
-      width:84px;
-      height:76px;
-    }
-
-    .ahb-postcard::before {
-      inset:auto -15px -11px -16px;
-      transform:rotate(-7deg) scale(.78);
-    }
-
-    .ahb-center {
-      padding-right:30px;
-    }
-
-    .ahb-eyebrow {
-      font-size:8.5px;
-      letter-spacing:.13em;
-    }
-
-    .ahb-title {
-      font-size:28px;
-      max-width:10ch;
-    }
-
-    .ahb-meta {
-      font-size:10.5px;
-      gap:6px 9px;
-    }
-
-    .ahb-price strong {
-      font-size:25px;
-    }
-
-    .ahb-offer {
-      font-size:9px;
-      max-width:140px;
-    }
-
-    .ahb-btn {
-      min-height:40px;
-      font-size:9.2px;
-    }
-  }
-
-
-  /* MOBILE V6 — measured geometry, no overlap between rope hardware and content */
-  .ahb-mobile-flower { display:none; }
-
-  @media (max-width: 620px) {
-    .ahb-stage {
-      width:calc(100vw - 8px);
-      height:342px;
-    }
-
-    .ahb-cloth-wrap {
-      top:34px;
-      height:304px;
-    }
-
-    /* Rope hardware ends above content. */
-    .ahb-r2,.ahb-r3 { display:none; }
-    .ahb-r1,.ahb-r4 {
-      height:66px;
-      top:-10px;
-    }
-    .ahb-r1 { left:11%; }
-    .ahb-r4 { left:79%; }
-
-    /* Content begins BELOW the eyelets — this is the key fix. */
-    .ahb-content {
-      inset:86px 15px 16px 15px;
-      display:grid;
-      grid-template-columns:96px minmax(0,1fr);
-      grid-template-areas:
-        "photo center"
-        "meta meta"
-        "side side";
-      column-gap:14px;
-      row-gap:9px;
-      align-items:start;
-    }
-
-    .ahb-postcard {
-      display:block !important;
-      grid-area:photo;
-      position:relative;
-      width:96px;
-      height:78px;
-      margin:0;
-      padding:5px;
-      transform:rotate(-2.2deg);
-      z-index:2;
-      box-shadow:0 8px 14px rgba(67,43,21,.17);
-    }
-
-    /* Disable the old fake decoration. */
-    .ahb-postcard::before {
-      display:none !important;
-    }
-
-    /* Real vector flower + leaves. */
-    .ahb-mobile-flower {
-      display:block;
-      position:absolute;
-      left:-17px;
-      bottom:-17px;
-      width:62px;
-      height:50px;
-      overflow:visible;
-      filter:drop-shadow(0 3px 3px rgba(45,50,32,.12));
-      pointer-events:none;
-    }
-
-    .ahb-center {
-      grid-area:center;
-      min-width:0;
-      padding-right:36px;
-    }
-
-    .ahb-eyebrow {
-      margin:0 0 5px;
-      font-size:9px;
-      line-height:1.05;
-      letter-spacing:.145em;
-      white-space:nowrap;
-      color:var(--orange);
-    }
-
-    .ahb-title {
-      margin:0;
-      max-width:10ch;
-      font-size:31px;
-      line-height:.92;
-      letter-spacing:-.035em;
-      white-space:normal;
-    }
-
-    .ahb-meta {
-      grid-area:meta;
-      margin:1px 0 0;
-      display:flex;
-      flex-wrap:wrap;
-      gap:7px 11px;
-      font-size:10.8px;
-      line-height:1.2;
-    }
-
-    .ahb-meta span {
-      gap:5px;
-    }
-
-    .ahb-meta svg {
-      width:14px;
-      height:14px;
-    }
-
-    .ahb-side {
-      grid-area:side;
-      width:auto;
-      margin:0;
-      padding:10px 0 0;
-      border-left:0;
-      border-top:1px solid rgba(70,84,60,.18);
-      display:grid;
-      grid-template-columns:minmax(0,1fr) auto;
-      grid-template-areas:
-        "status price"
-        "offer price"
-        "actions actions";
-      gap:4px 10px;
-      align-items:center;
-    }
-
-    .ahb-status {
-      grid-area:status;
-      justify-self:start;
-      padding:6px 9px;
-      font-size:8.8px;
-      line-height:1;
-    }
-
-    .ahb-price {
-      grid-area:price;
-      margin:0;
-      justify-self:end;
-      align-self:center;
-      white-space:nowrap;
-    }
-
-    .ahb-price strong {
-      font-size:27px;
-      line-height:.95;
-    }
-
-    .ahb-price small {
-      font-size:9.5px;
-      margin-bottom:2px;
-    }
-
-    .ahb-offer {
-      grid-area:offer;
-      margin:0;
-      font-size:9.2px;
-      line-height:1.15;
-      max-width:155px;
-    }
-
-    .ahb-actions {
-      grid-area:actions;
-      margin-top:5px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:7px;
-    }
-
-    .ahb-btn {
-      min-height:40px;
-      width:100%;
-      padding:0 7px;
-      font-size:9.4px;
-    }
-
-    /* Close button has its own clear corner; right rope is moved left of it. */
-    .ahb-close {
-      top:72px;
-      right:10px;
-      width:31px;
-      height:31px;
-      font-size:17px;
-      z-index:10;
-      background:rgba(255,255,255,.62);
-    }
-  }
-
-  @media (max-width: 420px) {
-    .ahb-stage {
-      height:350px;
-    }
-
-    .ahb-cloth-wrap {
-      height:312px;
-    }
-
-    .ahb-r1 { left:10%; }
-    .ahb-r4 { left:77%; }
-
-    .ahb-content {
-      inset:84px 12px 15px;
-      grid-template-columns:87px minmax(0,1fr);
-      column-gap:11px;
-      row-gap:8px;
-    }
-
-    .ahb-postcard {
-      width:87px;
-      height:72px;
-    }
-
-    .ahb-mobile-flower {
-      left:-15px;
-      bottom:-15px;
-      width:56px;
-      height:45px;
-    }
-
-    .ahb-center {
-      padding-right:31px;
-    }
-
-    .ahb-eyebrow {
-      font-size:8.3px;
-      letter-spacing:.125em;
-    }
-
-    .ahb-title {
-      font-size:29px;
-      max-width:9.5ch;
-    }
-
-    .ahb-meta {
-      font-size:10.2px;
-      gap:6px 8px;
-    }
-
-    .ahb-price strong {
-      font-size:24px;
-    }
-
-    .ahb-price small {
-      font-size:9px;
-    }
-
-    .ahb-offer {
-      font-size:8.8px;
-      max-width:135px;
-    }
-
-    .ahb-btn {
-      min-height:39px;
-      font-size:9px;
-    }
-
-    .ahb-close {
-      top:70px;
-      right:8px;
-      width:30px;
-      height:30px;
-    }
-  }
-
-@media (prefers-reduced-motion: reduce) {
-    .ahb-hanger,
-    .ahb-rope,
-    .ahb-cloth-wrap {
-      animation:none !important;
-    }
-
-    .ahb-hanger {
-      opacity:1;
-      transform:none;
-    }
-  }
-
-/* Integration: float over the homepage hero below the fixed header. */
-.ahb-anchor{position:absolute;inset-inline:0;top:92px;z-index:40;display:flex;justify-content:center;pointer-events:none;}
-@media (max-width:1279px){.ahb-anchor{top:76px;}}
-@media (max-width:620px){.ahb-anchor{top:64px;}}
-.ahb-btn:focus-visible,.ahb-close:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
-.ahb-stage.is-reduced .ahb-hanger.ahb-closing{transform:none;transition:opacity 220ms ease;}
-@media (max-width:620px){
-  .ahb-content{grid-template-areas:"photo center" "side side";align-content:start;row-gap:12px;}
-  .ahb-meta{margin-top:8px;}
-  .ahb-stage{height:326px;}
-  .ahb-cloth-wrap{height:290px;}
+/* Homepage hanging tour banner — ONE authoritative system: base desktop → tablet → mobile → small mobile → reduced motion. */
+
+/* ───────── BASE (desktop ≥ 1024) ───────── */
+.ahb-anchor {
+  --banner-top: 112px;
+  --banner-w: min(1240px, calc(100vw - 80px));
+  --banner-h: 300px;
+  --eyelet-y: 22px;
+  --green:#0f4f39; --orange:#ff7a00; --ink:#154d39;
+  --rope:#9a6428; --rope-dark:#5d3818; --brass:#a96f24; --brass-hi:#e2b66a; --shadow:rgba(18,31,25,.24);
+  position:absolute; top:0; left:0; right:0; height:0;
+  z-index:40; /* header is z-50: ropes and cloth pass behind it */
+  pointer-events:none;
 }
+.ahb-anchor *{box-sizing:border-box;}
+
+.ahb-stage {
+  position:absolute; top:var(--banner-top); left:50%;
+  width:var(--banner-w); height:var(--banner-h);
+  transform:translateX(-50%);
+  perspective:1300px;
+}
+
+/* Ropes: start at the very top of the screen, end at the eyelets. */
+.ahb-ropes { position:absolute; inset:0; z-index:1; pointer-events:none; }
+.ahb-rope {
+  position:absolute;
+  top:calc(-1 * var(--banner-top));
+  height:calc(var(--banner-top) + var(--eyelet-y));
+  width:7px; margin-left:-3.5px; border-radius:7px;
+  transform-origin:50% 0;
+  background:repeating-linear-gradient(72deg, var(--rope-dark) 0 4px, var(--rope) 4px 8px, #be8744 8px 11px, var(--rope) 11px 14px);
+  box-shadow:inset 1px 0 0 rgba(255,255,255,.22), inset -1px 0 0 rgba(0,0,0,.25), 0 3px 5px rgba(0,0,0,.2);
+  animation:ahbRopeSway 7.4s ease-in-out infinite;
+  transition:transform 640ms cubic-bezier(.4,0,.2,1), opacity 260ms ease 420ms;
+}
+.ahb-rope::after {
+  content:""; position:absolute; left:50%; bottom:-11px; width:23px; height:23px;
+  transform:translateX(-50%); border-radius:50%;
+  background:radial-gradient(circle at 36% 32%, #f0cf8e 0 10%, var(--brass-hi) 11% 24%, var(--brass) 25% 52%, #6d4218 53% 68%, #17120b 69% 100%);
+  box-shadow:0 2px 4px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.12);
+}
+.ahb-r1{left:8%;animation-delay:-.7s;} .ahb-r2{left:32%;animation-delay:-3.1s;}
+.ahb-r3{left:68%;animation-delay:-1.9s;} .ahb-r4{left:92%;animation-delay:-4.5s;}
+.ahb-closing .ahb-rope{animation:none;transform:scaleY(.55);opacity:0;}
+
+.ahb-hanger {
+  position:absolute; inset:0; z-index:2;
+  transform-origin:50% 0;
+  animation:ahbEnter 900ms cubic-bezier(.19,.75,.2,1) both;
+  pointer-events:auto;
+}
+.ahb-closing .ahb-hanger {
+  animation:none;
+  transition:transform 640ms cubic-bezier(.4,0,.2,1), opacity 220ms ease 430ms;
+  transform:translateY(-105px) scaleY(.12) rotateX(-4deg); opacity:0;
+}
+
+.ahb-cloth-wrap { position:absolute; inset:0; transform-origin:50% 10px; animation:ahbBreath 8s ease-in-out 1s infinite; }
+.ahb-closing .ahb-cloth-wrap{animation:none;}
+.ahb-cloth-svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; filter:drop-shadow(0 18px 17px var(--shadow)); }
+.ahb-cloth-main { stroke:#d8c39d; stroke-width:2.2; }
+.ahb-cloth-seam { fill:none; stroke:#bfa477; stroke-width:1.3; stroke-dasharray:7 7; opacity:.55; }
+
+.ahb-content {
+  position:absolute; inset:46px 74px 44px 40px; z-index:3;
+  display:grid; grid-template-columns:150px minmax(0,1fr) 290px; gap:34px; align-items:center;
+  color:var(--ink);
+  transition:opacity 180ms ease, transform 180ms ease;
+}
+.ahb-content.is-out{opacity:0;transform:translateX(-14px);}
+.ahb-content.is-in{animation:ahbIn 340ms cubic-bezier(.2,.7,.2,1) both;}
+
+.ahb-postcard {
+  position:relative; grid-area:photo; width:150px; height:128px; padding:7px;
+  transform:rotate(-2.6deg); background:#f8f1e7;
+  box-shadow:0 14px 22px rgba(67,43,21,.18), 0 1px 0 rgba(255,255,255,.8) inset;
+}
+.ahb-postcard > img:first-child { width:100%; height:100%; object-fit:cover; display:block; }
+.ahb-ornament { position:absolute; left:-38px; bottom:-30px; width:76px; height:auto; pointer-events:none; transform:rotate(2.6deg); filter:drop-shadow(0 3px 3px rgba(40,30,10,.18)); }
+
+.ahb-center{grid-area:center;min-width:0;}
+.ahb-eyebrow-row{display:flex;align-items:center;gap:16px;margin-bottom:8px;}
+.ahb-eyebrow { font-size:13px; font-weight:800; letter-spacing:.22em; color:var(--orange); text-transform:uppercase; }
+.ahb-title {
+  margin:0; font-family:var(--font-display), Georgia, serif; font-size:clamp(34px,3vw,52px);
+  line-height:1; font-weight:700; letter-spacing:-.03em; color:#0d4b35;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ahb-meta { margin-top:16px; display:flex; flex-wrap:wrap; gap:10px 22px; font-size:16px; font-weight:600; color:#214f3d; }
+.ahb-meta span { display:inline-flex; align-items:center; gap:8px; }
+.ahb-meta svg { width:20px; height:20px; flex:none; }
+
+.ahb-side { grid-area:side; border-left:1px solid rgba(70,84,60,.28); padding-left:28px; min-width:0; }
+.ahb-status { display:inline-block; padding:9px 18px; border-radius:999px; background:var(--orange); color:#fff; font-size:13px; line-height:1; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+.ahb-price { margin-top:14px; display:flex; align-items:flex-end; gap:7px; color:#0d4b35; }
+.ahb-price strong { font-size:38px; line-height:.92; letter-spacing:-.035em; }
+.ahb-price small { margin-bottom:4px; font-size:15px; font-weight:600; }
+.ahb-offer { margin-top:7px; color:#6a745f; font-size:13px; }
+.ahb-actions { margin-top:18px; display:flex; gap:10px; align-items:center; }
+.ahb-btn {
+  min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  border-radius:999px; padding:0 22px; text-decoration:none; text-transform:uppercase;
+  letter-spacing:.05em; font-size:12px; font-weight:800; white-space:nowrap;
+  transition:transform .2s ease, background .2s ease;
+}
+.ahb-btn:hover{transform:translateY(-1px);}
+.ahb-btn-primary{background:var(--green);color:#fff;box-shadow:0 7px 16px rgba(15,79,57,.16);}
+.ahb-btn-outline{border:1.5px solid rgba(15,79,57,.55);color:var(--green);background:rgba(255,255,255,.26);}
+
+/* Multi-tour navigation */
+.ahb-nav{display:inline-flex;align-items:center;gap:6px;color:#4d5f50;font-size:12px;font-weight:700;letter-spacing:.12em;}
+.ahb-count{font-variant-numeric:tabular-nums;margin-right:4px;}
+.ahb-arrow{width:26px;height:26px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(35,80,60,.25);background:rgba(255,255,255,.4);color:var(--green);font-size:15px;line-height:1;cursor:pointer;}
+.ahb-arrow:hover{background:rgba(255,255,255,.75);}
+
+.ahb-close {
+  position:absolute; right:22px; top:44px; z-index:8;
+  width:42px; height:42px; display:grid; place-items:center; border-radius:50%;
+  border:1px solid rgba(35,80,60,.2); background:rgba(255,255,255,.44); color:var(--green);
+  font-size:24px; line-height:1; cursor:pointer; backdrop-filter:blur(4px);
+}
+.ahb-close:hover{background:rgba(255,255,255,.72);}
+.ahb-btn:focus-visible,.ahb-close:focus-visible,.ahb-arrow:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
+
+@keyframes ahbEnter {
+  0%{transform:translateY(-22px) scaleY(.94) rotateX(-3deg);opacity:0;}
+  60%{transform:translateY(4px) scaleY(1.006) rotateX(.5deg);opacity:1;}
+  100%{transform:none;opacity:1;}
+}
+@keyframes ahbIn{from{opacity:0;transform:translateX(14px);}to{opacity:1;transform:none;}}
+@keyframes ahbRopeSway{0%,100%{transform:rotate(-.08deg);}50%{transform:rotate(.08deg) translateX(1px);}}
+@keyframes ahbBreath{0%,100%{transform:perspective(1300px) rotateY(-.14deg);}50%{transform:perspective(1300px) rotateY(.16deg) translateY(1.2px);}}
+
+/* ───────── TABLET (621–1023) ───────── */
+@media (max-width:1023px) {
+  .ahb-anchor{--banner-top:104px;--banner-w:calc(100vw - 48px);--banner-h:270px;}
+  .ahb-r2,.ahb-r3{display:none;}
+  .ahb-r1{left:14%;} .ahb-r4{left:84%;}
+  .ahb-content{inset:42px 64px 40px 28px;grid-template-columns:110px minmax(0,1fr) 230px;gap:22px;}
+  .ahb-postcard{width:110px;height:96px;padding:5px;}
+  .ahb-ornament{width:56px;left:-28px;bottom:-22px;}
+  .ahb-title{font-size:32px;}
+  .ahb-meta{font-size:14px;gap:6px 14px;margin-top:10px;}
+  .ahb-side{padding-left:18px;}
+  .ahb-price strong{font-size:30px;}
+  .ahb-btn{min-height:42px;padding:0 15px;font-size:11px;}
+  .ahb-close{top:38px;right:16px;width:38px;height:38px;font-size:21px;}
+}
+
+/* ───────── MOBILE (≤ 620) ───────── */
+@media (max-width:620px) {
+  .ahb-anchor{--banner-top:116px;--banner-w:calc(100vw - 20px);--banner-h:272px;--eyelet-y:20px;}
+  .ahb-r1{left:16%;} .ahb-r4{left:78%;}
+  .ahb-content {
+    inset:34px 16px 30px 16px;
+    grid-template-columns:82px minmax(0,1fr);
+    grid-template-areas:"photo center" "side side";
+    align-content:start; align-items:start; gap:12px 14px;
+  }
+  .ahb-postcard{width:82px;height:72px;padding:4px;margin-top:4px;}
+  .ahb-ornament{width:42px;left:-16px;bottom:-16px;}
+  .ahb-center{padding-right:38px;} /* reserved safe area for × */
+  .ahb-eyebrow-row{flex-wrap:wrap;gap:4px 10px;margin-bottom:4px;}
+  .ahb-eyebrow{font-size:10px;letter-spacing:.18em;}
+  .ahb-title{font-size:23px;white-space:normal;line-height:1.05;}
+  .ahb-meta{margin-top:6px;font-size:12px;gap:2px 10px;}
+  .ahb-meta svg{width:14px;height:14px;}
+  .ahb-meta span{gap:5px;}
+  .ahb-side {
+    border-left:0; border-top:1px solid rgba(70,84,60,.25); padding:10px 0 0;
+    display:grid; grid-template-columns:auto 1fr; align-items:center; gap:4px 10px;
+  }
+  .ahb-status{padding:6px 11px;font-size:10px;}
+  .ahb-price{margin:0;justify-self:end;}
+  .ahb-price strong{font-size:24px;}
+  .ahb-price small{font-size:12px;margin-bottom:2px;}
+  .ahb-offer{grid-column:1 / -1;margin:0;font-size:11.5px;}
+  .ahb-actions{grid-column:1 / -1;margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .ahb-btn{min-height:40px;padding:0 10px;font-size:11px;}
+  .ahb-nav{font-size:10px;gap:4px;}
+  .ahb-arrow{width:24px;height:24px;font-size:13px;}
+  .ahb-close{top:30px;right:10px;width:34px;height:34px;font-size:19px;}
+}
+
+/* ───────── SMALL MOBILE (≤ 420) ───────── */
+@media (max-width:420px) {
+  .ahb-anchor{--banner-top:112px;--banner-h:268px;}
+  .ahb-content{grid-template-columns:76px minmax(0,1fr);gap:10px 12px;inset:32px 14px 30px 14px;}
+  .ahb-postcard{width:76px;height:66px;}
+  .ahb-title{font-size:21px;}
+}
+
+/* ───────── REDUCED MOTION ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .ahb-hanger,.ahb-rope,.ahb-cloth-wrap,.ahb-content.is-in{animation:none !important;}
+  .ahb-hanger{animation:ahbFade 240ms ease both !important;}
+  .ahb-closing .ahb-hanger,.ahb-closing .ahb-rope{transform:none;transition:opacity 220ms ease;opacity:0;}
+}
+@keyframes ahbFade{from{opacity:0;}to{opacity:1;}}
