@@ -4,7 +4,7 @@ import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, st
 import ornament from "@/assets/andaman-banner-ornament.png";
 import "./upcoming-spotlight.css";
 
-const SHOW_DELAY = 1000;
+const SHOW_DELAY = 450;
 const EXIT_MS = 900;
 const SWAP_MS = 180;
 const AUTO_MS = 7500;
@@ -33,7 +33,7 @@ function clothPaths(t: number, amp: number) {
     bottom.push([x, BOTTOM + sag + bottomWave * amp]);
   }
   const f = (p: Pt) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
-  const cloth = `M ${f(top[0])} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
+  const cloth = `M ${f(top[0]!)} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
   const line = (pts: Pt[]) => "M " + pts.map(f).join(" L ");
   return {
     cloth,
