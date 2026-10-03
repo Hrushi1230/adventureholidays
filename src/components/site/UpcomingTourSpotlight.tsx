@@ -42,6 +42,7 @@ function clothPaths(t: number, amp: number) {
 function ClothSvg({ closing, reduced }: { closing: boolean; reduced: boolean }) {
   const cloth = useRef<SVGPathElement>(null);
   const weave = useRef<SVGPathElement>(null);
+  const grain = useRef<SVGPathElement>(null);
   const seamT = useRef<SVGPathElement>(null);
   const seamB = useRef<SVGPathElement>(null);
   const target = useRef(1);
@@ -55,6 +56,7 @@ function ClothSvg({ closing, reduced }: { closing: boolean; reduced: boolean }) 
       const p = clothPaths(phase, amp);
       cloth.current?.setAttribute("d", p.cloth);
       weave.current?.setAttribute("d", p.cloth);
+      grain.current?.setAttribute("d", p.cloth);
       seamT.current?.setAttribute("d", p.seamTop);
       seamB.current?.setAttribute("d", p.seamBottom);
     };
@@ -86,10 +88,11 @@ function ClothSvg({ closing, reduced }: { closing: boolean; reduced: boolean }) 
           <feTurbulence type="fractalNoise" baseFrequency=".012 .045" numOctaves={2} seed={11} result="noise" />
           <feColorMatrix in="noise" type="saturate" values="0" result="gray" />
           <feComponentTransfer in="gray" result="faint"><feFuncA type="table" tableValues="0 .11" /></feComponentTransfer>
-          <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
+          <feComposite in="faint" in2="SourceAlpha" operator="in" />
         </filter>
       </defs>
-      <path ref={cloth} d={initial.cloth} className="ahb-cloth-main" fill="url(#ahbClothFill)" filter="url(#ahbClothTexture)" />
+      <path ref={cloth} d={initial.cloth} className="ahb-cloth-main" fill="url(#ahbClothFill)" />
+      <path ref={grain} d={initial.cloth} fill="#000" filter="url(#ahbClothTexture)" style={{ mixBlendMode: "multiply" }} />
       <path ref={weave} d={initial.cloth} fill="url(#ahbWeave)" opacity=".85" />
       <path ref={seamT} d={initial.seamTop} className="ahb-cloth-seam" />
       <path ref={seamB} d={initial.seamBottom} className="ahb-cloth-seam" />
