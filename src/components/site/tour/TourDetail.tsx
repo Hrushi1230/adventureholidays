@@ -19,10 +19,6 @@ function TourCta({ t, light }: { t: Tour; light?: boolean }) {
     ) : null;
   }
   return (
-    <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
-      <MessageCircle className="h-4 w-4" /> {t.status === "sold-out" ? "Ask About Next Departure" : "Enquire on WhatsApp"}
-    </a>
-  ) && (
     <div className="flex flex-col gap-3 sm:flex-row">
       <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
         <MessageCircle className="h-4 w-4" /> {t.status === "sold-out" ? "Ask About Next Departure" : "Enquire on WhatsApp"}
