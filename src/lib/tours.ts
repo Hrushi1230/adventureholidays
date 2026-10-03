@@ -3,6 +3,7 @@
 // Upcoming Departures, its /tours/{slug} page, WhatsApp enquiry, SEO and status.
 // Only add confirmed departures — never placeholder dates, prices or itineraries.
 import { whatsappLink } from "./site";
+import andamanCover from "@/assets/andaman-tour-cover.jpg";
 
 export type TourStatus = "booking-open" | "few-seats" | "sold-out" | "completed";
 export type TourCategory = "group-india" | "group-odisha";
@@ -77,7 +78,7 @@ export const tours: Tour[] = [
     status: "booking-open",
     featured: true,
     shortDescription: "A 7-day group journey from Bhubaneswar through Port Blair, Havelock and Neil Island, covering Andaman's major beaches, islands and historic attractions.",
-    // coverImage: awaiting authentic Andaman photo — set one URL here when supplied.
+    coverImage: andamanCover,
     seoTitle: "Andaman Group Tour — 2–8 November 2026 | Adventure Holiday",
     seoDescription: "7-day Andaman group tour from Bhubaneswar covering Port Blair, Havelock, Neil Island, North Bay and Ross Island with Adventure Holiday.",
     route: ["Bhubaneswar", "Port Blair", "Havelock", "Neil Island", "Port Blair", "Bhubaneswar"],
