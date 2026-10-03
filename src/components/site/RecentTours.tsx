@@ -15,9 +15,9 @@ function Poster({ a, featured, delay = 0, className = "" }: { a: TourAlbum; feat
       <img src={a.coverImage} alt={`${a.title} — Adventure Holiday completed tour`} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
       <div className="card-scrim absolute inset-0" />
       </div>
-      <div className={`poster-text absolute inset-x-0 bottom-0 text-primary-foreground ${featured ? "p-6 md:p-10" : "p-5 md:p-6"}`}>
+      <div className={`poster-text absolute inset-x-0 bottom-0 text-primary-foreground ${featured ? "p-6 md:p-10" : "p-4 md:p-6"}`}>
         <p className="eyebrow text-[0.6rem] text-sand">{featured ? "Recent Journey" : formatAlbumDate(a.tourDate, "short")}</p>
-        <h3 className={`display mt-2 ${featured ? "text-3xl md:text-5xl" : "text-2xl"}`}>{a.title}</h3>
+        <h3 className={`display mt-2 ${featured ? "text-3xl md:text-5xl" : "text-lg md:text-2xl"}`}>{a.title}</h3>
         {featured && (
           <p className="mt-3 text-sm text-primary-foreground/85">
             {formatAlbumDate(a.tourDate)}{a.destination ? ` · ${a.destination}` : ""} · {albumStats(a).join(" · ")}
