@@ -42,10 +42,12 @@
 }
 .ahb-r1{left:8%;animation-delay:-.7s;} .ahb-r2{left:34%;animation-delay:-3.1s;}
 .ahb-r3{left:70%;animation-delay:-1.9s;} .ahb-r4{left:92%;animation-delay:-4.5s;}
-.ahb-closing .ahb-rope{animation:none;transform:scaleY(.12);opacity:0;transition:transform 620ms cubic-bezier(.45,.05,.35,1) 140ms,opacity 300ms ease 420ms;}
-.ahb-closing .ahb-r1{transition-delay:120ms,400ms;} .ahb-closing .ahb-r2{transition-delay:180ms,460ms;}
-.ahb-closing .ahb-r3{transition-delay:150ms,430ms;} .ahb-closing .ahb-r4{transition-delay:210ms,490ms;}
-.ahb-closing .ahb-content{opacity:0;transform:translateY(6px);transition:opacity 240ms ease,transform 240ms ease;}
+.ahb-closing .ahb-rope{animation:ahbRopeUp 620ms cubic-bezier(.45,.05,.35,1) both;}
+.ahb-closing .ahb-r1{animation-delay:.12s;} .ahb-closing .ahb-r2{animation-delay:.18s;}
+.ahb-closing .ahb-r3{animation-delay:.15s;} .ahb-closing .ahb-r4{animation-delay:.21s;}
+.ahb-closing .ahb-content{animation:ahbContentOut 260ms ease both;}
+@keyframes ahbRopeUp{to{transform:scaleY(.12);opacity:0;}}
+@keyframes ahbContentOut{to{opacity:0;transform:translateY(6px);}}
 
 .ahb-hanger {
   position:absolute; inset:0; z-index:2;
@@ -54,9 +56,12 @@
   pointer-events:auto;
 }
 .ahb-closing .ahb-hanger {
-  animation:none;
-  transition:transform 780ms cubic-bezier(.5,.05,.3,1) 60ms, opacity 480ms ease 260ms;
-  transform:translateY(-118px) scaleY(.18) rotateX(-3deg); opacity:0;
+  animation:ahbExit 840ms cubic-bezier(.5,.05,.3,1) 60ms both;
+}
+@keyframes ahbExit {
+  0% { transform:none; opacity:1; }
+  30% { opacity:1; }
+  100% { transform:translateY(-118px) scaleY(.18) rotateX(-3deg); opacity:0; }
 }
 
 .ahb-cloth-wrap { position:absolute; inset:0; transform-origin:50% 10px; animation:ahbBreath 8s ease-in-out 1s infinite; }
