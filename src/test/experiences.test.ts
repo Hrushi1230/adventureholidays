@@ -19,6 +19,6 @@ describe("experiences", () => {
   it("hides empty testimonials (fixture)", () => {
     const f: Experience = { ...ruralCamps, testimonials: [{ id: "a" }, { id: "b", quote: "q" }] };
     expect(visibleTestimonials(f).map((t) => t.id)).toEqual(["b"]);
-    expect(visibleTestimonials({ ...ruralCamps, testimonials: undefined })).toEqual([]);
+    expect(visibleTestimonials({ id: "rural-camps", title: "x", gallery: [] })).toEqual([]);
   });
 });
