@@ -1,4 +1,6 @@
-// Editable site content. Replace placeholders when the client supplies real details.
+// Single source of truth for Adventure Holiday business data.
+// Update arrays below as real tours, albums and testimonials become available —
+// components render honest empty states while they are empty.
 import hero from "@/assets/hero.jpg";
 import kerala from "@/assets/kerala.jpg";
 import rajasthan from "@/assets/rajasthan.jpg";
@@ -10,49 +12,119 @@ import northeast from "@/assets/northeast.jpg";
 
 export const images = { hero, kerala, rajasthan, rafting, goa, odisha, kashmir, northeast };
 
-export const contact = {
-  phone: "+91 00000 00000", // placeholder
-  phoneHref: "tel:+910000000000",
-  whatsappHref: "https://wa.me/910000000000", // placeholder
-  email: "hello@yourdomain.com", // placeholder
-  address: "Your office address, City, State", // placeholder
-  socials: { instagram: "#", facebook: "#", youtube: "#", whatsapp: "#" },
+const PHONE = "9937524018";
+
+export const business = {
+  name: "Adventure Holiday",
+  owner: "Manas Sahoo",
+  phone: "+91 99375 24018",
+  phoneHref: `tel:+91${PHONE}`,
+  whatsappNumber: `91${PHONE}`,
+  whatsappHref: `https://wa.me/91${PHONE}`,
+  // TODO: Verify client email before publishing (supplied as "gmai.com"). Not displayed.
+  email: "adventureholidaytour@gmai.com",
+  address: ["L-213, Phase-3, Dumuduma", "Bhubaneswar, Odisha – 751019"],
+  mapsHref: "https://maps.app.goo.gl/ncVZjUZBG6BS6meSA",
+  udyam: "UDYAM-OD-19-0109058",
+  services: ["Domestic Tours", "International Tours", "Group Tours", "Private Tours"],
+  socials: {
+    facebook: "https://www.facebook.com/adventureholidayofficial/",
+    instagram: "https://www.instagram.com/adventure__holiday",
+    youtube: "https://www.youtube.com/@AdventureHoliday",
+  },
+  // WhatsApp community invite URL — not supplied yet. Join Group stays hidden while empty.
+  whatsappGroupInvite: "",
 };
 
+export function whatsappLink(text: string) {
+  return `${business.whatsappHref}?text=${encodeURIComponent(text)}`;
+}
+
+/** Where "join our community" CTAs go: the invite if supplied, else a direct WhatsApp request. */
+export const communityHref =
+  business.whatsappGroupInvite ||
+  whatsappLink("Hello Adventure Holiday, please share upcoming group tour announcements with me.");
+
 export const nav = [
-  { label: "Home", href: "#home" },
-  { label: "Destinations", href: "#destinations" },
-  { label: "Tours", href: "#tours" },
-  { label: "About", href: "#about" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Upcoming Tours", href: "/#upcoming" },
+  { label: "Group Tours", href: "/#group-tours" },
+  { label: "Private Packages", href: "/#private" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Testimonials", href: "/#testimonials" },
 ];
 
-export const tours = [
-  { title: "Adventure Tours", place: "Himalayas & Rivers", text: "Rafting, treks and high trails for travellers who want their pulse to rise.", img: rafting, w: 1280, h: 960 },
-  { title: "Couple Getaways", place: "Coast & Hills", text: "Slow sunsets, quiet beaches and time that belongs to just the two of you.", img: goa, w: 1280, h: 960 },
-  { title: "Family Holidays", place: "Nature trails", text: "Easy-paced journeys with something wonderful for every age.", img: northeast, w: 1024, h: 1280 },
-  { title: "Cultural Journeys", place: "Heritage India", text: "Temples, forts and living traditions told through the places themselves.", img: odisha, w: 1024, h: 1280 },
-  { title: "Group Tours", place: "Desert & Forts", text: "Shared roads, campfire evenings and stories you'll retell for years.", img: rajasthan, w: 1280, h: 960 },
+export const exploreNav = [
+  { label: "Rural Camps", href: "/rural-camps" },
+  { label: "Picnic Point", href: "/picnic-point" },
 ];
 
 export const destinations = [
-  { name: "Kashmir", text: "Mist on still lakes and snow on every horizon.", img: kashmir, span: "md:col-span-7 md:row-span-2" },
-  { name: "Kerala", text: "Backwaters, palms and an unhurried rhythm.", img: kerala, span: "md:col-span-5 md:row-span-2" },
-  { name: "Rajasthan", text: "Golden forts and desert evenings.", img: rajasthan, span: "md:col-span-4" },
-  { name: "Odisha", text: "Stone-carved heritage beside the sea.", img: odisha, span: "md:col-span-4" },
-  { name: "Goa", text: "Warm sand and long coastal sunsets.", img: goa, span: "md:col-span-4" },
-  { name: "North East India", text: "Living root bridges and cloud forests.", img: northeast, span: "md:col-span-5" },
-  { name: "Himachal Pradesh", text: "Pine valleys and mountain passes.", img: hero, span: "md:col-span-7" },
-];
+  "Kashmir", "Himachal Pradesh", "Uttarakhand", "Gujarat", "Maharashtra", "Madhya Pradesh",
+  "Kerala", "Karnataka", "Tamil Nadu", "Rajasthan", "Andaman", "Assam", "Meghalaya",
+  "Arunachal Pradesh", "Sikkim", "Uttar Pradesh", "Delhi", "Punjab", "Odisha",
+] as const;
 
-export const gallery = [
-  { src: hero, alt: "Trekkers watching sunrise over Himalayan peaks", cls: "md:col-span-2 md:row-span-2" },
-  { src: kerala, alt: "Houseboat on Kerala backwaters", cls: "md:row-span-2" },
-  { src: rafting, alt: "Friends white water rafting", cls: "" },
-  { src: kashmir, alt: "Shikara boat on Dal Lake, Kashmir", cls: "" },
-  { src: odisha, alt: "Carved chariot wheel, Konark Sun Temple", cls: "md:row-span-2" },
-  { src: goa, alt: "Couple walking on a Goa beach at sunset", cls: "md:col-span-2" },
-  { src: northeast, alt: "Family crossing a living root bridge in Meghalaya", cls: "md:row-span-2" },
-  { src: rajasthan, alt: "Camel caravan near a Rajasthan fort", cls: "md:col-span-2" },
-];
+export type TourStatus = "booking-open" | "few-seats" | "sold-out";
+export const statusLabel: Record<TourStatus, string> = {
+  "booking-open": "Booking Open",
+  "few-seats": "Few Seats",
+  "sold-out": "Sold Out",
+};
+
+export type UpcomingTour = {
+  id: string;
+  slug: string;
+  title: string;
+  destination: string;
+  startDate?: string;
+  endDate?: string;
+  duration?: string;
+  departureFrom?: string;
+  status: TourStatus;
+  coverImage: string;
+  featured?: boolean;
+  segment?: "india" | "odisha";
+};
+
+// Add only confirmed departures here.
+export const upcomingTours: UpcomingTour[] = [];
+
+export type CompletedTour = {
+  id: string;
+  slug: string;
+  title: string;
+  tourDate: string;
+  coverImage: string;
+  photoCount?: number;
+  testimonialType?: "text" | "video";
+};
+
+// Add only real completed tours here.
+export const completedToursPreview: CompletedTour[] = [];
+
+export type Testimonial = {
+  id: string;
+  name: string;
+  tour?: string;
+  date?: string;
+  quote?: string;
+  video?: string;
+  photo?: string;
+};
+
+// Add only authentic client testimonials here.
+export const testimonials: Testimonial[] = [];
+
+export function formatDate(d?: string) {
+  if (!d) return undefined;
+  return new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+export type TourType = "Group Tour" | "Private Tour";
+
+/** Scroll to the enquiry form and preselect a tour type. */
+export function openEnquiry(type?: TourType) {
+  if (type) window.dispatchEvent(new CustomEvent<TourType>("ah:tour-type", { detail: type }));
+  document.getElementById("plan")?.scrollIntoView({ behavior: "smooth" });
+}

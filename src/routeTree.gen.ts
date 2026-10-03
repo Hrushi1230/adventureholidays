@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as PicnicPointRouteImport } from './routes/picnic-point'
+import { Route as RuralCampsRouteImport } from './routes/rural-camps'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PicnicPointRoute = PicnicPointRouteImport.update({
+  id: '/picnic-point',
+  path: '/picnic-point',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuralCampsRoute = RuralCampsRouteImport.update({
+  id: '/rural-camps',
+  path: '/rural-camps',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
+  '/picnic-point': typeof PicnicPointRoute
+  '/rural-camps': typeof RuralCampsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
+  '/picnic-point': typeof PicnicPointRoute
+  '/rural-camps': typeof RuralCampsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/gallery': typeof GalleryRoute
+  '/picnic-point': typeof PicnicPointRoute
+  '/rural-camps': typeof RuralCampsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/gallery' | '/picnic-point' | '/rural-camps'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/gallery' | '/picnic-point' | '/rural-camps'
+  id: '__root__' | '/' | '/gallery' | '/picnic-point' | '/rural-camps'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GalleryRoute: typeof GalleryRoute
+  PicnicPointRoute: typeof PicnicPointRoute
+  RuralCampsRoute: typeof RuralCampsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/picnic-point': {
+      id: '/picnic-point'
+      path: '/picnic-point'
+      fullPath: '/picnic-point'
+      preLoaderRoute: typeof PicnicPointRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rural-camps': {
+      id: '/rural-camps'
+      path: '/rural-camps'
+      fullPath: '/rural-camps'
+      preLoaderRoute: typeof RuralCampsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GalleryRoute: GalleryRoute,
+  PicnicPointRoute: PicnicPointRoute,
+  RuralCampsRoute: RuralCampsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
