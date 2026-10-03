@@ -119,6 +119,69 @@ import kashmiraug202607 from "@/assets/gallery/kashmir-aug-2026/kashmir-aug-2026
 import kashmiraug202608 from "@/assets/gallery/kashmir-aug-2026/kashmir-aug-2026-08.webp.asset.json";
 import kashmiraug202609 from "@/assets/gallery/kashmir-aug-2026/kashmir-aug-2026-09.webp.asset.json";
 import kashmiraug202610 from "@/assets/gallery/kashmir-aug-2026/kashmir-aug-2026-10.webp.asset.json";
+import vrindavanmar202601 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-01.webp.asset.json";
+import vrindavanmar202602 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-02.webp.asset.json";
+import vrindavanmar202603 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-03.webp.asset.json";
+import vrindavanmar202604 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-04.webp.asset.json";
+import vrindavanmar202605 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-05.webp.asset.json";
+import vrindavanmar202606 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-06.webp.asset.json";
+import vrindavanmar202607 from "@/assets/gallery/vrindavan-mar-2026/vrindavan-mar-2026-07.webp.asset.json";
+import agrafeb202601 from "@/assets/gallery/agra-feb-2026/agra-feb-2026-01.webp.asset.json";
+import agrafeb202602 from "@/assets/gallery/agra-feb-2026/agra-feb-2026-02.webp.asset.json";
+import tamilnadumay202601 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-01.webp.asset.json";
+import tamilnadumay202602 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-02.webp.asset.json";
+import tamilnadumay202603 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-03.webp.asset.json";
+import tamilnadumay202604 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-04.webp.asset.json";
+import tamilnadumay202605 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-05.webp.asset.json";
+import tamilnadumay202606 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-06.webp.asset.json";
+import tamilnadumay202607 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-07.webp.asset.json";
+import tamilnadumay202608 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-08.webp.asset.json";
+import tamilnadumay202609 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-09.webp.asset.json";
+import tamilnadumay202610 from "@/assets/gallery/tamilnadu-may-2026/tamilnadu-may-2026-10.webp.asset.json";
+import shimlajun202601 from "@/assets/gallery/shimla-jun-2026/shimla-jun-2026-01.webp.asset.json";
+import shimlajun202602 from "@/assets/gallery/shimla-jun-2026/shimla-jun-2026-02.webp.asset.json";
+import shimlajun202603 from "@/assets/gallery/shimla-jun-2026/shimla-jun-2026-03.webp.asset.json";
+import shimlajun202604 from "@/assets/gallery/shimla-jun-2026/shimla-jun-2026-04.webp.asset.json";
+import shimlajun202605 from "@/assets/gallery/shimla-jun-2026/shimla-jun-2026-05.webp.asset.json";
+import spitijul202601 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-01.webp.asset.json";
+import spitijul202602 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-02.webp.asset.json";
+import spitijul202603 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-03.webp.asset.json";
+import spitijul202604 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-04.webp.asset.json";
+import spitijul202605 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-05.webp.asset.json";
+import spitijul202606 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-06.webp.asset.json";
+import spitijul202607 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-07.webp.asset.json";
+import spitijul202608 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-08.webp.asset.json";
+import spitijul202609 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-09.webp.asset.json";
+import spitijul202610 from "@/assets/gallery/spiti-jul-2026/spiti-jul-2026-10.webp.asset.json";
+import agrasep202601 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-01.webp.asset.json";
+import agrasep202602 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-02.webp.asset.json";
+import agrasep202603 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-03.webp.asset.json";
+import agrasep202604 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-04.webp.asset.json";
+import agrasep202605 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-05.webp.asset.json";
+import agrasep202606 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-06.webp.asset.json";
+import agrasep202607 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-07.webp.asset.json";
+import agrasep202608 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-08.webp.asset.json";
+import agrasep202609 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-09.webp.asset.json";
+import agrasep202610 from "@/assets/gallery/agra-sep-2026/agra-sep-2026-10.webp.asset.json";
+import tamilnadusep202601 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-01.webp.asset.json";
+import tamilnadusep202602 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-02.webp.asset.json";
+import tamilnadusep202603 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-03.webp.asset.json";
+import tamilnadusep202604 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-04.webp.asset.json";
+import tamilnadusep202605 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-05.webp.asset.json";
+import tamilnadusep202606 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-06.webp.asset.json";
+import tamilnadusep202607 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-07.webp.asset.json";
+import tamilnadusep202608 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-08.webp.asset.json";
+import tamilnadusep202609 from "@/assets/gallery/tamilnadu-sep-2026/tamilnadu-sep-2026-09.webp.asset.json";
+import rajasthansep202601 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-01.webp.asset.json";
+import rajasthansep202602 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-02.webp.asset.json";
+import rajasthansep202603 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-03.webp.asset.json";
+import rajasthansep202604 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-04.webp.asset.json";
+import rajasthansep202605 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-05.webp.asset.json";
+import rajasthansep202606 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-06.webp.asset.json";
+import rajasthansep202607 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-07.webp.asset.json";
+import rajasthansep202608 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-08.webp.asset.json";
+import rajasthansep202609 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-09.webp.asset.json";
+import rajasthansep202610 from "@/assets/gallery/rajasthan-sep-2026/rajasthan-sep-2026-10.webp.asset.json";
 
 /**
  * TEMPORARY DEMO DATES.
@@ -293,6 +356,149 @@ export const tourAlbums: TourAlbum[] = [
     { src: kashmiraug202608.url, alt: "Adventure Holiday group during the Kashmir tour", width: 1600, height: 1200 },
     { src: kashmiraug202609.url, alt: "Adventure Holiday group during the Kashmir tour", width: 1600, height: 1200 },
     { src: kashmiraug202610.url, alt: "Adventure Holiday group during the Kashmir tour", width: 1600, height: 1200 },
+    ],
+  },
+  {
+    id: "vrindavan-group-tour-march-2026",
+    slug: "vrindavan-group-tour-march-2026",
+    title: "Vrindavan Group Tour",
+    destination: "Vrindavan",
+    tourDate: "2026-03-02",
+    coverImage: vrindavanmar202601.url,
+    photos: [
+      { src: vrindavanmar202601.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202602.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202603.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202604.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202605.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202606.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+      { src: vrindavanmar202607.url, alt: "Adventure Holiday group during the Vrindavan tour", width: 1600, height: 1200 },
+    ],
+  },
+  {
+    id: "agra-group-tour-february-2026",
+    slug: "agra-group-tour-february-2026",
+    title: "Agra Group Tour",
+    destination: "Agra",
+    tourDate: "2026-02-15",
+    coverImage: agrafeb202601.url,
+    photos: [
+      { src: agrafeb202601.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 900 },
+      { src: agrafeb202602.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 900 },
+    ],
+  },
+  {
+    id: "tamil-nadu-group-tour-may-2026",
+    slug: "tamil-nadu-group-tour-may-2026",
+    title: "Tamil Nadu Group Tour",
+    destination: "Tamil Nadu",
+    tourDate: "2026-05-29",
+    coverImage: tamilnadumay202601.url,
+    photos: [
+      { src: tamilnadumay202601.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadumay202602.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadumay202603.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadumay202604.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1200, height: 1600 },
+      { src: tamilnadumay202605.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1280, height: 960 },
+      { src: tamilnadumay202606.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 960, height: 1280 },
+      { src: tamilnadumay202607.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 960, height: 1280 },
+      { src: tamilnadumay202608.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadumay202609.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadumay202610.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+    ],
+  },
+  {
+    id: "shimla-group-tour-june-2026",
+    slug: "shimla-group-tour-june-2026",
+    title: "Shimla Group Tour",
+    destination: "Shimla",
+    tourDate: "2026-06-14",
+    coverImage: shimlajun202601.url,
+    photos: [
+      { src: shimlajun202601.url, alt: "Adventure Holiday group during the Shimla tour", width: 1600, height: 1200 },
+      { src: shimlajun202602.url, alt: "Adventure Holiday group during the Shimla tour", width: 1600, height: 1204 },
+      { src: shimlajun202603.url, alt: "Adventure Holiday group during the Shimla tour", width: 1204, height: 1600 },
+      { src: shimlajun202604.url, alt: "Adventure Holiday group during the Shimla tour", width: 1204, height: 1600 },
+      { src: shimlajun202605.url, alt: "Adventure Holiday group during the Shimla tour", width: 1204, height: 1600 },
+    ],
+  },
+  {
+    id: "spiti-valley-group-tour-july-2026",
+    slug: "spiti-valley-group-tour-july-2026",
+    title: "Spiti Valley Group Tour",
+    destination: "Spiti Valley",
+    tourDate: "2026-07-05",
+    coverImage: spitijul202601.url,
+    photos: [
+      { src: spitijul202601.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1600, height: 1200 },
+      { src: spitijul202602.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1600, height: 1204 },
+      { src: spitijul202603.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+      { src: spitijul202604.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1200, height: 1600 },
+      { src: spitijul202605.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+      { src: spitijul202606.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+      { src: spitijul202607.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1200, height: 1600 },
+      { src: spitijul202608.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+      { src: spitijul202609.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+      { src: spitijul202610.url, alt: "Adventure Holiday group during the Spiti Valley tour", width: 1204, height: 1600 },
+    ],
+  },
+  {
+    id: "agra-group-tour-september-2026",
+    slug: "agra-group-tour-september-2026",
+    title: "Agra Group Tour",
+    destination: "Agra",
+    tourDate: "2026-09-08",
+    coverImage: agrasep202601.url,
+    photos: [
+      { src: agrasep202601.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202602.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202603.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202604.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202605.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202606.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202607.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202608.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202609.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+      { src: agrasep202610.url, alt: "Adventure Holiday group during the Agra tour", width: 1600, height: 1200 },
+    ],
+  },
+  {
+    id: "tamil-nadu-group-tour-september-2026",
+    slug: "tamil-nadu-group-tour-september-2026",
+    title: "Tamil Nadu Group Tour",
+    destination: "Tamil Nadu",
+    tourDate: "2026-09-18",
+    coverImage: tamilnadusep202601.url,
+    photos: [
+      { src: tamilnadusep202601.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202602.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202603.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202604.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202605.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1200, height: 1600 },
+      { src: tamilnadusep202606.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202607.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202608.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1600, height: 1200 },
+      { src: tamilnadusep202609.url, alt: "Adventure Holiday group during the Tamil Nadu tour", width: 1200, height: 1600 },
+    ],
+  },
+  {
+    id: "rajasthan-group-tour-september-2026",
+    slug: "rajasthan-group-tour-september-2026",
+    title: "Rajasthan Group Tour",
+    destination: "Rajasthan",
+    tourDate: "2026-09-27",
+    coverImage: rajasthansep202602.url,
+    photos: [
+      { src: rajasthansep202601.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202602.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1200 },
+      { src: rajasthansep202603.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202604.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202605.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202606.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1200 },
+      { src: rajasthansep202607.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202608.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202609.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
+      { src: rajasthansep202610.url, alt: "Adventure Holiday group during the Rajasthan tour", width: 1600, height: 1204 },
     ],
   },
 ];
