@@ -65,30 +65,8 @@ export const destinations = [
   "Arunachal Pradesh", "Sikkim", "Uttar Pradesh", "Delhi", "Punjab", "Odisha",
 ] as const;
 
-export type TourStatus = "booking-open" | "few-seats" | "sold-out";
-export const statusLabel: Record<TourStatus, string> = {
-  "booking-open": "Booking Open",
-  "few-seats": "Few Seats",
-  "sold-out": "Sold Out",
-};
+// Scheduled group departures live in src/lib/tours.ts.
 
-export type UpcomingTour = {
-  id: string;
-  slug: string;
-  title: string;
-  destination: string;
-  startDate?: string;
-  endDate?: string;
-  duration?: string;
-  departureFrom?: string;
-  status: TourStatus;
-  coverImage: string;
-  featured?: boolean;
-  segment?: "india" | "odisha";
-};
-
-// Add only confirmed departures here.
-export const upcomingTours: UpcomingTour[] = [];
 
 export type CompletedTour = {
   id: string;
