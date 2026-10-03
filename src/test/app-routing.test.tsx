@@ -29,6 +29,12 @@ describe("App routing", () => {
     await waitFor(() => expect(container.firstChild).not.toBeNull());
   });
 
+  it.each(["/gallery", "/rural-camps", "/picnic-point", "/tours/unknown-tour"])("renders %s", async (path) => {
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const { container } = renderAt(path);
+    await waitFor(() => expect(container.firstChild).not.toBeNull());
+  });
+
   it("renders the not-found route", async () => {
     vi.spyOn(console, "warn").mockImplementation(() => undefined);
 
