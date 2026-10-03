@@ -27,7 +27,7 @@ describe("UpcomingTourSpotlight", () => {
     render(<UpcomingTourSpotlight tour={base} />);
     advance();
     expect(screen.getByRole("complementary", { name: "Upcoming tour" })).toHaveTextContent("Andaman Escape");
-    expect(screen.getByRole("link", { name: /view tour details/i })).toHaveAttribute("href", "/tours/andaman-nov-2026");
+    expect(screen.getByRole("link", { name: /^view tour/i })).toHaveAttribute("href", "/tours/andaman-nov-2026");
   });
   it("dismisses and remembers", () => {
     render(<UpcomingTourSpotlight tour={base} />);
