@@ -72,7 +72,7 @@ export function AlbumDetail({ a }: { a: TourAlbum }) {
   );
 }
 
-function PhotoStory({ title, photos }: { title: string; photos: GalleryPhoto[] }) {
+export function PhotoStory({ title, photos, heading = "Photo Story" }: { title: string; photos: GalleryPhoto[]; heading?: string }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [active, setActive] = useState<number | null>(null);
   const n = photos.length;
@@ -94,7 +94,7 @@ function PhotoStory({ title, photos }: { title: string; photos: GalleryPhoto[] }
 
   return (
     <section className="mx-auto max-w-7xl px-5 pb-16 md:px-8 md:pb-24">
-      <h2 className={`reveal ${h2}`}>Photo Story</h2>
+      <h2 className={`reveal ${h2}`}>{heading}</h2>
       <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
         {photos.map((p, i) => (
           <button key={p.src + i} type="button" onClick={() => open(i)} aria-label={`Open photo ${i + 1} of ${n}: ${p.alt}`} className="mb-4 block w-full break-inside-avoid overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">

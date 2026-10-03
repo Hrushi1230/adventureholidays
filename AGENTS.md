@@ -15,3 +15,4 @@
 - Homepage upcoming tours appear at three levels: UpcomingHero (featured), UpcomingTourSpotlight (dismissible non-modal reminder, per-tour 24h localStorage dismissal, homepage only), compact UpcomingDepartures strip — all derived from src/lib/tours.ts helpers.
 
 - Completed-tour albums live only in `tourAlbums` in src/lib/gallery.ts; /gallery (auto year→month grouping), /gallery/$slug, Recent Journeys and tour 'View Tour Memories' links derive from it; media fields are plain URLs so photos/videos can move to a CDN.
+- Rural Camps and Picnic Point content lives only in src/lib/experiences.ts; both routes render the shared data-driven ExperiencePage (mood prop: calm/bright) which omits sections whose data is empty.

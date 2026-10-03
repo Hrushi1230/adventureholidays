@@ -1,9 +1,10 @@
+import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { btnGhostLight } from "./ui";
 
 /** Full-width teaser used by Rural Camps and Picnic Point previews. */
 export function ExplorePreview({ id, eyebrow, title, text, cta, href, img, alt }: {
-  id: string; eyebrow: string; title: string; text: string; cta: string; href: string; img: string; alt: string;
+  id: string; eyebrow: string; title: string; text: string; cta: string; href: "/rural-camps" | "/picnic-point"; img: string; alt: string;
 }) {
   return (
     <section id={id} className="relative flex min-h-[70svh] items-end overflow-hidden">
@@ -13,7 +14,7 @@ export function ExplorePreview({ id, eyebrow, title, text, cta, href, img, alt }
         <p className="eyebrow text-sand">{eyebrow}</p>
         <h2 className="display mt-4 text-5xl text-primary-foreground md:text-7xl">{title}</h2>
         <p className="mt-4 max-w-md text-primary-foreground/85">{text}</p>
-        <a href={href} className={`${btnGhostLight} mt-8`}>{cta} <ArrowRight className="h-4 w-4" /></a>
+        <Link to={href} className={`${btnGhostLight} mt-8`}>{cta} <ArrowRight className="h-4 w-4" /></Link>
       </div>
     </section>
   );
