@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Images, MessageCircle, X } from "lucide-react";
 import { images } from "@/lib/site";
+import { getAlbumForTour } from "@/lib/gallery";
 import { categoryLabel, formatPrice, formatTourDateRange, isBookable, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
 import { useReveal } from "@/hooks/use-reveal";
 import { Header } from "../Header";
@@ -13,9 +14,9 @@ const h2 = "display text-3xl text-primary md:text-5xl";
 
 function TourCta({ t, light }: { t: Tour; light?: boolean }) {
   if (t.status === "completed") {
-    return t.hasAlbum ? (
-      // Album pages arrive with the gallery archive; URL format is fixed now.
-      <a href={`/gallery/${t.slug}`} className={btnPrimary}><Images className="h-4 w-4" /> View Tour Memories</a>
+    const album = getAlbumForTour(t.slug);
+    return album ? (
+      <Link to="/gallery/$slug" params={{ slug: album.slug }} className={btnPrimary}><Images className="h-4 w-4" /> View Tour Memories</Link>
     ) : null;
   }
   return (
@@ -125,7 +126,7 @@ export function TourDetail({ t }: { t: Tour }) {
           </section>
         )}
 
-        {t.status !== "completed" || t.hasAlbum ? (
+        {t.status !== "completed" || getAlbumForTour(t.slug) ? (
           <section className="bg-primary py-16 text-primary-foreground md:py-24">
             <div className="reveal mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 md:px-8">
               <h2 className="display text-3xl md:text-5xl">{t.status === "sold-out" ? "This departure is sold out." : t.status === "completed" ? "Relive this journey." : "Ready to join this departure?"}</h2>

@@ -13,3 +13,8 @@ test("unknown tour shows not-found page", async ({ page }) => {
   await page.goto("/tours/unknown-tour");
   await expect(page.getByText("This departure isn't listed.")).toBeVisible();
 });
+
+test("unknown album shows gallery not-found page", async ({ page }) => {
+  await page.goto("/gallery/unknown-album");
+  await expect(page.getByText("Tour album not found.")).toBeVisible();
+});
