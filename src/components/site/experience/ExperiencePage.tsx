@@ -6,7 +6,7 @@ import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { FloatingActions } from "../FloatingActions";
 import { PhotoStory } from "../gallery/AlbumDetail";
-import { btnGhostLight, btnOutline, btnPrimary } from "../ui";
+import { btnGhostLight, btnPrimary } from "../ui";
 
 type Mood = "calm" | "bright";
 type CrossLink = { eyebrow: string; title: string; text: string; cta: string; to: "/rural-camps" | "/picnic-point"; img?: string };
@@ -25,10 +25,9 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
   const suitable = e.suitableFor ?? [];
   const hasPhotos = e.gallery.length > 0;
 
-  const Enquire = ({ light }: { light?: boolean }) => (
+  const Enquire = () => (
     <a href={wa} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
       <MessageCircle className="h-4 w-4" /> {e.enquiryLabel ?? `Enquire About ${e.title}`}
-      <span className="sr-only">{light ? "" : ""} (opens WhatsApp)</span>
     </a>
   );
 
@@ -44,7 +43,7 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
             <h1 className={`display animate-rise mt-4 text-primary-foreground ${calm ? "text-6xl md:text-[6.5rem]" : "text-5xl md:text-8xl"}`} style={{ animationDelay: "120ms" }}>{e.title}</h1>
             {e.shortDescription && <p className="animate-rise mt-5 max-w-xl text-primary-foreground/90 md:text-lg" style={{ animationDelay: "240ms" }}>{e.shortDescription}</p>}
             <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "360ms" }}>
-              <Enquire light />
+              <Enquire />
               {hasPhotos && <a href="#photos" className={btnGhostLight}>View Photos</a>}
             </div>
           </div>
@@ -137,7 +136,7 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
             <p className="eyebrow text-sand">{calm ? "Enquire" : "Plan Your Picnic"}</p>
             <h2 className="display max-w-3xl text-3xl md:text-5xl">{calm ? "Tell us your dates and group size." : "Pick a date, bring your people."}</h2>
             <p className="max-w-xl text-primary-foreground/80">Message us on WhatsApp — we'll reply with details and availability.</p>
-            <Enquire light />
+            <Enquire />
           </div>
         </section>
 
@@ -157,5 +156,3 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
     </>
   );
 }
-
-export { btnOutline };
