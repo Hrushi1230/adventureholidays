@@ -35,8 +35,8 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
   // Hide floating call/WhatsApp buttons on phones while visible.
   useEffect(() => {
     const root = document.documentElement;
-    if (mounted) root.dataset.spotlight = "open";
-    return () => { delete root.dataset.spotlight; };
+    if (mounted) root.dataset["spotlight"] = "open";
+    return () => { delete root.dataset["spotlight"]; };
   }, [mounted]);
 
   useEffect(() => {
