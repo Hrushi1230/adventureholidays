@@ -13,8 +13,8 @@ export const Route = createFileRoute("/tours/$slug")({
       return { meta: [{ title: "Tour not found | Adventure Holiday" }, { name: "robots", content: "noindex" }] };
     }
     const t = loaderData.tour;
-    const title = `${t.title} | Adventure Holiday`;
-    const description = t.shortDescription ?? `View details and enquire about ${t.title} with Adventure Holiday, Bhubaneswar.`;
+    const title = t.seoTitle ?? `${t.title} | Adventure Holiday`;
+    const description = t.seoDescription ?? t.shortDescription ?? `View details and enquire about ${t.title} with Adventure Holiday, Bhubaneswar.`;
     const image = t.coverImage?.startsWith("https://") ? t.coverImage : undefined;
     return {
       meta: [
