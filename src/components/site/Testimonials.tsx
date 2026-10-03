@@ -45,9 +45,9 @@ export function Testimonials() {
   const metrics = [...demo, ...verified].slice(0, demo.length ? 4 : 4);
 
   return (
-    <section id="testimonials" className="bg-card py-20 md:py-28">
+    <section id="testimonials" className="scroll-mt-20 bg-card py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <div className="reveal max-w-3xl">
+        <div className="max-w-3xl">
           <p className="eyebrow text-accent">Traveller Stories</p>
           <h2 className="display mt-4 text-4xl text-primary md:text-6xl">Real journeys.<br />Real people.<br />Real memories.</h2>
         </div>
@@ -55,7 +55,7 @@ export function Testimonials() {
         {list.length ? (
           <div className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
             {list.slice(0, 6).map((t) => (
-              <figure key={t.id} className="reveal flex w-[86vw] shrink-0 snap-center flex-col border border-border bg-background p-7 md:w-auto">
+              <figure key={t.id} className="flex w-[86vw] shrink-0 snap-center flex-col border border-border bg-background p-7 md:w-auto">
                 {t.video ? (
                   <video src={t.video} controls preload="none" poster={t.photo} className="aspect-video w-full bg-muted object-cover" />
                 ) : (
@@ -73,7 +73,7 @@ export function Testimonials() {
             ))}
           </div>
         ) : (
-          <div className="reveal relative mt-12 overflow-hidden bg-primary">
+          <div className="relative mt-12 overflow-hidden bg-primary">
             {bg && <img src={bg} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-35" />}
             <div className="relative max-w-2xl p-8 md:p-14">
               <p className="display text-2xl text-primary-foreground md:text-4xl">Real client stories will appear here as they are added from completed tours.</p>
@@ -81,7 +81,7 @@ export function Testimonials() {
           </div>
         )}
 
-        <dl className="reveal mt-12 grid grid-cols-2 border-t border-border md:grid-cols-4">
+        <dl className="mt-12 grid grid-cols-2 border-t border-border md:grid-cols-4">
           {metrics.map((m, i) => (
             <div key={m.label} className={`border-b border-border py-6 md:border-b-0 md:py-8 ${i % 2 === 0 ? "pr-4" : "pl-4 border-l"} md:px-6 md:first:pl-0 ${i > 0 ? "md:border-l" : "md:border-l-0"}`}>
               <dt className="sr-only">{m.label}</dt>
