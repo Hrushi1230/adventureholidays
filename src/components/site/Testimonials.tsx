@@ -6,9 +6,9 @@ function allTestimonials(): Testimonial[] {
     id: `album-${album.id}`,
     name: t.clientName ?? "Adventure Holiday traveller",
     tour: album.title,
-    quote: t.quote,
-    video: t.type === "video" ? t.videoUrl : undefined,
-    photo: t.posterImage,
+    ...(t.quote ? { quote: t.quote } : {}),
+    ...(t.type === "video" && t.videoUrl ? { video: t.videoUrl } : {}),
+    ...(t.posterImage ? { photo: t.posterImage } : {}),
   }));
   const seen = new Set<string>();
   return [...testimonials, ...fromAlbums].filter((t) => {
