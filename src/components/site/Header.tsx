@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { exploreNav, nav } from "@/lib/site";
+import logo from "@/assets/adventure-holiday-logo.png.asset.json";
 
 export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
@@ -26,9 +27,9 @@ export function Header({ solidAlways = false }: { solidAlways?: boolean }) {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${solid ? "bg-background/90 py-3 shadow-soft backdrop-blur-md" : "py-5 md:py-6"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 md:px-8">
-        <a href="/#home" className={`flex shrink-0 flex-col leading-none ${solid ? "text-primary" : "text-primary-foreground"}`}>
-          <span className="display text-xl md:text-2xl">Adventure</span>
-          <span className="eyebrow mt-1 text-[0.6rem] text-accent">Holiday</span>
+        <a href="/#home" aria-label="Adventure Holiday home" className={`flex shrink-0 items-center gap-3 ${solid ? "text-primary" : "text-primary-foreground"}`}>
+          <img src={logo.url} alt="Adventure Holiday logo" width={48} height={48} className="h-11 w-11 md:h-12 md:w-12" />
+          <span className="display hidden text-lg leading-none sm:inline">Adventure Holiday</span>
         </a>
 
         <nav aria-label="Primary" className="hidden xl:block">
