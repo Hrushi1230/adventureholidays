@@ -116,7 +116,7 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
   const still = useMedia("(prefers-reduced-motion: reduce)");
 
   useEffect(() => {
-    if (!tour || wasDismissed(tour)) return;
+    if (!tour) return;
     const t = window.setTimeout(() => setPhase("open"), SHOW_DELAY);
     return () => window.clearTimeout(t);
   }, [tour]);
@@ -130,7 +130,6 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
 
   function dismiss() {
     if (!tour || phase === "closing") return;
-    try { localStorage.setItem(KEY(tour), String(Date.now())); } catch { /* ignore */ }
     setPhase("closing");
     window.setTimeout(() => setPhase("hidden"), still ? 220 : EXIT_MS);
   }
