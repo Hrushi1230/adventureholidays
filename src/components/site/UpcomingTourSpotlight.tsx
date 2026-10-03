@@ -1,108 +1,134 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Calendar, Clock, MapPin, MessageCircle, X } from "lucide-react";
 import { formatTourDateRange, getFeaturedUpcomingTour, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import "./upcoming-spotlight.css";
 
 const SHOW_DELAY = 1000;
-const EXIT_MS = 780;
-
-function shortRange(t: Tour) {
-  if (!t.startDate) return "";
-  const s = new Date(t.startDate + "T00:00:00");
-  const e = t.endDate ? new Date(t.endDate + "T00:00:00") : null;
-  const m = (d: Date) => d.toLocaleDateString("en-GB", { month: "short" });
-  if (!e) return `${s.getDate()} ${m(s)}`;
-  return s.getMonth() === e.getMonth()
-    ? `${s.getDate()}–${e.getDate()} ${m(e)} ${e.getFullYear()}`
-    : `${s.getDate()} ${m(s)} – ${e.getDate()} ${m(e)} ${e.getFullYear()}`;
-}
-const shortDuration = (d?: string) => d?.replace(/(\d+)\s*Days?\s*\/\s*(\d+)\s*Nights?/i, "$1D / $2N");
-
-/* Cloth outline (viewBox 1200×260, stretched). Same command structure in every frame so SMIL can morph it. */
-const shape = (l: number, c: number, r: number, j: number) =>
-  `M14 16 C300 9 900 13 1186 15 C1193 90 1195 170 1188 ${222 + j} ` +
-  `C1100 ${236 + r} 1010 ${214 + r} 900 ${228 + r} C780 ${246 + c} 690 ${238 + c} 600 ${247 + c} ` +
-  `C500 ${253 + c} 410 ${232 + l} 300 ${240 + l} C190 ${248 + l} 90 ${226 + l} 10 ${232 - j} ` +
-  `C5 170 7 90 14 16 Z`;
-const FRAMES = [shape(0, 0, 0, 0), shape(5, -3, 2, 2), shape(-2, 4, -4, -1), shape(3, 1, 5, 1), shape(0, 0, 0, 0)];
-const FLAT = shape(-12, -18, -12, -4);
-const ROPES = [8, 31, 69, 92];
+const EXIT_MS = 760;
+const W = 1600;
+const TOP = 26;
+const BOTTOM = 324;
 
 type Phase = "hidden" | "open" | "closing";
+type Pt = [number, number];
 
-function useMedia(q: string) {
-  const [m, setM] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia(q);
-    const on = () => setM(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, [q]);
-  return m;
+/** Cloth outline from the V6 prototype: top breathing + travelling bottom "leher" + centre sag. */
+function clothPaths(t: number, amp: number) {
+  const n = 42;
+  const top: Pt[] = [];
+  const bottom: Pt[] = [];
+  for (let i = 0; i <= n; i++) {
+    const x = (W * i) / n;
+    const u = x / W;
+    const topWave = 3.2 * Math.sin(u * Math.PI * 2.15 + t * 0.56) + 1.15 * Math.sin(u * Math.PI * 5.1 - t * 0.33);
+    const bottomWave =
+      8.5 * Math.sin(u * Math.PI * 2.0 - t * 0.92) +
+      3.4 * Math.sin(u * Math.PI * 4.35 - t * 0.51 + 1.2) +
+      1.8 * Math.sin(u * Math.PI * 7.2 + t * 0.31);
+    const sag = 8.5 * Math.sin((Math.PI * i) / n) ** 2;
+    top.push([x, TOP + topWave * 0.46 * amp]);
+    bottom.push([x, BOTTOM + sag + bottomWave * amp]);
+  }
+  const f = (p: Pt) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+  const cloth = `M ${f(top[0])} ${top.slice(1).map((p) => `L ${f(p)}`).join(" ")} ${[...bottom].reverse().map((p) => `L ${f(p)}`).join(" ")} Z`;
+  const line = (pts: Pt[]) => "M " + pts.map(f).join(" L ");
+  return {
+    cloth,
+    seamTop: line(top.map((p, i) => [p[0], p[1] + 12 + Math.sin(i * 0.8 + t) * 0.5])),
+    seamBottom: line(bottom.map((p, i) => [p[0], p[1] - 14 + Math.sin(i * 0.6 - t) * 0.7])),
+  };
 }
 
-function FabricSurface({ closing, small, still }: { closing: boolean; small: boolean; still: boolean }) {
-  const animate = !closing && !still;
+function ClothSvg({ closing, reduced }: { closing: boolean; reduced: boolean }) {
+  const cloth = useRef<SVGPathElement>(null);
+  const weave = useRef<SVGPathElement>(null);
+  const seamT = useRef<SVGPathElement>(null);
+  const seamB = useRef<SVGPathElement>(null);
+  const target = useRef(1);
+  target.current = closing ? 0 : 1;
+
+  useEffect(() => {
+    let phase = 0;
+    let amp = 1;
+    let raf = 0;
+    const draw = () => {
+      const p = clothPaths(phase, amp);
+      cloth.current?.setAttribute("d", p.cloth);
+      weave.current?.setAttribute("d", p.cloth);
+      seamT.current?.setAttribute("d", p.seamTop);
+      seamB.current?.setAttribute("d", p.seamBottom);
+    };
+    const tick = () => {
+      phase += 0.018;
+      amp += (target.current - amp) * 0.035;
+      draw();
+      raf = requestAnimationFrame(tick);
+    };
+    draw();
+    if (!reduced) raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+
+  const initial = clothPaths(0, 1);
   return (
-    <svg aria-hidden viewBox="0 0 1200 260" preserveAspectRatio="none" className="fabric-svg absolute inset-0 h-full w-full overflow-visible">
+    <svg className="ahb-cloth-svg" viewBox="0 0 1600 360" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <filter id="cloth-wave" x="-3%" y="-6%" width="106%" height="116%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves={2} seed={3} result="noise">
-            {animate && <animate attributeName="baseFrequency" dur="7s" repeatCount="indefinite" values="0.006 0.018;0.0075 0.015;0.005 0.02;0.006 0.018" />}
-          </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale={closing || still ? 0 : small ? 4 : 7} xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-        <filter id="cloth-shadow" x="-5%" y="-10%" width="110%" height="140%"><feGaussianBlur stdDeviation="9" /></filter>
-        <linearGradient id="cloth-light" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="oklch(0.985 0.012 88)" />
-          <stop offset="0.45" stopColor="var(--canvas)" />
-          <stop offset="1" stopColor="oklch(0.9 0.03 80)" />
+        <linearGradient id="ahbClothFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fbf1de" />
+          <stop offset="48%" stopColor="#f6ead4" />
+          <stop offset="100%" stopColor="#ebd6b6" />
         </linearGradient>
-        <linearGradient id="cloth-folds" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="oklch(0.4 0.03 70 / 0.07)" />
-          <stop offset="0.18" stopColor="oklch(1 0 0 / 0)" />
-          <stop offset="0.31" stopColor="oklch(1 0 0 / 0.12)" />
-          <stop offset="0.5" stopColor="oklch(0.4 0.03 70 / 0.04)" />
-          <stop offset="0.69" stopColor="oklch(1 0 0 / 0.12)" />
-          <stop offset="0.85" stopColor="oklch(1 0 0 / 0)" />
-          <stop offset="1" stopColor="oklch(0.4 0.03 70 / 0.08)" />
-        </linearGradient>
-        <pattern id="cloth-weave" width="4" height="4" patternUnits="userSpaceOnUse">
-          <rect width="4" height="1" fill="oklch(0.45 0.04 70 / 0.05)" />
-          <rect width="1" height="4" fill="oklch(0.45 0.04 70 / 0.035)" />
+        <pattern id="ahbWeave" width="8" height="8" patternUnits="userSpaceOnUse">
+          <path d="M0 0H8 M0 4H8" stroke="#6e5433" strokeOpacity=".035" strokeWidth="1" />
+          <path d="M0 0V8 M4 0V8" stroke="#fff" strokeOpacity=".05" strokeWidth="1" />
         </pattern>
-        <clipPath id="cloth-clip"><path d={closing ? FLAT : FRAMES[0]}>{animate && <animate attributeName="d" dur="6.5s" repeatCount="indefinite" values={FRAMES.join(";")} calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1;.45 0 .55 1" />}</path></clipPath>
+        <filter id="ahbClothTexture" x="-5%" y="-10%" width="110%" height="125%">
+          <feTurbulence type="fractalNoise" baseFrequency=".012 .045" numOctaves={2} seed={11} result="noise" />
+          <feColorMatrix in="noise" type="saturate" values="0" result="gray" />
+          <feComponentTransfer in="gray" result="faint"><feFuncA type="table" tableValues="0 .11" /></feComponentTransfer>
+          <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
+        </filter>
       </defs>
+      <path ref={cloth} d={initial.cloth} className="ahb-cloth-main" fill="url(#ahbClothFill)" filter="url(#ahbClothTexture)" />
+      <path ref={weave} d={initial.cloth} fill="url(#ahbWeave)" opacity=".85" />
+      <path ref={seamT} d={initial.seamTop} className="ahb-cloth-seam" />
+      <path ref={seamB} d={initial.seamBottom} className="ahb-cloth-seam" />
+    </svg>
+  );
+}
 
-      {/* soft contact shadow under the cloth */}
-      <g transform="translate(0 16)" opacity="0.38" filter="url(#cloth-shadow)">
-        <path d={closing ? FLAT : FRAMES[0]} fill="oklch(0.15 0.03 160)">
-          {animate && <animate attributeName="d" dur="6.5s" begin="-0.4s" repeatCount="indefinite" values={FRAMES.join(";")} />}
-        </path>
+function Flower() {
+  return (
+    <svg className="ahb-mobile-flower" viewBox="0 0 80 64" aria-hidden="true">
+      <g transform="translate(8 22) rotate(-18)">
+        <ellipse cx="17" cy="12" rx="18" ry="6" fill="#2f7a45" />
+        <ellipse cx="29" cy="20" rx="16" ry="5.5" fill="#4c9858" transform="rotate(28 29 20)" />
       </g>
-
-      <g filter="url(#cloth-wave)">
-        <g clipPath="url(#cloth-clip)">
-          <rect width="1200" height="270" fill="url(#cloth-light)" />
-          <rect width="1200" height="270" fill="url(#cloth-weave)" />
-          <rect width="1200" height="270" fill="url(#cloth-folds)" />
-          {ROPES.map((x) => (
-            <ellipse key={x} cx={x * 12} cy="26" rx="46" ry="28" fill="oklch(1 0 0 / 0.22)" />
-          ))}
-          {/* hem line */}
-          <rect y="16" width="1200" height="3" fill="oklch(0.6 0.03 80 / 0.2)" />
-        </g>
+      <g transform="translate(42 31)">
+        {[0, 72, 144, 216, 288].map((r) => (
+          <ellipse key={r} cx="0" cy="-11" rx="6" ry="14" fill="#fffaf0" transform={`rotate(${r})`} />
+        ))}
+        <circle r="5.5" fill="#f2b544" />
+        <circle r="2.3" fill="#e28b20" />
       </g>
     </svg>
   );
 }
 
-/** Homepage-only hanging fabric banner for the featured/nearest upcoming departure. */
+const Icon = {
+  cal: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>,
+  clock: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>,
+  pin: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.6" /></svg>,
+};
+
+/** Homepage-only hanging cloth banner (React port of the V6 prototype) for the featured/nearest upcoming departure. */
 export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { tour?: Tour }) {
   const [phase, setPhase] = useState<Phase>("hidden");
-  const small = useMedia("(max-width: 767px)");
-  const still = useMedia("(prefers-reduced-motion: reduce)");
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
 
   useEffect(() => {
     if (!tour) return;
@@ -118,91 +144,61 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
   });
 
   function dismiss() {
-    if (!tour || phase === "closing") return;
+    if (!tour || phase !== "open") return;
     setPhase("closing");
-    window.setTimeout(() => setPhase("hidden"), still ? 220 : EXIT_MS);
+    window.setTimeout(() => setPhase("hidden"), reduced ? 240 : EXIT_MS);
   }
 
   if (!tour || phase === "hidden") return null;
 
   const soldOut = tour.status === "sold-out";
   const price = tour.pricing?.offerPrice ?? tour.pricing?.regularPrice;
-  const priceNote = tour.pricing?.offerPrice ? tour.pricing.offerLabel?.replace(/^Special price for the /i, "Special price for ") : undefined;
-  const badge = `inline-block rounded-full px-3 py-1 text-[0.6rem] font-bold uppercase tracking-widest ${soldOut ? "bg-muted text-muted-foreground" : "bg-accent text-accent-foreground"}`;
-  const primary = "inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-primary px-5 text-[0.7rem] font-bold uppercase tracking-widest text-primary-foreground transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:px-6";
-  const secondary = "inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-primary/40 px-5 text-[0.7rem] font-bold uppercase tracking-widest text-primary transition-colors hover:bg-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:px-6";
-
-  const ctas = (
-    <div className="flex gap-2 md:gap-3">
-      {!soldOut && (
-        <Link to="/tours/$slug" params={{ slug: tour.slug }} className={primary}>View Tour <ArrowRight className="h-4 w-4" /></Link>
-      )}
-      <a href={tourWhatsappHref(tour)} target="_blank" rel="noopener noreferrer" className={soldOut ? primary : secondary}>
-        <MessageCircle className="h-4 w-4" /> {soldOut ? "Ask About Next Departure" : "WhatsApp"}
-      </a>
-    </div>
-  );
+  const offer = tour.pricing?.offerPrice ? tour.pricing.offerLabel?.replace(/^Special price for the /i, "Special price for ") : undefined;
 
   return (
-    <aside aria-label="Upcoming tour" data-state={phase} className="hanging-banner pointer-events-none absolute inset-x-0 top-0 z-40 flex justify-center">
-      <div className="relative w-[calc(100vw-20px)] pt-[72px] md:w-[min(1240px,calc(100vw-80px))] md:pt-[92px]">
-        {ROPES.map((left, i) => (
-          <span key={left} aria-hidden className={`banner-rope ${i === 1 || i === 2 ? "hidden md:block" : ""}`} style={{ left: `${left}%`, animationDelay: `${i * -0.9}s` }} />
-        ))}
-
-        <div className="fabric-shell pointer-events-auto relative">
-          <FabricSurface closing={phase === "closing"} small={small} still={still} />
-          {ROPES.map((left, i) => (
-            <span key={left} aria-hidden className={`banner-eyelet ${i === 1 || i === 2 ? "hidden md:block" : ""}`} style={{ left: `${left}%` }} />
-          ))}
-
-          <div className="banner-content relative px-5 pb-11 pt-7 md:min-h-[230px] md:px-10 md:pb-14 md:pt-9">
-            <button type="button" onClick={dismiss} aria-label="Dismiss upcoming tour" className="absolute right-3 top-4 grid h-10 w-10 place-items-center rounded-full border border-primary/25 text-primary transition-colors hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:right-6 md:top-6">
-              <X className="h-4 w-4" />
-            </button>
-
-            {/* Phone layout */}
-            <div className="md:hidden">
-              <div className="flex gap-3 pr-11">
-                {tour.coverImage && <img src={tour.coverImage} alt="" loading="lazy" className="h-16 w-16 shrink-0 -rotate-2 border-[3px] border-card object-cover shadow-soft" />}
-                <div className="min-w-0">
-                  <p className="eyebrow text-[0.6rem] text-accent">Upcoming Departure</p>
-                  <h2 className="display mt-1 text-[1.3rem] leading-tight text-primary">{tour.title}</h2>
-                  <p className="mt-0.5 text-xs text-foreground/75">{shortRange(tour)}</p>
-                  <p className="text-xs text-foreground/75">{[shortDuration(tour.duration), tour.departureFrom && `From ${tour.departureFrom}`].filter(Boolean).join(" · ")}</p>
-                </div>
+    <div className="ahb-anchor">
+      <aside aria-label="Upcoming tour" className={`ahb-stage ${reduced ? "is-reduced" : ""}`}>
+        <section className={`ahb-hanger ${phase === "closing" ? "ahb-closing" : ""}`}>
+          <div className="ahb-rope ahb-r1" />
+          <div className="ahb-rope ahb-r2" />
+          <div className="ahb-rope ahb-r3" />
+          <div className="ahb-rope ahb-r4" />
+          <div className="ahb-cloth-wrap">
+            <ClothSvg closing={phase === "closing"} reduced={reduced} />
+          </div>
+          <div className="ahb-content">
+            {tour.coverImage && (
+              <div className="ahb-postcard" aria-hidden="true">
+                <img src={tour.coverImage} alt="" loading="lazy" />
+                <Flower />
               </div>
-              <div className="mt-3 flex items-center gap-3">
-                <span className={badge}>{statusLabel[tour.status]}</span>
-                {price && <p className="text-primary"><span className="text-lg font-extrabold">{inr(price)}</span> <span className="text-xs">/ person</span></p>}
+            )}
+            <div className="ahb-center">
+              <div className="ahb-eyebrow">Upcoming Departure</div>
+              <h2 className="ahb-title">{tour.title}</h2>
+              <div className="ahb-meta" aria-label="Tour details">
+                {tour.startDate && <span>{Icon.cal}{formatTourDateRange(tour)}</span>}
+                {tour.duration && <span>{Icon.clock}{tour.duration}</span>}
+                {tour.departureFrom && <span>{Icon.pin}From {tour.departureFrom}</span>}
               </div>
-              <div className="mt-3">{ctas}</div>
             </div>
-
-            {/* Desktop layout */}
-            <div className="hidden items-center gap-8 md:flex lg:gap-10">
-              {tour.coverImage && (
-                <img src={tour.coverImage} alt="" loading="lazy" className="h-[125px] w-[140px] shrink-0 -rotate-2 border-[6px] border-card object-cover shadow-[0_14px_24px_-10px_oklch(0.2_0.03_160/0.45)] lg:h-[135px] lg:w-[155px]" />
-              )}
-              <div className="min-w-0 flex-1">
-                <p className="eyebrow text-[0.7rem] text-accent">Upcoming Departure</p>
-                <h2 className="display mt-2 whitespace-nowrap text-[clamp(2rem,2.8vw,3rem)] leading-none text-primary">{tour.title}</h2>
-                <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-1.5 text-[0.95rem] text-foreground/80">
-                  {tour.startDate && <li className="flex items-center gap-1.5"><Calendar className="h-4 w-4 text-primary" />{formatTourDateRange(tour)}</li>}
-                  {tour.duration && <li className="flex items-center gap-1.5"><Clock className="h-4 w-4 text-primary" />{tour.duration}</li>}
-                  {tour.departureFrom && <li className="flex items-center gap-1.5"><MapPin className="h-4 w-4 text-primary" />From {tour.departureFrom}</li>}
-                </ul>
-              </div>
-              <div className="shrink-0 pr-12 lg:pr-14">
-                <span className={badge}>{statusLabel[tour.status]}</span>
-                {price && <p className="mt-2 text-primary"><span className="text-[2rem] font-bold leading-none">{inr(price)}</span> <span className="text-base">/ person</span></p>}
-                {priceNote && <p className="mt-1 max-w-[15rem] text-[0.8rem] text-muted-foreground">{priceNote}</p>}
-                <div className="mt-4">{ctas}</div>
+            <div className="ahb-side">
+              <span className="ahb-status">{statusLabel[tour.status]}</span>
+              {price && <div className="ahb-price"><strong>{inr(price)}</strong><small>/ person</small></div>}
+              {offer && <div className="ahb-offer">{offer}</div>}
+              <div className="ahb-actions">
+                {!soldOut && (
+                  <Link to="/tours/$slug" params={{ slug: tour.slug }} className="ahb-btn ahb-btn-primary">View Tour <span aria-hidden>→</span></Link>
+                )}
+                <a href={tourWhatsappHref(tour)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
+                  {soldOut ? "Ask About Next Departure" : "WhatsApp"}
+                </a>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </aside>
+          <button type="button" className="ahb-close" onClick={dismiss} aria-label="Dismiss upcoming tour">×</button>
+        </section>
+      </aside>
+    </div>
   );
 }
