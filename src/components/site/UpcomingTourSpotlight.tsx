@@ -179,7 +179,7 @@ export function UpcomingTourSpotlight({ tour = getFeaturedUpcomingTour() }: { to
                 {tour.coverImage && <img src={tour.coverImage} alt="" loading="lazy" className="h-16 w-16 shrink-0 -rotate-2 border-[3px] border-card object-cover shadow-soft" />}
                 <div className="min-w-0">
                   <p className="eyebrow text-[0.6rem] text-accent">Upcoming Departure</p>
-                  <h2 className="display mt-1 truncate text-[1.45rem] leading-tight text-primary">{tour.title}</h2>
+                  <h2 className="display mt-1 text-[1.3rem] leading-tight text-primary">{tour.title}</h2>
                   <p className="mt-0.5 text-xs text-foreground/75">{shortRange(tour)}</p>
                   <p className="text-xs text-foreground/75">{[shortDuration(tour.duration), tour.departureFrom && `From ${tour.departureFrom}`].filter(Boolean).join(" · ")}</p>
                 </div>
