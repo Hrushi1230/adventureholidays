@@ -10,8 +10,7 @@ import { PrivatePackages } from "@/components/site/PrivatePackages";
 import { RecentTours } from "@/components/site/RecentTours";
 import { Testimonials } from "@/components/site/Testimonials";
 import { TourEnquiry } from "@/components/site/TourEnquiry";
-import { RuralCampsPreview } from "@/components/site/RuralCampsPreview";
-import { PicnicPointPreview } from "@/components/site/PicnicPointPreview";
+import { MoreExperiences } from "@/components/site/MoreExperiences";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { useReveal } from "@/hooks/use-reveal";
@@ -49,8 +48,7 @@ function Index() {
         <RecentTours />
         <Testimonials />
         <TourEnquiry />
-        <RuralCampsPreview />
-        <PicnicPointPreview />
+        <MoreExperiences />
       </main>
       <Footer />
       <FloatingActions />

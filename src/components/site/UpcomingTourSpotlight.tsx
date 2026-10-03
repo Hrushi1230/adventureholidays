@@ -165,7 +165,7 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
     const production = tour ? [tour] : spotlightTours(list);
     return demo && !tour && !list ? [...production, bannerDemoTour] : production;
   }, [demo, tour, list]);
-  const [phase, setPhase] = useState<Phase>("entering");
+  const [phase, setPhase] = useState<Phase>("open");
   const [reduced, setReduced] = useState(false);
   const [dismissed, setDismissed] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
@@ -184,13 +184,6 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     setDismissed(all.filter((t) => isDismissed(t.id)).map((t) => t.id));
   }, [all]);
-
-  const hasAny = visible.length > 0;
-  useEffect(() => {
-    if (!hasAny || phase !== "entering") return;
-    const t = window.setTimeout(() => setPhase("open"), reduced ? 240 : 900);
-    return () => window.clearTimeout(t);
-  }, [hasAny, phase, reduced]);
 
   function swap(d: 1 | -1, next: () => void) {
     setDir(d);
@@ -260,7 +253,7 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
           <div className="ahb-cloth-wrap">
             <ClothSvg closing={phase === "closing"} reduced={reduced} />
           </div>
-          <div key={animKey} className={`ahb-content ${out ? "is-out" : animKey ? "is-in" : ""}`} aria-live={multi ? "polite" : undefined}>
+          <div key={animKey} className={`ahb-content ${out ? "is-out" : animKey ? "is-in" : ""} ${dir < 0 ? "is-prev" : ""}`} aria-live={multi ? "polite" : undefined}>
             {current.coverImage && (
               <div className="ahb-postcard" aria-hidden="true">
                 <img src={current.coverImage} alt="" loading="lazy" />

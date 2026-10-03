@@ -32,18 +32,15 @@ export const business = {
     instagram: "https://www.instagram.com/adventure__holiday",
     youtube: "https://www.youtube.com/@AdventureHoliday",
   },
-  // WhatsApp community invite URL — not supplied yet. Join Group stays hidden while empty.
-  whatsappGroupInvite: "",
+  whatsappGroupInvite: "https://chat.whatsapp.com/C6QUaWa4QPTIjq4NOR5j95?mode",
 };
 
 export function whatsappLink(text: string) {
   return `${business.whatsappHref}?text=${encodeURIComponent(text)}`;
 }
 
-/** Where "join our community" CTAs go: the invite if supplied, else a direct WhatsApp request. */
-export const communityHref =
-  business.whatsappGroupInvite ||
-  whatsappLink("Hello Adventure Holiday, please share upcoming group tour announcements with me.");
+/** Official Adventure Holiday WhatsApp group invite. */
+export const communityHref = business.whatsappGroupInvite;
 
 export const nav = [
   { label: "Home", href: "/#home" },

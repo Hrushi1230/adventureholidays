@@ -4,6 +4,7 @@ import { useEffect } from "react";
 export function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal, .poster-reveal");
+    let raf = 0;
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) => {
@@ -14,12 +15,21 @@ export function useReveal() {
         }),
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
-    els.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-visible");
-      else io.observe(el);
-    });
-    return () => io.disconnect();
+    const observe = () => {
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("is-visible");
+        else io.observe(el);
+      });
+    };
+    observe();
+    raf = requestAnimationFrame(observe);
+    window.addEventListener("pageshow", observe);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pageshow", observe);
+      io.disconnect();
+    };
   }, []);
 }
 

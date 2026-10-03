@@ -26,14 +26,23 @@ export function UpcomingDepartures() {
   return (
     <section id="upcoming" className="py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <SectionHead eyebrow="Book now" title="Upcoming Departures" text="Browse every scheduled group departure." />
+        <SectionHead eyebrow="Upcoming departures" title="Join our upcoming group journeys." text="Browse every scheduled group departure." />
         {upcomingTours.length ? (
-          <div className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
-            {upcomingTours.map((t) => <DepartureRow key={t.id} t={t} />)}
-          </div>
+          <>
+            <div className="no-scrollbar -mx-5 mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0">
+              {upcomingTours.map((t) => <DepartureRow key={t.id} t={t} />)}
+            </div>
+            <div className="reveal mt-8 grid gap-4 border-t border-border pt-7 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+              <div className="min-w-0">
+                <p className="display text-xl text-primary">Want new tour announcements first?</p>
+                <p className="mt-1 text-sm text-muted-foreground">Get new group-tour dates in the official Adventure Holiday WhatsApp group.</p>
+              </div>
+              <a href={communityHref} target="_blank" rel="noopener noreferrer" className={btnPrimary}>Get Tour Updates on WhatsApp <ArrowRight className="h-4 w-4" /></a>
+            </div>
+          </>
         ) : (
           <EmptyPanel title="New departures are being planned." text="Join our WhatsApp travel community to receive upcoming tour announcements.">
-            <a href={communityHref} target="_blank" rel="noopener noreferrer" className={btnPrimary}>Join Our Group <ArrowRight className="h-4 w-4" /></a>
+            <a href={communityHref} target="_blank" rel="noopener noreferrer" className={btnPrimary}>Get Tour Updates on WhatsApp <ArrowRight className="h-4 w-4" /></a>
           </EmptyPanel>
         )}
       </div>
