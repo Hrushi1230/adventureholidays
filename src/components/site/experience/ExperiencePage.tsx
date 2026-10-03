@@ -9,7 +9,7 @@ import { PhotoStory } from "../gallery/AlbumDetail";
 import { btnGhostLight, btnPrimary } from "../ui";
 
 type Mood = "calm" | "bright";
-type CrossLink = { eyebrow: string; title: string; text: string; cta: string; to: "/rural-camps" | "/picnic-point"; img?: string };
+type CrossLink = { eyebrow: string; title: string; text: string; cta: string; to: "/rural-camps" | "/picnic-point"; img?: string | undefined };
 
 const h2 = "display text-3xl text-primary md:text-5xl";
 
