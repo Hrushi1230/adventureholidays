@@ -246,3 +246,21 @@ body { font-family: var(--font-sans); overflow-x: hidden; -webkit-font-smoothing
 @media (prefers-reduced-motion: reduce) {
   .poster-reveal .poster-clip, .poster-reveal img, .poster-reveal .poster-text > * { clip-path: none; opacity: 1; transform: none; }
 }
+
+/* Authentic text-only traveller reviews move continuously; pause for reading or keyboard focus. */
+.testimonial-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+.testimonial-track { animation: testimonial-run 42s linear infinite; }
+.testimonial-marquee:hover .testimonial-track,
+.testimonial-marquee:focus-within .testimonial-track { animation-play-state: paused; }
+@keyframes testimonial-run { to { transform: translateX(calc(-50% - .75rem)); } }
+@media (max-width: 767px) {
+  .testimonial-track { animation-duration: 52s; }
+  @keyframes testimonial-run { to { transform: translateX(calc(-50% - .5rem)); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-marquee { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+  .testimonial-track { animation: none; }
+}

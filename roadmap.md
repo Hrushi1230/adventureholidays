@@ -4,5 +4,5 @@
 - [x] Confirm Recent Journeys, Gallery hero, Testimonials, and reveal behavior
 - [x] Combine Rural Camps and Picnic Point previews on the homepage
 - [x] Run requested desktop and mobile visual checks
-- [ ] Add authentic text-only testimonials with a continuous card transition
-- [ ] Replace the banner tour action with a booking form that continues to WhatsApp
+- [x] Add authentic text-only testimonials with a continuous card transition
+- [x] Replace the banner tour action with a booking form that continues to WhatsApp

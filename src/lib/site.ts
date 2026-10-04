@@ -70,6 +70,7 @@ export const destinations = [
 export type Testimonial = {
   id: string;
   name: string;
+  rating?: number;
   tour?: string;
   date?: string;
   quote?: string;
@@ -77,8 +78,48 @@ export type Testimonial = {
   photo?: string;
 };
 
-// Add only authentic client testimonials here.
-export const testimonials: Testimonial[] = [];
+// Authentic client reviews supplied as Google review screenshots. Profile photos are intentionally omitted.
+export const testimonials: Testimonial[] = [
+  {
+    id: "review-dkm",
+    name: "D K M",
+    rating: 5,
+    quote: "Thank you Adventure Holiday and Manas babu for making our dream vacation a reality with your impeccable planning and attention to detail. I recommend Adventure Holiday to Odia travellers for their care and detailed planning.",
+  },
+  {
+    id: "review-swapnil-gudu",
+    name: "Swapnil Gudu",
+    rating: 5,
+    tour: "Kashmir trip",
+    quote: "Had a great experience with the team managing my parents’ Kashmir trip. Everything was handled smoothly with professionalism and care. I truly appreciate the seamless coordination and support throughout—highly recommended!",
+  },
+  {
+    id: "review-goutam-goswami",
+    name: "Goutam Goswami",
+    rating: 5,
+    quote: "First time with Adventure Holiday and had the most amazing time ever. I would love to travel with them again soon.",
+  },
+  {
+    id: "review-sahu-ajit",
+    name: "Sahu Ajit",
+    rating: 5,
+    tour: "Shimla Manali tour",
+    quote: "Amazing experience with Adventure Holiday Bhubaneswar! They curated a high-quality Shimla Manali experience at an economical price. The 24/7 support made us feel safe and cared for, and the accommodation and transportation were top-notch.",
+  },
+  {
+    id: "review-sibaram-panigrahi",
+    name: "Sibaram Panigrahi",
+    rating: 5,
+    quote: "Very nicely arranged. The tour operator was mindful of everyone’s comfort and brought the group together. We started as strangers and ended with lots of happy moments.",
+  },
+  {
+    id: "review-biswannath-mohanty",
+    name: "Biswannath Mohanty",
+    rating: 5,
+    tour: "Kashmir trip",
+    quote: "A very good experience on our Kashmir trip. Everyone was cooperative, the food was good, and the overall experience was very enjoyable.",
+  },
+];
 
 export function formatDate(d?: string) {
   if (!d) return undefined;
