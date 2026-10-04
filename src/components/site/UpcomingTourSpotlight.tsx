@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { formatTourDateRange, getFeaturedUpcomingTour, getUpcomingTours, inr, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
+import { TourBookingDialog } from "./TourBookingDialog";
 import ornament from "@/assets/andaman-banner-ornament.png";
 import kashmirPreview from "@/assets/kashmir.jpg";
 import "./upcoming-spotlight.css";
@@ -294,10 +295,12 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
                 {!soldOut && !isDemo && (
                   <Link to="/tours/$slug" params={{ slug: current.slug }} className="ahb-btn ahb-btn-primary">View Tour <span aria-hidden>→</span></Link>
                 )}
-                {isDemo ? <span className="ahb-btn ahb-btn-preview">Preview</span> : (
+                {isDemo ? <span className="ahb-btn ahb-btn-preview">Preview</span> : soldOut ? (
                   <a href={tourWhatsappHref(current)} target="_blank" rel="noopener noreferrer" className={`ahb-btn ${soldOut ? "ahb-btn-primary" : "ahb-btn-outline"}`}>
-                    {soldOut ? "Ask About Next Departure" : "WhatsApp"}
+                    Ask About Next Departure
                   </a>
+                ) : (
+                  <TourBookingDialog tour={current} className="ahb-btn ahb-btn-outline" />
                 )}
               </div>
             </div>

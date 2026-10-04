@@ -28,6 +28,7 @@ export function Testimonials() {
   const real = allTestimonials();
   const list = real.length ? real : import.meta.env.DEV ? demoTestimonials : [];
   const bg = getAlbumsNewestFirst()[0]?.coverImage;
+  const movingList = list.length > 1 ? [...list, ...list] : list;
 
   const verified = [
     { value: "MSME", label: "Registered", note: business.udyam },
@@ -53,24 +54,22 @@ export function Testimonials() {
         </div>
 
         {list.length ? (
-          <div className="no-scrollbar -mx-5 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
-            {list.slice(0, 6).map((t) => (
-              <figure key={t.id} className="flex w-[86vw] shrink-0 snap-center flex-col border border-border bg-background p-7 md:w-auto">
-                {t.video ? (
-                  <video src={t.video} controls preload="none" poster={t.photo} className="aspect-video w-full bg-muted object-cover" />
-                ) : (
-                  <span aria-hidden className="display text-6xl leading-none text-accent">“</span>
-                )}
-                {t.quote && <blockquote className="display mt-4 text-xl text-primary">{t.quote}</blockquote>}
-                <figcaption className="mt-auto flex items-center gap-3 pt-6 text-sm">
-                  {t.photo && !t.video && <img src={t.photo} alt="" loading="lazy" width={48} height={48} className="h-12 w-12 shrink-0 rounded-full object-cover" />}
-                  <span className="min-w-0">
-                    <span className="block font-semibold text-primary">{t.name}</span>
-                    {t.tour && <span className="block text-muted-foreground">{t.tour}</span>}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
+          <div className="testimonial-marquee -mx-5 mt-12 overflow-hidden md:-mx-8" aria-label="Traveller reviews">
+            <div className="testimonial-track flex w-max gap-4 px-5 md:gap-6 md:px-8">
+              {movingList.map((t, index) => (
+                <figure key={`${t.id}-${index}`} className="flex w-[82vw] max-w-[360px] shrink-0 flex-col border border-border bg-background p-7 shadow-soft md:w-[360px]" aria-hidden={index >= list.length || undefined}>
+                  <div className="flex items-center justify-between gap-4">
+                    <span aria-label={`${t.rating ?? 5} out of 5 stars`} className="text-lg leading-none text-accent">{"★".repeat(t.rating ?? 5)}</span>
+                    <span aria-hidden className="display text-5xl leading-none text-accent/40">“</span>
+                  </div>
+                  {t.quote && <blockquote className="mt-5 text-base leading-7 text-primary">{t.quote}</blockquote>}
+                  <figcaption className="mt-auto border-t border-border pt-5 text-sm">
+                    <span className="block font-bold text-primary">{t.name}</span>
+                    {t.tour && <span className="mt-1 block text-muted-foreground">{t.tour}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
         ) : (
           <div className="relative mt-12 overflow-hidden bg-primary">
