@@ -144,17 +144,13 @@ export function spotlightTours(list?: Tour[]): Tour[] {
   return featured ? [featured, ...rest] : rest;
 }
 
+/** Dismissal lasts only for the current visit — the banner always returns after refresh. */
 function isDismissed(id: string): boolean {
-  try {
-    const v = Number(localStorage.getItem(KEY(id)));
-    if (v && Date.now() - v < DAY_MS) return true;
-    if (v) localStorage.removeItem(KEY(id));
-  } catch { /* storage unavailable */ }
+  try { localStorage.removeItem(KEY(id)); } catch { /* storage unavailable */ }
+  void DAY_MS;
   return false;
 }
-function storeDismissed(id: string) {
-  try { localStorage.setItem(KEY(id), String(Date.now())); } catch { /* ignore */ }
-}
+function storeDismissed(_id: string) { /* no persistence */ }
 
 /**
  * Homepage-only hanging cloth banner. One physical cloth; with several upcoming tours only the
