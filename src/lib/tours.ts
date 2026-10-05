@@ -4,6 +4,7 @@
 // Only add confirmed departures — never placeholder dates, prices or itineraries.
 import { whatsappLink } from "./site";
 import andamanCover from "@/assets/andaman-tour-cover.jpg";
+import gujaratCover from "@/assets/gallery/gujarat-apr-2026/gujarat-apr-2026-09.webp.asset.json";
 
 export type TourStatus = "booking-open" | "few-seats" | "sold-out" | "completed";
 export type TourCategory = "group-india" | "group-odisha";
@@ -134,6 +135,58 @@ export const tours: Tour[] = [
       { title: "Within 10 days of the tour", description: "No refund will be applicable." },
     ],
     bookingContact: { name: "Amiya Mishra", phone: "63708 99039", phoneHref: "tel:+916370899039" },
+  },
+  {
+    id: "gujarat-divine-dec-2026",
+    slug: "gujarat-divine-tour-december-2026",
+    title: "Gujarat Divine Tour 2026",
+    destination: "Gujarat",
+    stateOrRegion: "Gujarat",
+    category: "group-india",
+    startDate: "2026-12-21",
+    endDate: "2026-12-30",
+    duration: "10 Days / 9 Nights",
+    departureFrom: "Bhubaneswar",
+    status: "booking-open",
+    featured: false,
+    shortDescription: "A 10-day group journey from Bhubaneswar covering Ahmedabad, Dwarka, Somnath, Diu, Vadodara and the Statue of Unity.",
+    // Temporary cover from Adventure Holiday's own completed Gujarat tour archive.
+    coverImage: gujaratCover.url,
+    seoTitle: "Gujarat Divine Tour — 21–30 December 2026 | Adventure Holiday",
+    seoDescription: "10-day Gujarat group tour from Bhubaneswar covering Ahmedabad, Dwarka, Somnath, Diu, Vadodara and the Statue of Unity with Adventure Holiday.",
+    route: ["Bhubaneswar", "Ahmedabad", "Dwarka", "Somnath", "Diu", "Vadodara", "Bhubaneswar"],
+    pricing: {
+      regularPrice: 25500,
+      advanceAmount: 12000,
+      childPricing: [
+        { label: "0–3 Years", value: "No Cost" },
+        { label: "3–5 Years", value: "50% of package price — no train ticket, no extra bed" },
+        { label: "5–9 Years", value: "80% of package price — train ticket included, no extra bed" },
+        { label: "9 Years & Above", value: "Full Package Price — facilities as per one adult" },
+      ],
+    },
+    placesCovered: ["Ahmedabad", "Dwarka", "Dwarkadhish Temple", "Bet Dwarka", "Somnath", "Somnath Temple", "Diu", "Vadodara", "Statue of Unity"],
+    itinerary: [
+      { day: 1, title: "Bhubaneswar — Departure", description: "Departure from Bhubaneswar at 12:25 AM by train." },
+      { day: 2, title: "Arrival in Ahmedabad", description: "Arrival in Ahmedabad at 9:30 AM followed by local sightseeing.", nightStay: "Ahmedabad" },
+      { day: 3, title: "Ahmedabad → Dwarka", description: "Travel from Ahmedabad to Dwarka, approximately 450 km / 8 hours, followed by Dwarkadhish Temple darshan.", places: ["Dwarkadhish Temple"], nightStay: "Dwarka" },
+      { day: 4, title: "Bet Dwarka Sightseeing", description: "Sightseeing around Bet Dwarka and the surrounding area.", places: ["Bet Dwarka"], nightStay: "Dwarka" },
+      { day: 5, title: "Dwarka → Somnath", description: "Travel from Dwarka to Somnath, approximately 240 km / 4 hours, followed by Somnath darshan.", places: ["Somnath Temple"], nightStay: "Somnath" },
+      { day: 6, title: "Somnath → Diu", description: "Travel from Somnath to Diu, approximately 85 km / 2 hours, followed by Diu sightseeing.", places: ["Diu"], nightStay: "Diu" },
+      { day: 7, title: "Diu → Vadodara", description: "Travel from Diu to Vadodara, approximately 405 km / 7 hours.", nightStay: "Vadodara" },
+      { day: 8, title: "Statue of Unity", description: "Visit the Statue of Unity and return to Vadodara.", places: ["Statue of Unity"], nightStay: "Vadodara" },
+      { day: 9, title: "Vadodara — Departure", description: "Departure from Vadodara at 5:00 AM by train for Bhubaneswar." },
+      { day: 10, title: "Arrival in Bhubaneswar", description: "Arrival in Bhubaneswar at approximately 1:00 PM." },
+    ],
+    inclusions: ["3AC train tickets both ways", "7 nights hotel accommodation", "7 breakfasts and 7 dinners", "Private vehicle service for 7 days"],
+    exclusions: ["Meals during train travel", "Lunch during the tour", "Entry fees", "Personal expenses", "Anything not specifically mentioned under Package Inclusions"],
+    cancellationPolicy: [
+      { title: "15 or more days before departure", description: "70% of the applicable amount will be refunded." },
+      { title: "Within 15 days to 48 hours before departure", description: "30% of the applicable amount will be refunded." },
+      { title: "Within 48 hours of departure", description: "No refund will be applicable." },
+    ],
+    notes: ["Limited availability — enquire for current seat status"],
+    bookingContact: { name: "Gujarat Tour Booking", phone: "63703 87260", phoneHref: "tel:+916370387260" },
   },
 ];
 
