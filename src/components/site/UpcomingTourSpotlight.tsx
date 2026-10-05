@@ -160,7 +160,8 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
   const [demo, setDemo] = useState(false);
   const all = useMemo(() => {
     const production = tour ? [tour] : spotlightTours(list);
-    return demo && !tour && !list ? [...production, bannerDemoTour] : production;
+    void demo; void bannerDemoTour;
+    return production;
   }, [demo, tour, list]);
   const [phase, setPhase] = useState<Phase>("open");
   const [reduced, setReduced] = useState(false);
@@ -177,7 +178,7 @@ export function UpcomingTourSpotlight({ tour, tours: list }: { tour?: Tour; tour
   const multi = visible.length > 1;
 
   useEffect(() => {
-    setDemo(new URLSearchParams(window.location.search).get("bannerDemo") === "2");
+    setDemo(false); // demo fixture retired: two real tours now exist
     setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     setDismissed(all.filter((t) => isDismissed(t.id)).map((t) => t.id));
   }, [all]);
