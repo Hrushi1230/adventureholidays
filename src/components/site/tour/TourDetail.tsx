@@ -37,7 +37,8 @@ export function TourDetail({ t }: { t: Tour }) {
   useReveal();
   const dates = formatTourDateRange(t);
   const p = t.pricing;
-  const price = p?.offerPrice ? `${inr(p.offerPrice)} / person` : formatPrice(t.price);
+  const mainPrice = p?.offerPrice ?? p?.regularPrice;
+  const price = mainPrice ? `${inr(mainPrice)} / person` : formatPrice(t.price);
   const overview = t.description ?? t.shortDescription;
   const facts = [
     ["Date", dates],
@@ -98,6 +99,12 @@ export function TourDetail({ t }: { t: Tour }) {
                       <dt className="eyebrow text-[0.62rem] text-accent">Special Price</dt>
                       <dd className="display mt-1 text-4xl text-primary md:text-5xl">{inr(p.offerPrice)}<span className="ml-1 text-base text-muted-foreground">/ person</span></dd>
                       {p.offerLabel && <dd className="mt-1 text-sm text-muted-foreground">{p.offerLabel}</dd>}
+                    </div>
+                  )}
+                  {p.regularPrice && !p.offerPrice && (
+                    <div>
+                      <dt className="eyebrow text-[0.62rem] text-accent">Package Price</dt>
+                      <dd className="display mt-1 text-4xl text-primary md:text-5xl">{inr(p.regularPrice)}<span className="ml-1 text-base text-muted-foreground">/ person</span></dd>
                     </div>
                   )}
                   {p.regularPrice && p.offerPrice && (
