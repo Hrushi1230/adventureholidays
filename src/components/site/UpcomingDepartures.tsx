@@ -8,7 +8,7 @@ function DepartureRow({ t }: { t: Tour }) {
   const soldOut = t.status === "sold-out";
   return (
     <Link to="/tours/$slug" params={{ slug: t.slug }} className="group flex w-[80vw] max-w-sm shrink-0 snap-start items-center gap-4 border border-border bg-card p-3 transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:w-auto md:max-w-none">
-      <img src={t.coverImage ?? images.hero} alt="" loading="lazy" className="h-20 w-20 shrink-0 object-cover" />
+      <img src={t.coverImage ?? images.hero} alt={`${t.title} — ${t.destination}`} loading="lazy" className="h-20 w-20 shrink-0 object-cover" />
       <div className="min-w-0 flex-1">
         <p className="eyebrow text-[0.6rem] text-accent">{formatTourDate(t.startDate) ?? "Date TBA"}</p>
         <p className="display mt-1 truncate text-xl text-primary">{t.destination}</p>

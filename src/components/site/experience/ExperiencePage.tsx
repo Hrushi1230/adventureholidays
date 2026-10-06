@@ -36,7 +36,7 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
       <Header />
       <main>
         <section className={`relative flex items-end overflow-hidden ${calm ? "min-h-[85svh] md:min-h-[95svh]" : "min-h-[75svh] md:min-h-[85svh]"}`}>
-          {e.heroImage && <img src={e.heroImage} alt={e.heroIsPlaceholder ? "" : `${e.title} by Adventure Holiday`} fetchPriority="high" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />}
+          {e.heroImage && <img src={e.heroImage} alt={`${e.title} — ${e.shortDescription ?? "Adventure Holiday experience"}`} fetchPriority="high" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />}
           <div className="hero-scrim absolute inset-0" />
           <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 pt-32 md:px-8 md:pb-20">
             <p className="eyebrow animate-rise text-sand">{e.eyebrow}</p>
@@ -141,7 +141,7 @@ export function ExperiencePage({ e, mood, intro, cross }: { e: Experience; mood:
         </section>
 
         <section className="relative flex min-h-[50svh] items-end overflow-hidden">
-          {cross.img && <img src={cross.img} alt="" loading="lazy" width={1280} height={960} className="absolute inset-0 h-full w-full object-cover" />}
+          {cross.img && <img src={cross.img} alt={`${cross.title} — Adventure Holiday`} loading="lazy" width={1280} height={960} className="absolute inset-0 h-full w-full object-cover" />}
           <div className="hero-scrim absolute inset-0" />
           <div className="reveal relative mx-auto w-full max-w-7xl px-5 py-14 md:px-8">
             <p className="eyebrow text-sand">{cross.eyebrow}</p>
