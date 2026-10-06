@@ -3,12 +3,13 @@ import { formatAlbumDate, getAlbumBySlug } from "@/lib/gallery";
 import { AlbumDetail, AlbumNotFound } from "@/components/site/gallery/AlbumDetail";
 
 export const Route = createFileRoute("/gallery/$slug")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const album = getAlbumBySlug(params.slug);
     if (!album) throw notFound();
     return { album };
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return { meta: [{ title: "Tour album not found | Adventure Holiday" }, { name: "robots", content: "noindex" }] };
     }
@@ -16,8 +17,11 @@ export const Route = createFileRoute("/gallery/$slug")({
     const title = `${a.title} — ${formatAlbumDate(a.tourDate)} | Adventure Holiday`;
     const description = a.shortDescription ?? `Photos and traveller stories from the ${a.title} completed by Adventure Holiday on ${formatAlbumDate(a.tourDate)}.`;
     const image = a.coverImage.startsWith("https://") ? a.coverImage : undefined;
+    const url = `https://adventureholiday.co.in/gallery/${params.slug}`;
     return {
+      links: [{ rel: "canonical", href: url }],
       meta: [
+        { property: "og:url", content: url },
         { title },
         { name: "description", content: description },
         { property: "og:title", content: title },

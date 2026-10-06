@@ -19,6 +19,7 @@ const title = "Adventure Holiday | Group & Private Tours from Bhubaneswar";
 const description = "Adventure Holiday offers domestic and international tours, scheduled group tours and private holiday packages from Bhubaneswar, Odisha.";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title },
@@ -27,7 +28,9 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://adventureholiday.co.in/" },
     ],
+    links: [{ rel: "canonical", href: "https://adventureholiday.co.in/" }],
   }),
   component: Index,
 });

@@ -6,6 +6,7 @@ const description = "Plan a picnic or group day outing with Adventure Holiday.";
 const image = picnicPoint.heroImage?.startsWith("https://") && !picnicPoint.heroIsPlaceholder ? picnicPoint.heroImage : undefined;
 
 export const Route = createFileRoute("/picnic-point")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Picnic Point | Adventure Holiday" },
@@ -14,8 +15,10 @@ export const Route = createFileRoute("/picnic-point")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://adventureholiday.co.in/picnic-point" },
       ...(image ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : []),
     ],
+    links: [{ rel: "canonical", href: "https://adventureholiday.co.in/picnic-point" }],
   }),
   component: () => (
     <ExperiencePage

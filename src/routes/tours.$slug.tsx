@@ -3,12 +3,13 @@ import { getTourBySlug } from "@/lib/tours";
 import { TourDetail, TourNotFound } from "@/components/site/tour/TourDetail";
 
 export const Route = createFileRoute("/tours/$slug")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const tour = getTourBySlug(params.slug);
     if (!tour) throw notFound();
     return { tour };
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     if (!loaderData) {
       return { meta: [{ title: "Tour not found | Adventure Holiday" }, { name: "robots", content: "noindex" }] };
     }
@@ -16,8 +17,11 @@ export const Route = createFileRoute("/tours/$slug")({
     const title = t.seoTitle ?? `${t.title} | Adventure Holiday`;
     const description = t.seoDescription ?? t.shortDescription ?? `View details and enquire about ${t.title} with Adventure Holiday, Bhubaneswar.`;
     const image = t.coverImage?.startsWith("https://") ? t.coverImage : undefined;
+    const url = `https://adventureholiday.co.in/tours/${params.slug}`;
     return {
+      links: [{ rel: "canonical", href: url }],
       meta: [
+        { property: "og:url", content: url },
         { title },
         { name: "description", content: description },
         { property: "og:title", content: title },
