@@ -6,6 +6,7 @@ const description = "Explore the Rural Camps experience by Adventure Holiday and
 const image = ruralCamps.heroImage?.startsWith("https://") && !ruralCamps.heroIsPlaceholder ? ruralCamps.heroImage : undefined;
 
 export const Route = createFileRoute("/rural-camps")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Rural Camps | Adventure Holiday" },
@@ -14,8 +15,10 @@ export const Route = createFileRoute("/rural-camps")({
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://adventureholiday.co.in/rural-camps" },
       ...(image ? [{ property: "og:image", content: image }, { name: "twitter:image", content: image }] : []),
     ],
+    links: [{ rel: "canonical", href: "https://adventureholiday.co.in/rural-camps" }],
   }),
   component: () => (
     <ExperiencePage
