@@ -13,7 +13,7 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const router = await getRouterInstance();
         const entries: SitemapEntry[] = sitemapStaticPaths(router).map((path) => ({ path }));
-        const add = (routeId: string, to: "/tours/$slug" | "/gallery/$slug", slugs: string[]) => {
+        const add = (routeId: "/tours/$slug" | "/gallery/$slug", to: "/tours/$slug" | "/gallery/$slug", slugs: string[]) => {
           if (!isSitemapRouteIncluded(router.routesById[routeId])) return;
           for (const slug of slugs) {
             const location = router.buildLocation({ to, params: { slug }, search: () => ({}), hash: "" });
