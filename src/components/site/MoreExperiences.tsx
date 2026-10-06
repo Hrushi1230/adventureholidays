@@ -8,7 +8,7 @@ function ExperiencePanel({ experience, to, cta }: { experience: Experience; to: 
       {experience.heroImage && (
         <img
           src={experience.heroImage}
-          alt=""
+          alt={`${experience.title} — ${experience.shortDescription ?? "Adventure Holiday experience"}`}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.025]"
