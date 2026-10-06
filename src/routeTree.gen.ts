@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PicnicPointRouteImport } from './routes/picnic-point'
 import { Route as RuralCampsRouteImport } from './routes/rural-camps'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
 import { Route as GallerySlugRouteImport } from './routes/gallery.$slug'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
@@ -29,6 +30,11 @@ const PicnicPointRoute = PicnicPointRouteImport.update({
 const RuralCampsRoute = RuralCampsRouteImport.update({
   id: '/rural-camps',
   path: '/rural-camps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryIndexRoute = GalleryIndexRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/picnic-point': typeof PicnicPointRoute
   '/rural-camps': typeof RuralCampsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery/': typeof GalleryIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/picnic-point': typeof PicnicPointRoute
   '/rural-camps': typeof RuralCampsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery': typeof GalleryIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/picnic-point': typeof PicnicPointRoute
   '/rural-camps': typeof RuralCampsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/gallery/$slug': typeof GallerySlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery/': typeof GalleryIndexRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/picnic-point'
     | '/rural-camps'
+    | '/sitemap.xml'
     | '/gallery/$slug'
     | '/tours/$slug'
     | '/gallery/'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/picnic-point'
     | '/rural-camps'
+    | '/sitemap.xml'
     | '/gallery/$slug'
     | '/tours/$slug'
     | '/gallery'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/picnic-point'
     | '/rural-camps'
+    | '/sitemap.xml'
     | '/gallery/$slug'
     | '/tours/$slug'
     | '/gallery/'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PicnicPointRoute: typeof PicnicPointRoute
   RuralCampsRoute: typeof RuralCampsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   GallerySlugRoute: typeof GallerySlugRoute
   ToursSlugRoute: typeof ToursSlugRoute
   GalleryIndexRoute: typeof GalleryIndexRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/rural-camps'
       fullPath: '/rural-camps'
       preLoaderRoute: typeof RuralCampsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery/': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PicnicPointRoute: PicnicPointRoute,
   RuralCampsRoute: RuralCampsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   GallerySlugRoute: GallerySlugRoute,
   ToursSlugRoute: ToursSlugRoute,
   GalleryIndexRoute: GalleryIndexRoute,
