@@ -5,6 +5,7 @@ import { images } from "@/lib/site";
 import { getAlbumForTour } from "@/lib/gallery";
 import { categoryLabel, formatPrice, formatTourDateRange, inr, isBookable, statusLabel, tourWhatsappHref, type Tour } from "@/lib/tours";
 import { useReveal } from "@/hooks/use-reveal";
+import { TourBookingDialog } from "../TourBookingDialog";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { FloatingActions } from "../FloatingActions";
@@ -20,8 +21,9 @@ function TourCta({ t, light }: { t: Tour; light?: boolean }) {
     ) : null;
   }
   return (
-    <div className="flex flex-col gap-3 sm:flex-row">
-      <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+      {isBookable(t) && <TourBookingDialog tour={t} className={`${btnPrimary} h-auto rounded-full px-7 py-4 text-xs font-bold uppercase tracking-widest`} />}
+      <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={isBookable(t) ? (light ? btnGhostLight : btnOutline) : btnPrimary}>
         <MessageCircle className="h-4 w-4" /> {t.status === "sold-out" ? "Ask About Next Departure" : "Enquire on WhatsApp"}
       </a>
       {t.bookingContact?.phoneHref ? (
