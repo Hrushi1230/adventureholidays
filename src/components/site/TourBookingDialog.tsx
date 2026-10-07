@@ -15,17 +15,18 @@ export function TourBookingDialog({ tour, className }: { tour: Tour; className?:
     const data = new FormData(event.currentTarget);
     const value = (name: string) => String(data.get(name) ?? "").trim() || "-";
     const date = formatTourDateRange(tour);
+    const travelDate = String(data.get("travelDate") ?? "").trim();
     const price = tour.pricing?.offerPrice ?? tour.pricing?.regularPrice;
     const message = [
       "Hello Adventure Holiday,",
       "",
       `I would like to book the ${tour.title}.`,
-      ...(date ? [`Travel Date: ${date}`] : []),
+      ...(travelDate ? [`Travel Date: ${travelDate}`] : date ? [`Travel Date: ${date} (as per package)`] : []),
       ...(price ? [`Package Price: ${inr(price)} per person`] : []),
       "",
       `Name: ${value("name")}`,
       `Phone: ${value("phone")}`,
-      `Number of Travellers: ${value("travellers")}`,
+      `Group Size: ${value("travellers")}`,
       `Message: ${value("message")}`,
       "",
       "Please share the next booking steps.",
