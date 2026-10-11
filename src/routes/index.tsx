@@ -50,7 +50,7 @@ function Index() {
         <MoreExperiences />
       </main>
       <Footer />
-      <FloatingActions />
+      <FloatingActions heroDock />
     </>
   );
 }

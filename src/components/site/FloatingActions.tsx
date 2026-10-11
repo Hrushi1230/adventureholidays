@@ -1,9 +1,27 @@
 import { MessageCircle, Phone, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { business } from "@/lib/site";
 
-export function FloatingActions() {
+export function FloatingActions({ heroDock = false }: { heroDock?: boolean }) {
+  const [dockTop, setDockTop] = useState<number>();
+  useEffect(() => {
+    if (!heroDock) return;
+    const update = () => {
+      const hero = document.getElementById("home");
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      setDockTop(rect.bottom > 80 ? rect.bottom + window.scrollY - 68 : undefined);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    const observer = new ResizeObserver(update);
+    const hero = document.getElementById("home");
+    if (hero) observer.observe(hero);
+    return () => { window.removeEventListener("scroll", update); window.removeEventListener("resize", update); observer.disconnect(); };
+  }, [heroDock]);
   return (
-    <div className="floating-actions fixed right-4 z-40 flex items-center gap-2 md:right-6" style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}>
+    <div className={`floating-actions ${dockTop !== undefined ? "absolute" : "fixed"} right-4 z-40 flex items-center gap-2 md:right-6`} style={dockTop !== undefined ? { top: dockTop } : { bottom: "max(1rem, env(safe-area-inset-bottom))" }}>
       {business.whatsappGroupInvite && (
         <a href={business.whatsappGroupInvite} target="_blank" rel="noopener noreferrer" className="flex h-12 items-center gap-2 rounded-full bg-background px-4 text-xs font-bold uppercase tracking-wider text-primary shadow-soft">
           <Users className="h-4 w-4" /> Join Group

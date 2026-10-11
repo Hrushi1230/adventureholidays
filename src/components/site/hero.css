@@ -3,23 +3,23 @@
   isolation: isolate;
   overflow: hidden;
   color: var(--primary-foreground);
-  padding-top: 124px;
-  min-height: min(860px, 100svh);
+  padding-top: 108px;
+  min-height: min(740px, 96svh);
 }
 .booking-hero-background { position: absolute; inset: 0; z-index: -2; }
 .booking-hero-background img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .booking-hero-overlay { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, color-mix(in oklch, var(--overlay) 65%, transparent), color-mix(in oklch, var(--overlay) 12%, transparent)), linear-gradient(180deg, color-mix(in oklch, var(--overlay) 22%, transparent), color-mix(in oklch, var(--overlay) 8%, transparent) 45%, color-mix(in oklch, var(--overlay) 80%, transparent)); }
 .booking-hero-inner { width: 100%; max-width: 1280px; margin-inline: auto; padding: 0 32px; }
-.booking-hero-heading { font-family: var(--font-display); font-size: 48px; line-height: 1.08; font-weight: 600; letter-spacing: 0; max-width: 850px; }
+.booking-hero-heading { font-family: var(--font-display); font-size: 44px; line-height: 1.08; font-weight: 600; letter-spacing: 0; max-width: 850px; }
 .booking-hero-intro { max-width: 620px; font-size: 14px; line-height: 1.65; margin-top: 14px; }
-.booking-hero-benefits { display: flex; flex-wrap: wrap; gap: 18px 28px; margin-top: 22px; }
+.booking-hero-benefits { display: flex; flex-wrap: wrap; gap: 18px 28px; margin-top: 16px; }
 .booking-hero-benefit { display: flex; align-items: center; gap: 9px; font-size: 11px; line-height: 1.4; max-width: 140px; }
 .booking-hero-benefit-icon { display: grid; place-items: center; height: 32px; width: 32px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-foreground); }
-.hero-tour-area { margin-top: 28px; max-width: 920px; scroll-margin-top: 100px; }
+.hero-tour-area { margin-top: 20px; max-width: 920px; scroll-margin-top: 100px; }
 .hero-tour-viewport { overflow: hidden; padding: 3px 2px 12px; }
 .hero-tour-track { display: flex; gap: 18px; }
 .hero-tour-card { flex: 0 0 calc((100% - 18px) / 2); min-width: 0; max-width: 340px; border-radius: 16px; overflow: hidden; background: var(--card); color: var(--card-foreground); border: 1px solid color-mix(in oklch, var(--primary-foreground) 65%, transparent); box-shadow: var(--shadow-soft); transition: transform 250ms ease; }
-.hero-tour-image { position: relative; height: 135px; overflow: hidden; }
+.hero-tour-image { position: relative; height: 115px; overflow: hidden; }
 .hero-tour-image img { height: 100%; width: 100%; object-fit: cover; transition: transform 500ms ease; }
 .hero-tour-image-placeholder { background: var(--secondary); height: 100%; display: grid; place-items: center; color: var(--primary); }
 .hero-tour-status { position: absolute; top: 12px; left: 12px; background: var(--accent); color: var(--accent-foreground); border-radius: 99px; padding: 5px 9px; font-size: 9px; font-weight: 800; text-transform: uppercase; }
@@ -37,7 +37,7 @@
 .hero-tour-dots { display: flex; gap: 7px; }
 .hero-tour-dot { width: 7px; height: 7px; padding: 0; border-radius: 99px; background: color-mix(in oklch, var(--primary-foreground) 45%, transparent); }
 .hero-tour-dot[aria-current="true"] { width: 20px; background: var(--accent); }
-.booking-hero-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding: 22px 300px 28px 0; margin-top: 8px; }
+.booking-hero-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; padding: 12px 260px 20px 0; }
 .booking-hero-bottom > a { font-size: 10px; white-space: nowrap; }
 @media (hover: hover) { .hero-tour-card:hover { transform: translateY(-3px); } .hero-tour-card:hover .hero-tour-image img { transform: scale(1.04); } }
 @media (min-width: 1440px) { .booking-hero { padding-top: 140px; } .booking-hero-heading { font-size: 56px; } .hero-tour-image { height: 150px; } .hero-tour-area { margin-top: 32px; } }
@@ -46,7 +46,7 @@
   .booking-hero { padding-top: 105px; min-height: auto; }
   .booking-hero-inner { padding-inline: 20px; }
   .booking-hero-background img { object-position: 62% center; }
-  .booking-hero-heading { font-size: 34px; line-height: 1.1; max-width: 440px; }
+  .booking-hero-heading { font-size: 30px; line-height: 1.1; max-width: 440px; }
   .booking-hero-intro { font-size: 12px; margin-top: 12px; }
   .booking-hero-benefits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin-top: 18px; max-width: 390px; }
   .booking-hero-benefit { max-width: none; font-size: 10px; }
