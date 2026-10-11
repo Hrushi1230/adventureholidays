@@ -4,7 +4,7 @@
 // Only add confirmed departures — never placeholder dates, prices or itineraries.
 import { whatsappLink } from "./site";
 import andamanCover from "@/assets/andaman-tour-cover.jpg";
-import gujaratCover from "@/assets/gallery/gujarat-apr-2026/gujarat-apr-2026-09.webp.asset.json";
+import gujaratCover from "@/assets/gujarat-divine-tour-2026.png.asset.json";
 
 export type TourStatus = "booking-open" | "few-seats" | "sold-out" | "completed";
 export type TourCategory = "group-india" | "group-odisha";
