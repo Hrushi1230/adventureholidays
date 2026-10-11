@@ -6,3 +6,5 @@
 - [x] Run requested desktop and mobile visual checks
 - [x] Add authentic text-only testimonials with a continuous card transition
 - [x] Replace the banner tour action with a booking form that continues to WhatsApp
+- [x] Integrate confirmed tour cards into the scenic hero, remove the automatic banner, and retain reference bottom actions
+- [x] Verify tour navigation, booking forms and desktop/mobile layout
