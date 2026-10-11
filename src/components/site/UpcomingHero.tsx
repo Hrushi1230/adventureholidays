@@ -1,37 +1,40 @@
-import { useRef } from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Heart, MapPin, ShieldCheck, Users } from "lucide-react";
 import heroAsset from "@/assets/adventure-holiday-hero.png.asset.json";
 import { communityHref } from "@/lib/site";
-import { useParallax } from "@/hooks/use-reveal";
-import { btnGhostLight, btnPrimary } from "./ui";
+import { Button } from "@/components/ui/button";
+import { HeroTourCollection } from "./HeroTourCollection";
+import { btnPrimary } from "./ui";
+import "./hero.css";
 
 export function UpcomingHero() {
-  const ref = useRef<HTMLImageElement>(null);
-  useParallax(ref, 0.2);
-
   return (
-    <section id="home" className="relative flex min-h-[100svh] items-end overflow-hidden">
-      <div className="absolute inset-0 animate-hero-zoom">
-        <img ref={ref} src={heroAsset.url} alt="Hikers overlooking a turquoise alpine lake and mountain range" width={1365} height={768} fetchPriority="high" className="h-full w-full object-cover object-center" />
+    <section id="home" className="booking-hero">
+      <div className="booking-hero-background">
+        <img src={heroAsset.url} alt="Hikers overlooking a turquoise alpine lake and mountain range" width={1365} height={768} fetchPriority="high" />
       </div>
-      <div className="hero-scrim absolute inset-0" />
-      <div className="relative mx-auto w-full max-w-7xl px-5 pb-16 md:px-8 md:pb-8" style={{ paddingTop: "max(10rem, var(--ahb-clearance, 0px))", transition: "padding-top 600ms cubic-bezier(.4,0,.2,1)" }}>
-        <p className="eyebrow animate-rise text-sand" style={{ animationDelay: "100ms" }}>Adventure Holiday</p>
-        <h1 className="display animate-rise mt-4 max-w-5xl text-[2.15rem] text-primary-foreground sm:text-6xl lg:text-[4.2rem]" style={{ animationDelay: "220ms" }}>
-          <span className="block whitespace-nowrap">Group Tours.</span>
-          <span className="block whitespace-nowrap">Private Journeys.</span>
-          <span className="block whitespace-nowrap text-sand">Adventure Holiday.</span>
+      <div className="booking-hero-overlay" />
+      <div className="booking-hero-inner">
+        <p className="eyebrow mb-3 flex items-center gap-4 text-[0.6rem] text-primary-foreground">Upcoming Group Tours <span className="h-px w-16 bg-accent" /></p>
+        <h1 className="booking-hero-heading animate-rise">
+          Explore Incredible India<br />
+          With <span className="text-accent">Adventure Holiday</span>
         </h1>
-        <p className="animate-rise mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/90 md:text-lg" style={{ animationDelay: "340ms" }}>
-          <span className="block">Domestic &amp; International Tours</span>
-          <span className="block">From Bhubaneswar</span>
+        <p className="booking-hero-intro text-primary-foreground/90">
+          Curated group tours with fixed departures, experienced tour leaders and unforgettable travel experiences.
         </p>
-        <div className="animate-rise mt-7 flex flex-col items-start gap-4 md:mt-5 md:flex-row md:items-center" style={{ animationDelay: "460ms" }}>
-          <a href="#plan" className={btnPrimary}>Plan Your Tour <ArrowRight className="h-4 w-4" /></a>
-          <a href="#upcoming" className={`${btnGhostLight} border-0 px-1 py-2`}>View Upcoming Tours <ArrowRight className="h-4 w-4" /></a>
-          <a href={communityHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-1 py-2 text-xs font-bold uppercase tracking-widest text-primary-foreground/85 transition-colors hover:text-sand">
+        <div className="booking-hero-benefits">
+          {[[Users, "Fixed Departure Tours"], [MapPin, "From Bhubaneswar"], [ShieldCheck, "Experienced Tour Team"], [Heart, "Safe & Comfortable Travel"]].map(([Icon, text]) => {
+            const BenefitIcon = Icon as typeof Users;
+            return <div key={String(text)} className="booking-hero-benefit"><span className="booking-hero-benefit-icon"><BenefitIcon size={17} aria-hidden /></span><span>{String(text)}</span></div>;
+          })}
+        </div>
+        <HeroTourCollection />
+        <div className="booking-hero-bottom">
+          <Button asChild className={`${btnPrimary} h-12 hover:bg-accent/90`}><a href="#plan">Plan Your Tour <ArrowRight /></a></Button>
+          <Button asChild variant="link" className="h-auto p-0 font-bold uppercase text-primary-foreground hover:text-accent"><a href="#upcoming">View Upcoming Tours <ArrowRight /></a></Button>
+          <Button asChild variant="link" className="h-auto p-0 font-bold uppercase text-primary-foreground/85 hover:text-accent"><a href={communityHref} target="_blank" rel="noopener noreferrer">
             Join WhatsApp Group <ArrowUpRight className="h-4 w-4" />
-          </a>
+          </a></Button>
         </div>
       </div>
     </section>
