@@ -15,7 +15,11 @@ import { Route as RuralCampsRouteImport } from './routes/rural-camps'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
 import { Route as GallerySlugRouteImport } from './routes/gallery.$slug'
+import { Route as PrivatePackagesDestinationRouteImport } from './routes/private-packages.$destination'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
+import { Route as PrivatePackagesDestinationIndexRouteImport } from './routes/private-packages.$destination.index'
+import { Route as PrivatePackagesDestinationPackagesPackageRouteImport } from './routes/private-packages.$destination.packages.$package'
+import { Route as PrivatePackagesDestinationPlacesPlaceRouteImport } from './routes/private-packages.$destination.places.$place'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,11 +51,35 @@ const GallerySlugRoute = GallerySlugRouteImport.update({
   path: '/gallery/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivatePackagesDestinationRoute =
+  PrivatePackagesDestinationRouteImport.update({
+    id: '/private-packages/$destination',
+    path: '/private-packages/$destination',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToursSlugRoute = ToursSlugRouteImport.update({
   id: '/tours/$slug',
   path: '/tours/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivatePackagesDestinationIndexRoute =
+  PrivatePackagesDestinationIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PrivatePackagesDestinationRoute,
+  } as any)
+const PrivatePackagesDestinationPackagesPackageRoute =
+  PrivatePackagesDestinationPackagesPackageRouteImport.update({
+    id: '/packages/$package',
+    path: '/packages/$package',
+    getParentRoute: () => PrivatePackagesDestinationRoute,
+  } as any)
+const PrivatePackagesDestinationPlacesPlaceRoute =
+  PrivatePackagesDestinationPlacesPlaceRouteImport.update({
+    id: '/places/$place',
+    path: '/places/$place',
+    getParentRoute: () => PrivatePackagesDestinationRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -59,8 +87,12 @@ export interface FileRoutesByFullPath {
   '/rural-camps': typeof RuralCampsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/gallery/$slug': typeof GallerySlugRoute
+  '/private-packages/$destination': typeof PrivatePackagesDestinationRouteWithChildren
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery/': typeof GalleryIndexRoute
+  '/private-packages/$destination/': typeof PrivatePackagesDestinationIndexRoute
+  '/private-packages/$destination/packages/$package': typeof PrivatePackagesDestinationPackagesPackageRoute
+  '/private-packages/$destination/places/$place': typeof PrivatePackagesDestinationPlacesPlaceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +102,9 @@ export interface FileRoutesByTo {
   '/gallery/$slug': typeof GallerySlugRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery': typeof GalleryIndexRoute
+  '/private-packages/$destination': typeof PrivatePackagesDestinationIndexRoute
+  '/private-packages/$destination/packages/$package': typeof PrivatePackagesDestinationPackagesPackageRoute
+  '/private-packages/$destination/places/$place': typeof PrivatePackagesDestinationPlacesPlaceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,8 +113,12 @@ export interface FileRoutesById {
   '/rural-camps': typeof RuralCampsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/gallery/$slug': typeof GallerySlugRoute
+  '/private-packages/$destination': typeof PrivatePackagesDestinationRouteWithChildren
   '/tours/$slug': typeof ToursSlugRoute
   '/gallery/': typeof GalleryIndexRoute
+  '/private-packages/$destination/': typeof PrivatePackagesDestinationIndexRoute
+  '/private-packages/$destination/packages/$package': typeof PrivatePackagesDestinationPackagesPackageRoute
+  '/private-packages/$destination/places/$place': typeof PrivatePackagesDestinationPlacesPlaceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -89,8 +128,12 @@ export interface FileRouteTypes {
     | '/rural-camps'
     | '/sitemap.xml'
     | '/gallery/$slug'
+    | '/private-packages/$destination'
     | '/tours/$slug'
     | '/gallery/'
+    | '/private-packages/$destination/'
+    | '/private-packages/$destination/packages/$package'
+    | '/private-packages/$destination/places/$place'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +143,9 @@ export interface FileRouteTypes {
     | '/gallery/$slug'
     | '/tours/$slug'
     | '/gallery'
+    | '/private-packages/$destination'
+    | '/private-packages/$destination/packages/$package'
+    | '/private-packages/$destination/places/$place'
   id:
     | '__root__'
     | '/'
@@ -107,8 +153,12 @@ export interface FileRouteTypes {
     | '/rural-camps'
     | '/sitemap.xml'
     | '/gallery/$slug'
+    | '/private-packages/$destination'
     | '/tours/$slug'
     | '/gallery/'
+    | '/private-packages/$destination/'
+    | '/private-packages/$destination/packages/$package'
+    | '/private-packages/$destination/places/$place'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,6 +167,7 @@ export interface RootRouteChildren {
   RuralCampsRoute: typeof RuralCampsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   GallerySlugRoute: typeof GallerySlugRoute
+  PrivatePackagesDestinationRoute: typeof PrivatePackagesDestinationRouteWithChildren
   ToursSlugRoute: typeof ToursSlugRoute
   GalleryIndexRoute: typeof GalleryIndexRoute
 }
@@ -165,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GallerySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/private-packages/$destination': {
+      id: '/private-packages/$destination'
+      path: '/private-packages/$destination'
+      fullPath: '/private-packages/$destination'
+      preLoaderRoute: typeof PrivatePackagesDestinationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tours/$slug': {
       id: '/tours/$slug'
       path: '/tours/$slug'
@@ -172,8 +230,49 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToursSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/private-packages/$destination/': {
+      id: '/private-packages/$destination/'
+      path: '/'
+      fullPath: '/private-packages/$destination/'
+      preLoaderRoute: typeof PrivatePackagesDestinationIndexRouteImport
+      parentRoute: typeof PrivatePackagesDestinationRoute
+    }
+    '/private-packages/$destination/packages/$package': {
+      id: '/private-packages/$destination/packages/$package'
+      path: '/packages/$package'
+      fullPath: '/private-packages/$destination/packages/$package'
+      preLoaderRoute: typeof PrivatePackagesDestinationPackagesPackageRouteImport
+      parentRoute: typeof PrivatePackagesDestinationRoute
+    }
+    '/private-packages/$destination/places/$place': {
+      id: '/private-packages/$destination/places/$place'
+      path: '/places/$place'
+      fullPath: '/private-packages/$destination/places/$place'
+      preLoaderRoute: typeof PrivatePackagesDestinationPlacesPlaceRouteImport
+      parentRoute: typeof PrivatePackagesDestinationRoute
+    }
   }
 }
+
+interface PrivatePackagesDestinationRouteChildren {
+  PrivatePackagesDestinationIndexRoute: typeof PrivatePackagesDestinationIndexRoute
+  PrivatePackagesDestinationPackagesPackageRoute: typeof PrivatePackagesDestinationPackagesPackageRoute
+  PrivatePackagesDestinationPlacesPlaceRoute: typeof PrivatePackagesDestinationPlacesPlaceRoute
+}
+
+const PrivatePackagesDestinationRouteChildren: PrivatePackagesDestinationRouteChildren =
+  {
+    PrivatePackagesDestinationIndexRoute: PrivatePackagesDestinationIndexRoute,
+    PrivatePackagesDestinationPackagesPackageRoute:
+      PrivatePackagesDestinationPackagesPackageRoute,
+    PrivatePackagesDestinationPlacesPlaceRoute:
+      PrivatePackagesDestinationPlacesPlaceRoute,
+  }
+
+const PrivatePackagesDestinationRouteWithChildren =
+  PrivatePackagesDestinationRoute._addFileChildren(
+    PrivatePackagesDestinationRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -181,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   RuralCampsRoute: RuralCampsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   GallerySlugRoute: GallerySlugRoute,
+  PrivatePackagesDestinationRoute: PrivatePackagesDestinationRouteWithChildren,
   ToursSlugRoute: ToursSlugRoute,
   GalleryIndexRoute: GalleryIndexRoute,
 }
