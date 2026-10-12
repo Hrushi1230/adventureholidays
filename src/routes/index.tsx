@@ -5,6 +5,7 @@ import { TourSegments } from "@/components/site/TourSegments";
 import { IndiaGroupTours } from "@/components/site/IndiaGroupTours";
 import { OdishaGroupTours } from "@/components/site/OdishaGroupTours";
 import { PrivatePackages } from "@/components/site/PrivatePackages";
+import { PrivatePackagesOdisha } from "@/components/site/PrivatePackagesOdisha";
 import { RecentTours } from "@/components/site/RecentTours";
 import { Testimonials } from "@/components/site/Testimonials";
 import { TourEnquiry } from "@/components/site/TourEnquiry";
@@ -44,6 +45,7 @@ function Index() {
         <IndiaGroupTours />
         <OdishaGroupTours />
         <PrivatePackages />
+        <PrivatePackagesOdisha />
         <RecentTours />
         <Testimonials />
         <TourEnquiry />

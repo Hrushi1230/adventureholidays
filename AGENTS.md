@@ -17,3 +17,5 @@
 - Completed-tour albums live only in `tourAlbums` in src/lib/gallery.ts; /gallery (auto year→month grouping), /gallery/$slug, Recent Journeys and tour 'View Tour Memories' links derive from it; media fields are plain URLs so photos/videos can move to a CDN.
 - Rural Camps and Picnic Point content lives only in src/lib/experiences.ts; both routes render the shared data-driven ExperiencePage (mood prop: calm/bright) which omits sections whose data is empty.
 - Brand logo is a lovable-assets pointer (src/assets/adventure-holiday-logo.png.asset.json) used by Header and Footer; favicon is a separate square copy in public/.
+- Private destination/place/package content lives only in src/lib/private-packages.ts, using destination labels from site.ts; both Odisha entry points share it, keeping private quotations separate from scheduled group departures.
+- Private destination routes use a path layout with index, place and package leaves plus shared page/form components; only confirmed package records become published itinerary links, preventing fictional availability.
