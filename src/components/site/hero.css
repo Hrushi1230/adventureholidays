@@ -15,10 +15,10 @@
 .booking-hero-benefits { display: flex; flex-wrap: wrap; gap: 18px 28px; margin-top: 16px; }
 .booking-hero-benefit { display: flex; align-items: center; gap: 9px; font-size: 11px; line-height: 1.4; max-width: 140px; }
 .booking-hero-benefit-icon { display: grid; place-items: center; height: 32px; width: 32px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-foreground); }
-.hero-tour-area { margin-top: 14px; max-width: 920px; scroll-margin-top: 100px; }
+.hero-tour-area { margin: 14px auto 0; width: 100%; scroll-margin-top: 100px; }
 .hero-tour-viewport { overflow: hidden; padding: 3px 2px 12px; }
-.hero-tour-track { display: flex; gap: 18px; }
-.hero-tour-card { flex: 0 0 calc((100% - 18px) / 2); min-width: 0; max-width: 340px; border-radius: 16px; overflow: hidden; background: var(--card); color: var(--card-foreground); border: 1px solid color-mix(in oklch, var(--primary-foreground) 65%, transparent); box-shadow: var(--shadow-soft); transition: transform 250ms ease; }
+.hero-tour-track { display: flex; justify-content: safe center; gap: 18px; }
+.hero-tour-card { flex: 0 0 340px; min-width: 0; max-width: 340px; border-radius: 16px; overflow: hidden; background: var(--card); color: var(--card-foreground); border: 1px solid color-mix(in oklch, var(--primary-foreground) 65%, transparent); box-shadow: var(--shadow-soft); transition: transform 250ms ease; }
 .hero-tour-image { position: relative; height: 100px; overflow: hidden; }
 .hero-tour-image img { height: 100%; width: 100%; object-fit: cover; transition: transform 500ms ease; }
 .hero-tour-image-placeholder { background: var(--secondary); height: 100%; display: grid; place-items: center; color: var(--primary); }
@@ -33,14 +33,14 @@
 .hero-tour-price small { font-size: 10px; color: var(--muted-foreground); }
 .hero-tour-actions { display: grid; grid-template-columns: 1.12fr 1fr; gap: 8px; margin-top: 12px; }
 .hero-tour-actions > a, .hero-tour-actions > button { height: 40px; padding-inline: 9px; font-size: 10px; border-radius: 99px; font-weight: 700; }
-.hero-tour-controls { display: flex; align-items: center; justify-content: center; gap: 15px; max-width: 698px; margin-top: 2px; }
+.hero-tour-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 2px; }
 .hero-tour-dots { display: flex; gap: 7px; }
 .hero-tour-dot { width: 7px; height: 7px; padding: 0; border-radius: 99px; background: color-mix(in oklch, var(--primary-foreground) 45%, transparent); }
 .hero-tour-dot[aria-current="true"] { width: 20px; background: var(--accent); }
 .booking-hero-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; padding: 12px 260px 20px 0; }
 .booking-hero-bottom > a { font-size: 10px; white-space: nowrap; }
 @media (hover: hover) { .hero-tour-card:hover { transform: translateY(-3px); } .hero-tour-card:hover .hero-tour-image img { transform: scale(1.04); } }
-@media (min-width: 1440px) { .booking-hero { padding-top: 120px; } .booking-hero-heading { font-size: 56px; } .hero-tour-image { height: 150px; } .hero-tour-area { margin-top: 32px; } .hero-tour-area:has(.hero-tour-card:nth-child(3)) { max-width: none; } .hero-tour-track:has(.hero-tour-card:nth-child(3)) .hero-tour-card { flex-basis: calc((100% - 54px) / 4); } }
+@media (min-width: 1440px) { .booking-hero { padding-top: 120px; } .booking-hero-heading { font-size: 56px; } .hero-tour-image { height: 150px; } .hero-tour-area { margin-top: 32px; } }
 @media (max-width: 1100px) { .booking-hero-bottom { padding-right: 0; padding-bottom: 90px; } }
 @media (max-width: 767px) {
   .booking-hero { padding-top: 105px; min-height: auto; }
@@ -52,7 +52,7 @@
   .booking-hero-benefit { max-width: none; font-size: 10px; }
   .booking-hero-benefit-icon { height: 28px; width: 28px; }
   .hero-tour-area { margin-top: 24px; margin-right: -20px; }
-  .hero-tour-track { gap: 12px; }
+  .hero-tour-track { justify-content: flex-start; gap: 12px; }
   .hero-tour-card { flex-basis: 88%; max-width: 350px; }
   .hero-tour-image { height: 145px; }
   .hero-tour-title { font-size: 21px; }
