@@ -52,7 +52,7 @@
   .booking-hero-benefit { max-width: none; font-size: 10px; }
   .booking-hero-benefit-icon { height: 28px; width: 28px; }
   .hero-tour-area { margin-top: 24px; margin-right: -20px; }
-  .hero-tour-track { justify-content: flex-start; gap: 12px; }
+  .hero-tour-track { justify-content: safe center; gap: 12px; }
   .hero-tour-card { flex-basis: 88%; max-width: 350px; }
   .hero-tour-image { height: 145px; }
   .hero-tour-title { font-size: 21px; }
