@@ -2,13 +2,14 @@ import { destinations, images, whatsappLink } from "./site";
 import { tourAlbums } from "./gallery";
 import andaman from "@/assets/andaman-tour-cover.jpg";
 
-export type PrivatePlace = { name: string; slug: string; description?: string; image?: string; status?: "available" | "coming-soon" };
+export type ScenicPhotoCredit = { title: string; source: string; author: string; license: string; licenseUrl?: string };
+export type PrivatePlace = { name: string; slug: string; description?: string; image?: string; photoCredit?: ScenicPhotoCredit; status?: "available" | "coming-soon" };
 export type PrivatePackage = {
   slug: string; title: string; placeSlug?: string; duration?: string; places?: string[]; pickupCity?: string;
   transport?: string; accommodation?: string; itinerary?: { day: number; title: string; description?: string }[];
   inclusions?: string[]; exclusions?: string[]; pricing?: { travellers: string; total: number }[];
 };
-export type PrivateDestination = { name: string; slug: string; coverImage?: string; imageAlt: string; description?: string; places: PrivatePlace[]; packages: PrivatePackage[] };
+export type PrivateDestination = { name: string; slug: string; coverImage?: string; photoCredit?: ScenicPhotoCredit; imageAlt: string; description?: string; places: PrivatePlace[]; packages: PrivatePackage[] };
 const archive = (destination: string) => tourAlbums.find((album) => album.destination === destination)?.coverImage;
 const covers: Record<string, string | undefined> = {
   Kashmir: archive("Kashmir") ?? images.kashmir,

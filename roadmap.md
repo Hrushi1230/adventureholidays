@@ -12,3 +12,5 @@
 - [x] Build compact 19-destination explorer and shared private destination/place pages
 - [x] Add Odisha entry point and enquiry-only Koraput details using shared data
 - [x] Verify quotation messages, navigation, imagery and requested screen widths
+- [ ] Replace all private destination photographs with sourced scenery and add photographed discovery places
+- [ ] Verify destination/place navigation, quotation flow and mobile/desktop rendering
