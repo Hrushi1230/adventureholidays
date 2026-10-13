@@ -8,7 +8,7 @@
 - [x] Replace the banner tour action with a booking form that continues to WhatsApp
 - [x] Integrate confirmed tour cards into the scenic hero, remove the automatic banner, and retain reference bottom actions
 - [x] Verify tour navigation, booking forms and desktop/mobile layout
-- [ ] Center fixed-width hero tour cards without changing the hero design
-- [ ] Build compact 19-destination explorer and shared private destination/place pages
-- [ ] Add Odisha entry point and enquiry-only Koraput details using shared data
-- [ ] Verify quotation messages, navigation, imagery and requested screen widths
+- [x] Center fixed-width hero tour cards without changing the hero design
+- [x] Build compact 19-destination explorer and shared private destination/place pages
+- [x] Add Odisha entry point and enquiry-only Koraput details using shared data
+- [x] Verify quotation messages, navigation, imagery and requested screen widths
