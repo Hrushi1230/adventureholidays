@@ -1,5 +1,6 @@
 import { destinations, images, whatsappLink } from "./site";
 import { tourAlbums } from "./gallery";
+import { scenicPlaces } from "./private-scenery";
 import andaman from "@/assets/andaman-tour-cover.jpg";
 
 export type ScenicPhotoCredit = { title: string; source: string; author: string; license: string; licenseUrl?: string };
@@ -18,14 +19,15 @@ const covers: Record<string, string | undefined> = {
   Rajasthan: archive("Rajasthan") ?? images.rajasthan, Andaman: andaman,
   "Uttar Pradesh": archive("Agra"), Delhi: archive("Delhi"), Punjab: archive("Amritsar"), Odisha: images.odisha,
 };
-const odishaPlaces: PrivatePlace[] = [
-  { name: "Koraput", slug: "koraput", status: "available", description: "Private journeys available on enquiry. Request the current itinerary and group-size pricing." },
-  ...["Phulbani", "Sambalpur", "Bhubaneswar", "Puri"].map((name): PrivatePlace => ({ name, slug: name.toLowerCase(), status: "coming-soon" })),
-];
+const odishaStatuses: Record<string, PrivatePlace["status"]> = { koraput: "available", phulbani: "coming-soon", sambalpur: "coming-soon", bhubaneswar: "coming-soon", puri: "coming-soon" };
+const placesFor = (name: string): PrivatePlace[] => (scenicPlaces[name] ?? []).map((place) => ({
+  ...place,
+  ...(name === "Odisha" ? { status: odishaStatuses[place.slug], description: place.slug === "koraput" ? "Private journeys available on enquiry. Request the current itinerary and group-size pricing." : undefined } : {}),
+}));
 export const privateDestinations: PrivateDestination[] = destinations.map((name) => ({
-  name, slug: name.toLowerCase().replaceAll(" ", "-"), coverImage: covers[name], imageAlt: `${name} destination scenery`,
+  name, slug: name.toLowerCase().replaceAll(" ", "-"), coverImage: covers[name] ?? scenicPlaces[name]?.[0]?.image, imageAlt: `${name} destination scenery`,
   description: name === "Odisha" ? "Explore private journeys in Odisha, with Koraput available on enquiry and more destinations to come." : undefined,
-  places: name === "Odisha" ? odishaPlaces : [], packages: [],
+  places: placesFor(name), packages: [],
 }));
 export const getPrivateDestination = (slug: string) => privateDestinations.find((destination) => destination.slug === slug);
 export const getPrivatePackage = (destination: PrivateDestination, slug: string) => destination.packages.find((pkg) => pkg.slug === slug);
