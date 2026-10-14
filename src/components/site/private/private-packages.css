@@ -61,4 +61,10 @@
   .private-quote-dialog { padding: 22px; }
   .private-form { grid-template-columns: minmax(0,1fr); gap: 14px; }
 }
-@media(prefers-reduced-motion:reduce) { .destination-tile, .destination-tile img, .destination-explore { transition: none; } }
+@media(prefers-reduced-motion:reduce) { .destination-tile, .destination-tile img, .destination-explore { transition: none; } }.odisha-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.odisha-tile { grid-column: auto; height: 150px; }
+.odisha-tile-available { border: 2px solid var(--accent); box-shadow: 0 10px 28px -12px color-mix(in oklch, var(--accent) 70%, transparent); }
+.odisha-badge { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: color-mix(in oklch, var(--overlay) 55%, transparent); color: var(--primary-foreground); border: 1px solid color-mix(in oklch, var(--primary-foreground) 35%, transparent); }
+.odisha-badge-available { background: var(--accent); color: var(--accent-foreground); border-color: var(--accent); }
+@media (min-width: 768px) and (max-width: 1100px) { .odisha-grid { grid-template-columns: repeat(6, minmax(0,1fr)); } .odisha-tile { grid-column: span 2; } .odisha-grid > :nth-child(4) { grid-column: 2 / span 2; } }
+@media (max-width: 767px) { .odisha-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; margin-top: 18px; } .odisha-tile { height: 110px; } .odisha-grid > :first-child { grid-column: 1 / -1; height: 140px; } }
