@@ -4,13 +4,13 @@ import { scenicPlaces } from "./private-scenery";
 import andaman from "@/assets/andaman-tour-cover.jpg";
 
 export type ScenicPhotoCredit = { title: string; source: string; author: string; license: string; licenseUrl?: string };
-export type PrivatePlace = { name: string; slug: string; description?: string; image?: string; photoCredit?: ScenicPhotoCredit; status?: "available" | "coming-soon" };
+export type PrivatePlace = { name: string; slug: string; description?: string | undefined; image?: string | undefined; photoCredit?: ScenicPhotoCredit | undefined; status?: "available" | "coming-soon" | undefined };
 export type PrivatePackage = {
   slug: string; title: string; placeSlug?: string; duration?: string; places?: string[]; pickupCity?: string;
   transport?: string; accommodation?: string; itinerary?: { day: number; title: string; description?: string }[];
   inclusions?: string[]; exclusions?: string[]; pricing?: { travellers: string; total: number }[];
 };
-export type PrivateDestination = { name: string; slug: string; coverImage?: string; photoCredit?: ScenicPhotoCredit; imageAlt: string; description?: string; places: PrivatePlace[]; packages: PrivatePackage[] };
+export type PrivateDestination = { name: string; slug: string; coverImage?: string | undefined; photoCredit?: ScenicPhotoCredit | undefined; imageAlt: string; description?: string | undefined; places: PrivatePlace[]; packages: PrivatePackage[] };
 const archive = (destination: string) => tourAlbums.find((album) => album.destination === destination)?.coverImage;
 const covers: Record<string, string | undefined> = {
   Kashmir: archive("Kashmir") ?? images.kashmir,
@@ -31,7 +31,7 @@ export const privateDestinations: PrivateDestination[] = destinations.map((name)
 }));
 export const getPrivateDestination = (slug: string) => privateDestinations.find((destination) => destination.slug === slug);
 export const getPrivatePackage = (destination: PrivateDestination, slug: string) => destination.packages.find((pkg) => pkg.slug === slug);
-export type PrivateQuote = { name: string; phone: string; destination: string; selection?: string; travelDates: string; travellers: string; pickupCity: string; requirements?: string };
+export type PrivateQuote = { name: string; phone: string; destination: string; selection?: string | undefined; travelDates: string; travellers: string; pickupCity: string; requirements?: string | undefined };
 export function privateQuoteText(quote: PrivateQuote) {
   return ["Hello Adventure Holiday,", "", `I want to plan a private trip to ${quote.destination}.`,
     ...(quote.selection ? [`Preferred place/package: ${quote.selection}`] : []), "",
