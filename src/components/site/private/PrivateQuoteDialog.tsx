@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { privateDestinations, privateQuoteHref } from "@/lib/private-packages";
 import "./private-packages.css";
 
-export function PrivateQuoteDialog({ destination, selection, label = "Get Customized Quote", className }: { destination?: string; selection?: string; label?: string; className?: string }) {
+export function PrivateQuoteDialog({ destination, selection, label = "Get Customized Quote", className }: { destination?: string | undefined; selection?: string | undefined; label?: string | undefined; className?: string | undefined }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [handoff, setHandoff] = useState<string>();
   function submit(event: React.FormEvent<HTMLFormElement>) {

@@ -15,7 +15,7 @@ export function AllDestinationsBack() {
 export function PrivatePageFrame({ children }: { children: React.ReactNode }) {
   return <><Header solidAlways /><main className="pt-24">{children}</main><Footer /><FloatingActions /></>;
 }
-export function PrivateHero({ destination, title, description, selection }: { destination: PrivateDestination; title?: string; description?: string; selection?: string }) {
+export function PrivateHero({ destination, title, description, selection }: { destination: PrivateDestination; title?: string | undefined; description?: string | undefined; selection?: string | undefined }) {
   const place = destination.places.find((item) => item.name === selection);
   const image = place?.image ?? destination.coverImage;
   return <section className="private-hero">
@@ -39,7 +39,7 @@ export function PlaceGrid({ destination }: { destination: PrivateDestination }) 
     </div>
   </article>)}</div>;
 }
-function Packages({ destination, packages, selection }: { destination: PrivateDestination; packages: PrivatePackage[]; selection?: string }) {
+function Packages({ destination, packages, selection }: { destination: PrivateDestination; packages: PrivatePackage[]; selection?: string | undefined }) {
   if (!packages.length) return <section className="private-enquiry-band bg-secondary"><div className="private-container">
     <p className="eyebrow text-accent">Made for your group</p>
     <h2 className="private-heading mt-3">Planning a private trip to {selection ?? destination.name}?</h2>
