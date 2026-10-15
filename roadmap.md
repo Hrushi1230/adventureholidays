@@ -12,8 +12,8 @@
 - [x] Build compact 19-destination explorer and shared private destination/place pages
 - [x] Add Odisha entry point and enquiry-only Koraput details using shared data
 - [x] Verify quotation messages, navigation, imagery and requested screen widths
-- [ ] Replace all private destination photographs with sourced scenery and add photographed discovery places
-- [ ] Verify destination/place navigation, quotation flow and mobile/desktop rendering
-- [ ] Remove separate homepage group-tour sections while preserving hero cards and tour pages
-- [ ] Close Andaman bookings and enlarge hero photos within unchanged card dimensions
-- [ ] Verify tour status, card sizes, navigation and remaining booking flow
+- [x] Replace all private destination photographs with sourced scenery and add photographed discovery places
+- [x] Verify destination/place navigation, quotation flow and mobile/desktop rendering
+- [x] Remove separate homepage group-tour sections while preserving hero cards and tour pages
+- [x] Close Andaman bookings and enlarge hero photos within unchanged card dimensions
+- [x] Verify tour status, card sizes, navigation and remaining booking flow

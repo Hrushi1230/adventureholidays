@@ -45,7 +45,6 @@ export const communityHref = business.whatsappGroupInvite;
 export const nav = [
   { label: "Home", href: "/#home" },
   { label: "Upcoming Tours", href: "/#upcoming" },
-  { label: "Group Tours", href: "/#group-tours" },
   { label: "Private Packages", href: "/#private" },
   { label: "Gallery", href: "/gallery" },
   { label: "Testimonials", href: "/#testimonials" },
