@@ -1,8 +1,8 @@
 import { SectionHead } from "./ui";
 
 const segments = [
-  { n: "01", title: "Group Tours — India", text: "Scheduled group journeys across India.", href: "#group-tours" },
-  { n: "02", title: "Group Tours — Odisha", text: "Group journeys exploring Odisha.", href: "#odisha" },
+  { n: "01", title: "Group Tours — India", text: "Scheduled group journeys across India.", href: "#upcoming" },
+  { n: "02", title: "Group Tours — Odisha", text: "Group journeys exploring Odisha.", href: "#upcoming" },
   { n: "03", title: "Private Tours & Packages", text: "Flexible travel for couples, families, friends and private groups.", href: "#private" },
   { n: "04", title: "Domestic & International Tours", text: "Travel planning across India plus international tours on request.", href: "#plan" },
 ];

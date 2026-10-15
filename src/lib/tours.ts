@@ -6,7 +6,7 @@ import { whatsappLink } from "./site";
 import andamanCover from "@/assets/andaman-tour-cover.jpg";
 import gujaratCover from "@/assets/gujarat-divine-tour-2026.png.asset.json";
 
-export type TourStatus = "booking-open" | "few-seats" | "sold-out" | "completed";
+export type TourStatus = "booking-open" | "few-seats" | "booking-closed" | "sold-out" | "completed";
 export type TourCategory = "group-india" | "group-odisha";
 
 export type TourItineraryDay = {
@@ -76,7 +76,7 @@ export const tours: Tour[] = [
     endDate: "2026-11-08",
     duration: "7 Days / 6 Nights",
     departureFrom: "Bhubaneswar",
-    status: "booking-open",
+    status: "booking-closed",
     featured: true,
     shortDescription: "A 7-day group journey from Bhubaneswar through Port Blair, Havelock and Neil Island, covering Andaman's major beaches, islands and historic attractions.",
     coverImage: andamanCover,
@@ -193,6 +193,7 @@ export const tours: Tour[] = [
 export const statusLabel: Record<TourStatus, string> = {
   "booking-open": "Booking Open",
   "few-seats": "Few Seats",
+  "booking-closed": "Booking Closed",
   "sold-out": "Sold Out",
   completed: "Completed",
 };
@@ -259,11 +260,11 @@ export const getOdishaGroupTours = (list: Tour[] = tours) => getUpcomingTours(li
 export const getCompletedTours = (list: Tour[] = tours) => list.filter((t) => t.status === "completed").sort((a, b) => byStart(b, a));
 
 export function tourEnquiryText(t: Tour) {
-  if (t.status === "sold-out") {
+  if (t.status === "sold-out" || t.status === "booking-closed") {
     return [
       "Hello Adventure Holiday,",
       "",
-      `I saw the ${t.title} tour, but this departure is sold out.`,
+      `I saw the ${t.title} tour, but ${t.status === "booking-closed" ? "bookings for this departure are closed" : "this departure is sold out"}.`,
       "Please let me know about the next available departure.",
     ].join("\n");
   }

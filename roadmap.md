@@ -14,3 +14,6 @@
 - [x] Verify quotation messages, navigation, imagery and requested screen widths
 - [ ] Replace all private destination photographs with sourced scenery and add photographed discovery places
 - [ ] Verify destination/place navigation, quotation flow and mobile/desktop rendering
+- [ ] Remove separate homepage group-tour sections while preserving hero cards and tour pages
+- [ ] Close Andaman bookings and enlarge hero photos within unchanged card dimensions
+- [ ] Verify tour status, card sizes, navigation and remaining booking flow

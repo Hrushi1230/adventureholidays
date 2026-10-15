@@ -24,7 +24,7 @@ function TourCta({ t, light }: { t: Tour; light?: boolean }) {
     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       {isBookable(t) && <TourBookingDialog tour={t} className={`${btnPrimary} h-auto rounded-full px-7 py-4 text-xs font-bold uppercase tracking-widest`} />}
       <a href={tourWhatsappHref(t)} target="_blank" rel="noopener noreferrer" className={isBookable(t) ? (light ? btnGhostLight : btnOutline) : btnPrimary}>
-        <MessageCircle className="h-4 w-4" /> {t.status === "sold-out" ? "Ask About Next Departure" : "Enquire on WhatsApp"}
+        <MessageCircle className="h-4 w-4" /> {!isBookable(t) ? "Ask About Next Departure" : "Enquire on WhatsApp"}
       </a>
       {t.bookingContact?.phoneHref ? (
         <a href={t.bookingContact.phoneHref} className={light ? btnGhostLight : btnOutline}><Phone className="h-4 w-4" /> Call {t.bookingContact.name}</a>
@@ -227,7 +227,7 @@ export function TourDetail({ t }: { t: Tour }) {
         {t.status !== "completed" || getAlbumForTour(t.slug) ? (
           <section className="bg-primary py-16 text-primary-foreground md:py-24">
             <div className="reveal mx-auto flex max-w-7xl flex-col items-start gap-6 px-5 md:px-8">
-              <h2 className="display text-3xl md:text-5xl">{t.status === "sold-out" ? "This departure is sold out." : t.status === "completed" ? "Relive this journey." : "Ready to join this departure?"}</h2>
+              <h2 className="display text-3xl md:text-5xl">{t.status === "booking-closed" ? "Bookings for this departure are closed." : t.status === "sold-out" ? "This departure is sold out." : t.status === "completed" ? "Relive this journey." : "Ready to join this departure?"}</h2>
               <TourCta t={t} light />
             </div>
           </section>

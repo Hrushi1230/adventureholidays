@@ -13,6 +13,7 @@
 - Each homepage section is its own file in src/components/site/; enquiry form submits via prefilled WhatsApp (no backend); scroll reveal via `.reveal` + useReveal hook.
 - Scheduled group departures live only in `tours` in src/lib/tours.ts (optional rich fields: pricing, route, placesCovered, nightStay, cancellationPolicy, bookingContact; tour WhatsApp stays on the official number unless bookingContact.whatsappNumber is confirmed); homepage, /tours/$slug, WhatsApp text and SEO all derive from it via helpers, so a tour is defined once. `status` is authoritative (no date-based auto-completion).
 - The homepage hero integrates confirmed departures through HeroTourCollection using src/lib/tours.ts helpers and the shared TourBookingDialog; the old automatic spotlight is not mounted, avoiding competing booking overlays.
+- Closed departures use the explicit booking-closed tour status and the shared isBookable guard in both booking controls and submission, preserving itinerary access without implying sold-out inventory.
 
 - Completed-tour albums live only in `tourAlbums` in src/lib/gallery.ts; /gallery (auto year→month grouping), /gallery/$slug, Recent Journeys and tour 'View Tour Memories' links derive from it; media fields are plain URLs so photos/videos can move to a CDN.
 - Rural Camps and Picnic Point content lives only in src/lib/experiences.ts; both routes render the shared data-driven ExperiencePage (mood prop: calm/bright) which omits sections whose data is empty.

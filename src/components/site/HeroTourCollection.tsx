@@ -52,6 +52,7 @@ export function HeroTourCollection() {
                   <div className="hero-tour-actions">
                     <Button asChild variant="outline" className="border-primary bg-card text-primary hover:bg-primary hover:text-primary-foreground"><Link to="/tours/$slug" params={{ slug: tour.slug }}>View Itinerary <ArrowRight aria-hidden /></Link></Button>
                     {isBookable(tour) && <TourBookingDialog tour={tour} className="bg-accent text-accent-foreground hover:bg-accent/90" />}
+                    {!isBookable(tour) && <Button disabled variant="secondary">{statusLabel[tour.status]}</Button>}
                   </div>
                 </div>
               </article>;
