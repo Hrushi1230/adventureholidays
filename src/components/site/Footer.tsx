@@ -4,7 +4,6 @@ import logo from "@/assets/adventure-holiday-logo.png.asset.json";
 
 const links = [
   { label: "Upcoming Tours", href: "/#upcoming" },
-  { label: "Group Tours", href: "/#group-tours" },
   { label: "Private Packages", href: "/#private" },
   { label: "Gallery", href: "/gallery" },
   { label: "Rural Camps", href: "/rural-camps" },

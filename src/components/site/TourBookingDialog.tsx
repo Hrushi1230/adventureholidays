@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatTourDateRange, inr, type Tour } from "@/lib/tours";
+import { formatTourDateRange, inr, isBookable, type Tour } from "@/lib/tours";
 import { whatsappLink } from "@/lib/site";
 
 const field = "w-full border-0 border-b border-input bg-transparent px-0 py-3 text-base text-foreground placeholder:text-muted-foreground/70 focus:border-accent focus:outline-none focus:ring-0";
@@ -12,6 +12,7 @@ export function TourBookingDialog({ tour, className }: { tour: Tour; className?:
 
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!isBookable(tour)) return;
     const data = new FormData(event.currentTarget);
     const value = (name: string) => String(data.get(name) ?? "").trim() || "-";
     const date = formatTourDateRange(tour);
@@ -35,6 +36,8 @@ export function TourBookingDialog({ tour, className }: { tour: Tour; className?:
     window.open(whatsappLink(message), "_blank", "noopener");
     dialogRef.current?.close();
   }
+
+  if (!isBookable(tour)) return null;
 
   return (
     <>

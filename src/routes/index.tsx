@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { UpcomingHero } from "@/components/site/UpcomingHero";
 import { TourSegments } from "@/components/site/TourSegments";
-import { IndiaGroupTours } from "@/components/site/IndiaGroupTours";
-import { OdishaGroupTours } from "@/components/site/OdishaGroupTours";
 import { PrivatePackages } from "@/components/site/PrivatePackages";
 import { PrivatePackagesOdisha } from "@/components/site/PrivatePackagesOdisha";
 import { RecentTours } from "@/components/site/RecentTours";
@@ -42,8 +40,6 @@ function Index() {
       <main>
         <UpcomingHero />
         <TourSegments />
-        <IndiaGroupTours />
-        <OdishaGroupTours />
         <PrivatePackages />
         <PrivatePackagesOdisha />
         <RecentTours />
