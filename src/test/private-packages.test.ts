@@ -34,4 +34,12 @@ describe("private destination content rules", () => {
     expect(text).toContain("This is a quotation enquiry.");
     expect(privateQuoteHref(quote).split("?")[0]).toBe(business.whatsappHref);
   });
+  it("includes the requested days and nights in the custom-plan WhatsApp enquiry", () => {
+    const quote = { name: "Test Traveller", phone: "9000000000", destination: "Kashmir", travelDates: "December 2026", travellers: "4", pickupCity: "Bhubaneswar", days: "5", nights: "4" };
+    expect(privateQuoteText(quote)).toContain("Preferred duration: 5 days / 4 nights");
+    expect(decodeURIComponent(privateQuoteHref(quote))).toContain("Preferred duration: 5 days / 4 nights");
+  });
+  it("supports a one-day custom plan without an overnight stay", () => {
+    expect(privateQuoteText({ name: "Test Traveller", phone: "9000000000", destination: "Odisha", travelDates: "December 2026", travellers: "2", pickupCity: "Bhubaneswar", days: "1", nights: "0" })).toContain("Preferred duration: 1 days / 0 nights");
+  });
 });

@@ -12,7 +12,7 @@ export function PrivateQuoteDialog({ destination, selection, label = "Get Custom
     const data = new FormData(event.currentTarget);
     const value = (key: string) => String(data.get(key) ?? "").trim();
     const href = privateQuoteHref({ name: value("name"), phone: value("phone"), destination: value("destination"), selection,
-      travelDates: value("travelDates"), travellers: value("travellers"), pickupCity: value("pickupCity"), requirements: value("requirements") });
+      days: value("days"), nights: value("nights"), travelDates: value("travelDates"), travellers: value("travellers"), pickupCity: value("pickupCity"), requirements: value("requirements") });
     setHandoff(href);
     window.open(href, "_blank", "noopener,noreferrer");
   }
@@ -28,6 +28,8 @@ export function PrivateQuoteDialog({ destination, selection, label = "Get Custom
         <label><span className="private-field-label">Contact number *</span><input className="private-field" name="phone" type="tel" autoComplete="tel" required /></label>
         <label><span className="private-field-label">Destination *</span><select className="private-field" name="destination" defaultValue={destination ?? ""} required><option value="" disabled>Select destination</option>{privateDestinations.map((item) => <option key={item.slug}>{item.name}</option>)}</select></label>
         <label><span className="private-field-label">Preferred travel dates *</span><input className="private-field" name="travelDates" placeholder="Dates or preferred date range" required /></label>
+         <label><span className="private-field-label">Number of days *</span><input className="private-field" name="days" type="number" min="1" step="1" required /></label>
+         <label><span className="private-field-label">Number of nights *</span><input className="private-field" name="nights" type="number" min="0" step="1" required /></label>
         <label><span className="private-field-label">Number of travellers *</span><input className="private-field" name="travellers" type="number" min="1" step="1" required /></label>
         <label><span className="private-field-label">Pickup city *</span><input className="private-field" name="pickupCity" autoComplete="address-level2" required /></label>
         <label className="sm:col-span-2"><span className="private-field-label">Optional requirements</span><textarea className="private-field" name="requirements" rows={2} /></label>
