@@ -19,5 +19,6 @@
 - Rural Camps and Picnic Point content lives only in src/lib/experiences.ts; both routes render the shared data-driven ExperiencePage (mood prop: calm/bright) which omits sections whose data is empty.
 - Brand logo is a lovable-assets pointer (src/assets/adventure-holiday-logo.png.asset.json) used by Header and Footer; favicon is a separate square copy in public/.
 - Private destination/place/package content lives only in src/lib/private-packages.ts, using destination labels from site.ts; both Odisha entry points share it, keeping private quotations separate from scheduled group departures.
+- All private custom-plan entry points use PrivateQuoteDialog and the shared privateQuoteText helper, so requested duration and traveller details stay consistent in WhatsApp enquiries.
 - Private scenic discovery records and photo licensing metadata use a browser-safe content module consumed by private-packages.ts; licensed photos use asset pointers and visible credits, separating tourism discovery from confirmed package availability.
 - Private destination routes use a path layout with index, place and package leaves plus shared page/form components; only confirmed package records become published itinerary links, preventing fictional availability.

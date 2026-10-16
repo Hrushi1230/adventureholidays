@@ -17,3 +17,4 @@
 - [x] Remove separate homepage group-tour sections while preserving hero cards and tour pages
 - [x] Close Andaman bookings and enlarge hero photos within unchanged card dimensions
 - [x] Verify tour status, card sizes, navigation and remaining booking flow
+- [x] Add the top private custom-plan action and preferred days/nights to its WhatsApp enquiry; preserve explore cards and verify the form.

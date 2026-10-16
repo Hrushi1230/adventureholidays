@@ -31,11 +31,12 @@ export const privateDestinations: PrivateDestination[] = destinations.map((name)
 }));
 export const getPrivateDestination = (slug: string) => privateDestinations.find((destination) => destination.slug === slug);
 export const getPrivatePackage = (destination: PrivateDestination, slug: string) => destination.packages.find((pkg) => pkg.slug === slug);
-export type PrivateQuote = { name: string; phone: string; destination: string; selection?: string | undefined; travelDates: string; travellers: string; pickupCity: string; requirements?: string | undefined };
+export type PrivateQuote = { name: string; phone: string; destination: string; selection?: string | undefined; days?: string | undefined; nights?: string | undefined; travelDates: string; travellers: string; pickupCity: string; requirements?: string | undefined };
 export function privateQuoteText(quote: PrivateQuote) {
   return ["Hello Adventure Holiday,", "", `I want to plan a private trip to ${quote.destination}.`,
     ...(quote.selection ? [`Preferred place/package: ${quote.selection}`] : []), "",
     `Name: ${quote.name}`, `Contact number: ${quote.phone}`, `Travel dates: ${quote.travelDates}`,
+     ...(quote.days ? [`Preferred duration: ${quote.days} days${quote.nights ? ` / ${quote.nights} nights` : ""}`] : []),
     `Travellers: ${quote.travellers}`, `Pickup city: ${quote.pickupCity}`,
     ...(quote.requirements ? [`Requirements: ${quote.requirements}`] : []), "",
     "Please share a customized itinerary and group-size pricing. This is a quotation enquiry."].join("\n");
