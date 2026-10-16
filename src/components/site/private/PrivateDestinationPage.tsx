@@ -6,6 +6,7 @@ import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { FloatingActions } from "../FloatingActions";
 import { PrivateQuoteDialog } from "./PrivateQuoteDialog";
+import { PrivateQuoteForm } from "./PrivateQuoteForm";
 import { PhotoCredits } from "./PhotoCredits";
 import "./private-packages.css";
 
@@ -24,7 +25,6 @@ export function PrivateHero({ destination, title, description, selection }: { de
       <nav className="private-breadcrumb" aria-label="Breadcrumb"><Link to="/">Home</Link><span>/</span><Link to="/" hash="private">Private Packages India</Link><span>/</span>{selection ? <><Link to="/private-packages/$destination" params={{ destination: destination.slug }}>{destination.name}</Link><span>/</span><span>{selection}</span></> : <span>{destination.name}</span>}</nav>
       <p className="eyebrow text-sand">Private Journeys</p><h1 className="private-page-title mt-2">{title ?? destination.name}</h1>
       {description && <p className="mt-3 max-w-2xl text-sm leading-relaxed">{description}</p>}
-      <PrivateQuoteDialog destination={destination.name} selection={selection} label="Plan Your Private Trip" className="mt-5 bg-accent text-accent-foreground hover:bg-accent/90" />
     </div>
   </section>;
 }
@@ -40,38 +40,32 @@ export function PlaceGrid({ destination }: { destination: PrivateDestination }) 
   </article>)}</div>;
 }
 function Packages({ destination, packages, selection }: { destination: PrivateDestination; packages: PrivatePackage[]; selection?: string | undefined }) {
-  if (!packages.length) return <section className="private-enquiry-band bg-secondary"><div className="private-container">
-    <p className="eyebrow text-accent">Made for your group</p>
-    <h2 className="private-heading mt-3">Planning a private trip to {selection ?? destination.name}?</h2>
-    <p className="private-intro max-w-2xl">Tell us your preferred dates and group size, and our team will help you plan a customized journey.</p>
-    <PrivateQuoteDialog destination={destination.name} selection={selection} label="Request Custom Itinerary" className="mt-5" />
-  </div></section>;
+  if (!packages.length) return null;
   return <section className="private-page-band"><div className="private-container"><h2 className="private-heading">Private Packages</h2><div className="mt-6 grid gap-5 md:grid-cols-2">{packages.map((pkg) => <article key={pkg.slug} className="rounded-lg border border-border bg-card p-6">
     <h3 className="font-display text-2xl text-primary">{pkg.title}</h3>{pkg.duration && <p className="mt-2 text-sm">{pkg.duration}</p>}{pkg.pickupCity && <p className="mt-2 text-sm">Pickup: {pkg.pickupCity}</p>}{pkg.places?.length ? <p className="private-intro">{pkg.places.join(" · ")}</p> : null}
     <div className="mt-4 flex flex-wrap gap-3"><Button asChild variant="outline"><Link to="/private-packages/$destination/packages/$package" params={{ destination: destination.slug, package: pkg.slug }}>View Itinerary<ArrowRight /></Link></Button><PrivateQuoteDialog destination={destination.name} selection={pkg.title} /></div>
   </article>)}</div></div></section>;
 }
 export function PrivateDestinationPage({ destination }: { destination: PrivateDestination }) {
-  return <PrivatePageFrame><PrivateHero destination={destination} description={destination.description} />
+  return <PrivatePageFrame><PrivateHero destination={destination} description={destination.description} /><PrivateQuoteForm destination={destination.name} />
     <section className="private-page-band"><div className="private-container"><AllDestinationsBack /><h2 className="private-heading mt-6">Explore Main Places</h2>
       {destination.places.length ? <><p className="private-intro">{destination.name === "Odisha" ? "Koraput is available on enquiry. Four more private destinations are coming soon." : "Places to discover in your preferred destination. Private itineraries and availability are confirmed on enquiry."}</p><PlaceGrid destination={destination} /></> : <div className="mt-5 border-b border-border pb-6"><p className="text-sm leading-relaxed text-muted-foreground">Have a favourite place in {destination.name}? Share it with us to explore a private itinerary.</p><PrivateQuoteDialog destination={destination.name} label="Enquire About Places" className="mt-4 bg-transparent text-primary shadow-none hover:bg-secondary" /></div>}
     </div></section><Packages destination={destination} packages={destination.packages} /><PhotoCredits destination={destination} /></PrivatePageFrame>;
 }
 export function PrivatePlacePage({ destination, place }: { destination: PrivateDestination; place: PrivatePlace }) {
-  return <PrivatePageFrame><PrivateHero destination={destination} title={`${place.name} Private Journeys`} description={place.description} selection={place.name} />
+  return <PrivatePageFrame><PrivateHero destination={destination} title={`${place.name} Private Journeys`} description={place.description} selection={place.name} /><PrivateQuoteForm destination={destination.name} selection={place.name} />
     <div className="private-container private-page-band"><Button asChild variant="link" className="px-0"><Link to="/private-packages/$destination" params={{ destination: destination.slug }}><ArrowLeft />Back to {destination.name}</Link></Button>
       <h2 className="private-heading mt-5">{place.status === "coming-soon" ? "Coming Soon" : place.status === "available" ? "Your customized itinerary" : `Discover ${place.name}`}</h2><p className="private-intro">{place.status === "coming-soon" ? "Private package details will be shared once available." : place.status === "available" ? "Request the current itinerary, places covered, transport, pickup, accommodation and group-size pricing from our team." : "A destination discovery option, not a confirmed package. Share your preferred dates and group size to enquire about a customized itinerary."}</p></div>
     {place.status !== "coming-soon" && <Packages destination={destination} packages={destination.packages.filter((pkg) => pkg.placeSlug === place.slug)} selection={place.name} />}<PhotoCredits destination={destination} />
   </PrivatePageFrame>;
 }
 export function PrivatePackagePage({ destination, pkg }: { destination: PrivateDestination; pkg: PrivatePackage }) {
-  return <PrivatePageFrame><PrivateHero destination={destination} title={pkg.title} selection={pkg.title} />
+  return <PrivatePageFrame><PrivateHero destination={destination} title={pkg.title} selection={pkg.title} /><PrivateQuoteForm destination={destination.name} selection={pkg.title} />
     <div className="private-container private-page-band"><Button asChild variant="link" className="px-0"><Link to="/private-packages/$destination" params={{ destination: destination.slug }}><ArrowLeft />Back to {destination.name}</Link></Button>
       <div className="mt-5 grid gap-4 text-sm sm:grid-cols-2">{pkg.duration && <p>Duration: {pkg.duration}</p>}{pkg.pickupCity && <p>Pickup: {pkg.pickupCity}</p>}{pkg.transport && <p>Transport: {pkg.transport}</p>}{pkg.accommodation && <p>Accommodation: {pkg.accommodation}</p>}</div>
       {pkg.places?.length ? <section className="mt-8"><h2 className="private-heading">Places Covered</h2><p className="private-intro">{pkg.places.join(" · ")}</p></section> : null}
       {pkg.itinerary?.length ? <section className="mt-8"><h2 className="private-heading">Day-wise Itinerary</h2>{pkg.itinerary.map((day) => <article className="border-b border-border py-5" key={day.day}><p className="eyebrow text-accent">Day {day.day}</p><h3 className="mt-2 font-display text-2xl text-primary">{day.title}</h3>{day.description && <p className="private-intro">{day.description}</p>}</article>)}</section> : null}
       <div className="mt-8 grid gap-6 sm:grid-cols-2">{(["inclusions", "exclusions"] as const).map((key) => pkg[key]?.length ? <section key={key}><h2 className="font-display text-2xl capitalize text-primary">{key}</h2><ul className="mt-3 list-inside list-disc space-y-2 text-sm">{pkg[key]?.map((item) => <li key={item}>{item}</li>)}</ul></section> : null)}</div>
       {pkg.pricing?.length ? <section className="mt-8"><h2 className="private-heading">Group-size Pricing</h2><dl className="mt-4">{pkg.pricing.map((tier) => <div className="flex justify-between gap-4 border-b border-border py-3" key={tier.travellers}><dt>{tier.travellers}</dt><dd>₹{tier.total.toLocaleString("en-IN")} total</dd></div>)}</dl></section> : null}
-      <PrivateQuoteDialog destination={destination.name} selection={pkg.title} className="mt-8" />
     </div><PhotoCredits destination={destination} /></PrivatePageFrame>;
 }
